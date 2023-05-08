@@ -138,11 +138,11 @@
                                     </div>
 
                                     <!-- Profile picture upload button-->
-                                    <!-- <form action="/user/uploadAvatar" enctype="multipart/form-data" method="post">
-                                                            <input type="file" name="avatar">
-                                                            <input type="submit" value="Update Avatar">
-                                                        </form> -->
-                                    <button class="btn btn-primary" type="file">Upload new image</button>
+                                    <form action="/user/uploadAvatar" enctype="multipart/form-data" method="post">
+                                        <input class="btn btn-primary" type="file" name="avatar">
+                                        <input class="btn btn-primary" type="submit" value="Update Avatar">
+                                    </form>
+                                    <!-- <button class="btn btn-primary" type="file">Upload new image</button> -->
                                     <div class="mb-3 w-75" action="/user/uploadAvatar" enctype="multipart/form-data"
                                         method="post">
                                         <label for="formFile" class="form-label"></label>
@@ -162,8 +162,7 @@
                                             <label class="small mb-1" for="inputUsername">Username (how your name will
                                                 appear to other
                                                 users on the site)</label>
-                                            <input
-                                                class="form-control text-bg-light fs-2 fw-bold text-primary"
+                                            <input class="form-control text-bg-light fs-2 fw-bold text-primary"
                                                 id="inputUsername" type="text" placeholder="Enter your username"
                                                 value="<%=user.username%>" disabled>
                                         </div>
@@ -195,12 +194,6 @@
                                                     <option value="female">female</option>
                                                 </select>
                                             </div>
-                                            <!-- <div class="col-md-6">
-                                                <label class="small mb-1" for="inputOrgName">Gender</label>
-                                                <input class="form-control text-bg-light text-black" id="inputOrgName"
-                                                    type="text" placeholder="Enter your organization name"
-                                                    value="<%=user.gender%>" disabled>
-                                            </div> -->
                                             <!-- Form Group (location)-->
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputLocation">Role</label>
