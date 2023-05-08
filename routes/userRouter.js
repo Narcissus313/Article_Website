@@ -13,17 +13,19 @@ const {
 	uploadAvatar,
 	bulkUpload,
 	updateUser,
+	updatePassword,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
 
 router.get("/register", getRegisterPage);
-
 router.post("/register", validateRegisterEntries, registerUser);
-router.post("/update", validateUpdateEntries, updateUser);
 
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
+
+router.post("/update", validateUpdateEntries, updateUser);
+router.post("/updatePassword", updatePassword);
 
 router.get("/dashboard", getdashboardPage);
 

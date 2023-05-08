@@ -23,21 +23,24 @@ const UserSchema = new mongoose.Schema(
 			minlength: [3, "username must be at least 3 characters"],
 			maxlength: [30, "username must be up to 30 characters"],
 			trim: true,
-			required: [true, "firstname is required"],
 			unique: true,
+		},
+		phoneNumber: {
+			type: String,
+			required: [true, "phone number is required"],
+			trim: true,
+			unique: true,
+		},
+		gender: {
+			type: String,
+			enum: ["not-set", "male", "female"],
+			default: "not-set",
+			required: true,
 		},
 		password: {
 			type: String,
 			required: true,
 		},
-		// firstName: {
-		// 	type: String,
-		// 	required: true,
-		// },
-		// lastName: {
-		// 	type: String,
-		// 	required: true,
-		// },
 		avatar: {
 			type: String,
 		},
@@ -66,8 +69,16 @@ UserSchema.pre("save", async function (next) {
 	}
 });
 
+// UserSchema.pre("findOneAndUpdate", async function (next) {
+// 	const user = this._update;
+// 	if (user.password.length) {
+// 		const salt = await bcrypt.genSalt(10);
+// 		user.password = await bcrypt.hash(user.password, salt);
+// 	}
+// 	return next();
+// });
+
 UserSchema.methods.validatePassword = function (data) {
-	console.log('bcrypt');
 	return bcrypt.compare(data, this.password);
 };
 
