@@ -111,6 +111,10 @@
                     <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane"
                         type="button" role="tab" aria-controls="password-tab-pane" aria-selected="true">Change
                         Password</button>
+
+                    <button class="nav-link" id="delete-account-tab" data-bs-toggle="tab"
+                        data-bs-target="#delete-account-tab-pane" type="button" role="tab"
+                        aria-controls="delete-account-tab-pane" aria-selected="true">Delete Account</button>
                 </div>
             </nav>
             <div class="tab-content" id="navTabContent">
@@ -219,7 +223,7 @@
                                         </div>
                                         <!-- Save changes button-->
                                         <button class="btn btn-primary mb-1" type="button" id="editInfoBtn">Edit
-                                            Account</button>
+                                            Info</button>
                                         <button class="btn btn-success mb-1 d-none" type="button" id="saveInfoBtn">Save
                                             changes</button>
                                     </form>
@@ -241,7 +245,7 @@
                                 Password</label>
                             <input class="form-control text-bg-light text-black text-danger" id="inputOldPassword"
                                 type="password" placeholder="Old Password" type="text"
-                                placeholder="Enter your email address" disabled>
+                                placeholder="Enter your email address">
                         </div>
                         <br>
                         <div class="col-md-6">
@@ -257,6 +261,44 @@
                         </div>
                     </div>
                     <button class="btn btn-primary mb-1" type="button" id="saveChangedPasswordBtn">Save</button>
+                </div>
+
+                <!-- Delete Account Part -->
+                <div class="tab-pane fade show p-3" id="delete-account-tab-pane" role="tab-panel"
+                    aria-labelledby="nav-info-tab">
+                    <!-- Form Group (Change Password)-->
+
+
+                    <!-- <div class="row gx-3 mb-3" id="newPasswordDiv">
+                        <div class="col-md-12">
+                            <label class="small mb-1 text-danger" for="inputOldPassword">Your
+                                Password</label>
+                            <input class="form-control text-bg-light text-black text-danger" id="inputOldPassword"
+                                type="password" placeholder="Old Password" type="text"
+                                placeholder="Enter your email address">
+                        </div>
+                        <br>
+                        <div class="col-md-6">
+                            <label class="small mb-1 text-danger" for="inputNewPassword">New
+                                Password</label>
+                            <input class="form-control text-bg-light text-black" id="inputNewPassword" type="text"
+                                placeholder="Enter your passsword">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputNewPasswordConfirm"></label>
+                            <input class="form-control text-bg-light text-black" id="inputNewPasswordConfirm"
+                                type="text" placeholder="Enter your pasasword">
+                        </div>
+                    </div> -->
+
+                    <div class="d-flex justify-content-center flex-column">
+                        <h2 class="text-danger text-center mt-5">Your account will be deleted perminantly.</h2>
+                        <br>
+                        <br>
+                        <button class="btn btn-danger mb-1 mt-5 col-md-3 align-self-center" type="button" id="deleteAccountBtn">Delete
+                        Account</button>
+                    </div>
+                    
                 </div>
             </div>
             <!-- </div> -->

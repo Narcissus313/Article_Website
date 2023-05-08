@@ -75,42 +75,30 @@ const updateUser = async (req, res, _next) => {
 };
 
 const updatePassword = async (req, res, _next) => {
-
-
-try {
-	const user = await User.findOne({ username: req.body.username });
-
-	if (!user) {
-		return res.json({
-			success: false,
-			message: "Username or password is wrong",
-		});
-	}
-	const isMatch = await user.validatePassword(req.body.password);
-	if (!isMatch) {
-		return res.json({
-			success: false,
-			message: "Username or password is wrong",
-		});
-	}
-
-	req.session.user = user;
-	return res.json({
-		success: true,
-		message: "Logging in...",
-	});
-} catch (err) {
-	res.redirect(
-		url.format({
-			pathname: "/user/login",
-			query: {
-				errorMessage: "Server Error!",
+	try {
+		const user = await User.findByIdAndUpdate(
+			req.session.user._id,
+			{
+				password: res.locals.password,
 			},
-		})
-	);
-}
+			{ new: true }
+		);
 
-
+		req.session.user = user;
+		return res.json({
+			success: true,
+			message: "Password successfully changed",
+		});
+	} catch (err) {
+		res.redirect(
+			url.format({
+				pathname: "/user/login",
+				query: {
+					errorMessage: "Server Error!",
+				},
+			})
+		);
+	}
 
 	try {
 		const user = await User.findByIdAndUpdate(
@@ -250,6 +238,24 @@ const bulkUpload = (req, res, next) => {
 	});
 };
 
+const deleteUser = async (req, res, next) => {
+	try {
+		const userId = req.session.user._id;
+		await User.deleteOne({ _id: userId });
+		req.session.destroy();
+		return res.json({ success: true, message: "Account deleted" });
+	} catch (error) {
+		res.redirect(
+			url.format({
+				pathname: "/user/login",
+				query: {
+					errorMessage: "Server Error!",
+				},
+			})
+		);
+	}
+};
+
 module.exports = {
 	getRegisterPage,
 	registerUser,
@@ -261,4 +267,5 @@ module.exports = {
 	updatePassword,
 	bulkUpload,
 	updateUser,
+	deleteUser,
 };

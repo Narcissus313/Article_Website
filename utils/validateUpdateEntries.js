@@ -2,7 +2,6 @@ const validator = require("validator");
 const User = require("../models/User");
 // const bcrypt = require("bcryptjs");
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
 
 const validateUpdateEntries = async (req, res, next) => {
 	const { firstName, lastName, username, phoneNumber } = req.body;
@@ -47,22 +46,7 @@ const validateUpdateEntries = async (req, res, next) => {
 		// 	});
 		// }
 
-		// if (newPassword) {
-		// 	if (!newPassword.match(passwordRegex))
-		// 		return res.json({
-		// 			success: false,
-		// 			message:
-		// 				"New Password must be at least 4 characters long using alpha numeric pattern",
-		// 		});
-
-		// 	if (newPassword !== newPasswordConfirm)
-		// 		return res.json({
-		// 			success: false,
-		// 			message: "Passwords do not match",
-		// 		});
-		// }
-
-		// res.locals.password = newPassword;
+		
 		next();
 	} catch (err) {
 		res.redirect(

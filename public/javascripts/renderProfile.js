@@ -1,3 +1,5 @@
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
+
 const profileData = document.getElementById("profile-data");
 const newPasswordDiv = document.getElementById("newPasswordDiv");
 const editInfoBtn = document.getElementById("editInfoBtn");
@@ -9,12 +11,13 @@ const inputPhoneNumber = document.getElementById("inputPhoneNumber");
 const saveChangedPasswordBtn = document.getElementById(
 	"saveChangedPasswordBtn"
 );
+const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+
 const inputOldPassword = document.getElementById("inputOldPassword");
 const inputNewPassword = document.getElementById("inputNewPassword");
 const inputNewPasswordConfirm = document.getElementById(
 	"inputNewPasswordConfirm"
 );
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
 
 const renderProfileTab = () => {
 	profileData.innerHTML = "";
@@ -241,7 +244,7 @@ editInfoBtn.addEventListener("click", (e) => {
 saveInfoBtn.addEventListener("click", async (e) => {
 	const firstName = inputFirstName.value.trim();
 	const lastName = inputLastName.value.trim();
-    const username = inputUsername.value.trim();
+	const username = inputUsername.value.trim();
 	const phoneNumber = document
 		.getElementById("inputPhoneNumber")
 		.value.trim();
@@ -271,8 +274,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		phoneNumber,
 	};
 
-	
-
 	try {
 		const response = await fetch("http://localhost:3000/user/update", {
 			method: "POST",
@@ -283,7 +284,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		});
 
 		const result = await response.json();
-        console.log('result: ', result);
+		console.log("result: ", result);
 		showAlert(result.success, result.message);
 		if (result.success) {
 			inputFirstName.disabled = true;
@@ -307,13 +308,9 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	}
 });
 
-// const changePasswordBtn = document.getElementById("profile-tab");
-// const content = document.getElementById("content");
-
-saveChangedPasswordBtn.addEventListener("click", (e) => {
-	console.log("saveeee");
+saveChangedPasswordBtn.addEventListener("click", async (e) => {
+	const username = inputUsername.value.trim();
 	const oldPassword = inputOldPassword.value.trim();
-
 	const newPassword = document
 		.getElementById("inputNewPassword")
 		.value.trim();
@@ -321,24 +318,65 @@ saveChangedPasswordBtn.addEventListener("click", (e) => {
 		.getElementById("inputNewPasswordConfirm")
 		.value.trim();
 
-    if (newPassword.length) {
-		if (!newPassword.match(passwordRegex))
-			return showAlert(
-				false,
-				"Password must be at least 4 characters and alphanumeric"
+	if (!newPassword.match(passwordRegex))
+		return showAlert(
+			false,
+			"Password must be at least 4 characters and alphanumeric"
+		);
+
+	if (newPassword !== newPasswordConfirm)
+		return showAlert(false, "Passwords do not match");
+
+	data = { username, oldPassword, newPassword, newPasswordConfirm };
+	console.log("data: ", data);
+
+	try {
+		const response = await fetch(
+			"http://localhost:3000/user/updatePassword",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		const result = await response.json();
+		console.log("result: ", result);
+		showAlert(result.success, result.message);
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+});
+
+deleteAccountBtn.addEventListener("click", async (e) => {
+	const deleteStatus = confirm(
+		"Are you sure you want to delete your account?"
+	);
+
+	if (deleteStatus === true) {
+		try {
+			const response = await fetch(
+				"http://localhost:3000/user/deleteUser",
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
 			);
 
-		if (newPassword !== newPasswordConfirm)
-			return showAlert(false, "Passwords do not match");
-
-		data = {
-			firstName,
-			lastName,
-			username,
-			phoneNumber,
-			oldPassword,
-			newPassword,
-			newPasswordConfirm,
-		};
+			const result = await response.json();
+			console.log("result: ", result);
+			showAlert(result.success, result.message);
+			if (result.success) {
+				setTimeout(() => {
+					window.location.href = "http://localhost:3000/user/login";
+				}, 1000);
+			}
+		} catch (error) {
+			console.log("Error:", error.message);
+		}
 	}
 });
