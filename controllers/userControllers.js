@@ -42,6 +42,47 @@ const registerUser = async (req, res, _next) => {
 	}
 };
 
+const updateUser = async (req, res, _next) => {
+	// const { firstName, username } = req.body;
+	// // console.log("username: ", username);
+	// // const newUser = new User({
+	// // 	firstName,
+	// // 	lastName,
+	// // 	username,
+	// // 	password,
+	// // });
+	// const user = await User.findOne({ username });
+
+	// // if (userExists)
+	// // 	return res.json({ success: false, message: "User already exists" });
+
+	try {
+		const user = await User.findByIdAndUpdate(
+			req.session.user._id,
+			{
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+			},
+			{ new: true }
+		);
+		req.session.user.firstName = user.firstName;
+		req.session.user.lastName = user.lastName;
+
+		// return res.json(user);
+		// res.redirect("/user/dashboard");
+		res.json({ success: true, message: "User updated successfully" });
+	} catch (err) {
+		res.redirect(
+			url.format({
+				pathname: "/user/register",
+				query: {
+					errorMessage: "Server Error!",
+				},
+			})
+		);
+	}
+};
+
 const getLoginPage = (req, res, _next) => {
 	if (req.session.user) return res.redirect("/user/dashboard");
 
@@ -53,8 +94,6 @@ const loginUser = async (req, res, next) => {
 	try {
 		const user = await User.findOne({ username: req.body.username });
 
-		console.log("req.body.username: ", req.body.username);
-		console.log("req.body.password: ", req.body.password);
 		if (!user) {
 			return res.json({
 				success: false,
@@ -62,8 +101,6 @@ const loginUser = async (req, res, next) => {
 			});
 		}
 		const isMatch = await user.validatePassword(req.body.password);
-		console.log("isMatch: ", isMatch);
-		console.log("user: ", user);
 		if (!isMatch) {
 			return res.json({
 				success: false,
@@ -166,4 +203,5 @@ module.exports = {
 	logout,
 	uploadAvatar,
 	bulkUpload,
+	updateUser,
 };

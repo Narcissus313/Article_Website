@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 	res.render("home", { isLoggedIn: !!req.session.user });
 });
 
-app.get("/about", (req, res) => {
+app.get("/about", (_req, res) => {
 	res.redirect("/");
 });
 

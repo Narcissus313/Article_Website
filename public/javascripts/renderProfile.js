@@ -191,3 +191,88 @@ const renderProfileTab = () => {
 `;
 };
 // renderProfileTab()
+
+const editInfoBtn = document.getElementById("editInfoBtn");
+const saveInfoBtn = document.getElementById("saveInfoBtn");
+const inputFirstName = document.getElementById("inputFirstName");
+const inputLastName = document.getElementById("inputLastName");
+
+editInfoBtn.addEventListener("click", (e) => {
+	editInfoBtn.classList.add("d-none");
+	saveInfoBtn.classList.remove("d-none");
+
+	inputFirstName.removeAttribute("disabled");
+	inputFirstName.classList.remove("text-bg-light");
+	inputFirstName.classList.add("text-bg-white");
+
+	inputLastName.removeAttribute("disabled");
+	inputLastName.classList.remove("text-bg-light");
+	inputLastName.classList.add("text-bg-white");
+});
+
+saveInfoBtn.addEventListener("click", async (e) => {
+	const firstName = document.getElementById("inputFirstName").value.trim();
+	const lastName = document.getElementById("inputLastName").value.trim();
+	// console.log("firstName: ", firstName);
+	// const lastName = document.getElementById("lastName").value.trim();
+	// const username = document.getElementById("username").value.trim();
+	// const password = document.getElementById("password").value.trim();
+	// const warningArea = document.getElementById("warningArea");
+	// const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
+
+	if (firstName.length < 3 || firstName.length > 30) {
+		warningArea.innerHTML =
+			"First name must be at least 3 characters and at most 30 characters";
+		return;
+		// showAlert(false, "First name must be at least 3 characters and at most 30")
+	}
+
+	// if (lastName.length < 3 || lastName.length > 30) {
+	// 	warningArea.innerHTML =
+	// 		"Last name must be at least 3 characters and at most 30 characters";
+	// 	return;
+	// }
+
+	// if (username.length < 3 || username.length > 30) {
+	// 	warningArea.innerHTML =
+	// 		"Username must be at least 3 characters and at most 30 characters";
+	// 	return;
+	// }
+
+	// if (!password.match(passwordRegex)) {
+	// 	warningArea.innerHTML =
+	// 		"Password must be at least 4 characters long using alpha numeric pattern";
+	// 	return;
+	// }
+
+	const data = {
+		firstName,
+		lastName,
+	};
+	// console.log("data: ", data);
+
+	try {
+		const response = await fetch("http://localhost:3000/user/update", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+
+		const result = await response.json();
+		showAlert(result.success, result.message);
+		if (result.success) {
+			inputFirstName.disabled = true;
+			inputFirstName.classList.remove("text-bg-white");
+			inputFirstName.classList.add("text-bg-light");
+			inputLastName.disabled = true;
+			inputLastName.classList.remove("text-bg-white");
+			inputLastName.classList.add("text-bg-light");
+			saveInfoBtn.classList.add("d-none");
+			editInfoBtn.classList.remove("d-none");
+		}
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+});

@@ -24,6 +24,12 @@
             
         </nav>
     </div> -->
+
+    <!-- alert box -->
+    <div class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-center align-content-center"
+        role="alert" id="alertBox">
+        <p class="text-center mt-3" id="alertText">alert text</p>
+    </div>
     <div class="container-fluid" id="profile-data"></div>
 
     <section>
@@ -221,8 +227,9 @@
                                         </div> -->
                                 </div>
                                 <!-- Save changes button-->
-                                <button class="btn btn-primary mb-1" type="button">Edit Info</button>
-                                <button class="btn btn-primary d-none" type="button">Save changes</button>
+                                <button class="btn btn-primary mb-1" type="button" id="editInfoBtn">Edit Info</button>
+                                <button class="btn btn-success mb-1 d-none" type="button" id="saveInfoBtn">Save
+                                    changes</button>
                             </form>
                         </div>
                     </div>

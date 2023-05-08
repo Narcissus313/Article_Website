@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const validateEntries = require("../utils/validateEntries");
+const validateRegisterEntries = require("../utils/validateRegisterEntries");
+const validateUpdateEntries = require("../utils/validateUpdateEntries");
 
 const {
 	getRegisterPage,
@@ -11,13 +12,15 @@ const {
 	logout,
 	uploadAvatar,
 	bulkUpload,
+	updateUser,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
 
 router.get("/register", getRegisterPage);
 
-router.post("/register", validateEntries, registerUser);
+router.post("/register", validateRegisterEntries, registerUser);
+router.post("/update", validateUpdateEntries, updateUser);
 
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
