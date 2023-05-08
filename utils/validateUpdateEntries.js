@@ -1,15 +1,10 @@
 const validator = require("validator");
 const User = require("../models/User");
-// const bcrypt = require("bcryptjs");
 
+const genderOptions = ["not-ser", "male", "female"];
 
 const validateUpdateEntries = async (req, res, next) => {
-	const { firstName, lastName, username, phoneNumber } = req.body;
-
-	// const newPassword = req.body.newPassword ? req.body.newPassword : null;
-	// const newPasswordConfirm = req.body.newPasswordConfirm
-	// 	? req.body.newPasswordConfirm
-	// 	: null;
+	const { firstName, lastName, username, phoneNumber, gender } = req.body;
 
 	if (firstName?.trim().length < 3 || firstName?.trim().length > 30)
 		return res.json({
@@ -29,7 +24,21 @@ const validateUpdateEntries = async (req, res, next) => {
 			message: "Phone number not correct",
 		});
 
+	if (!genderOptions.includes(gender))
+		return res.json({
+			success: false,
+			message: "Wrong gender sent",
+		});
+
 	try {
+		const existingUser = await User.findOne({ phoneNumber });
+		if (existingUser.username !== username) {
+			return res.json({
+				success: false,
+				message: "Phone number already exists",
+			});
+		}
+
 		const user = await User.findOne({ username });
 
 		if (!user) {
@@ -38,15 +47,7 @@ const validateUpdateEntries = async (req, res, next) => {
 				message: "Username is wrong",
 			});
 		}
-		// const isMatch = await user.validatePassword(oldPassword);
-		// if (!isMatch) {
-		// 	return res.json({
-		// 		success: false,
-		// 		message: "Password is wrong",
-		// 	});
-		// }
 
-		
 		next();
 	} catch (err) {
 		res.redirect(

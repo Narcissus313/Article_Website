@@ -54,12 +54,14 @@ const updateUser = async (req, res, _next) => {
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
 				phoneNumber: req.body.phoneNumber,
+				gender: req.body.gender,
 			},
 			{ new: true }
 		);
 		req.session.user.firstName = user.firstName;
 		req.session.user.lastName = user.lastName;
 		req.session.user.phoneNumber = user.phoneNumber;
+		req.session.user.gender = user.gender;
 
 		res.json({ success: true, message: "User updated successfully" });
 	} catch (err) {

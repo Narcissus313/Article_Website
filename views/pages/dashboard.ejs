@@ -163,7 +163,7 @@
                                                 appear to other
                                                 users on the site)</label>
                                             <input
-                                                class="form-control text-bg-light text-center fs-2 fw-bold text-primary"
+                                                class="form-control text-bg-light fs-2 fw-bold text-primary"
                                                 id="inputUsername" type="text" placeholder="Enter your username"
                                                 value="<%=user.username%>" disabled>
                                         </div>
@@ -186,13 +186,21 @@
                                         </div>
                                         <!-- Form Row        -->
                                         <div class="row gx-3 mb-3">
-                                            <!-- Form Group (organization name)-->
-                                            <div class="col-md-6">
+                                            <!-- Form Group (Gender)-->
+                                            <div class="form-group mt-3 col-md-6" id="genderDiv">
+                                                <select class="form-select form-select-lg text-black fs-6"
+                                                    aria-label=".form-select-lg example" id="genderSelection" disabled>
+                                                    <option value="not-set" selected>not-set</option>
+                                                    <option value="male">male</option>
+                                                    <option value="female">female</option>
+                                                </select>
+                                            </div>
+                                            <!-- <div class="col-md-6">
                                                 <label class="small mb-1" for="inputOrgName">Gender</label>
                                                 <input class="form-control text-bg-light text-black" id="inputOrgName"
                                                     type="text" placeholder="Enter your organization name"
                                                     value="<%=user.gender%>" disabled>
-                                            </div>
+                                            </div> -->
                                             <!-- Form Group (location)-->
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputLocation">Role</label>
@@ -295,10 +303,11 @@
                         <h2 class="text-danger text-center mt-5">Your account will be deleted perminantly.</h2>
                         <br>
                         <br>
-                        <button class="btn btn-danger mb-1 mt-5 col-md-3 align-self-center" type="button" id="deleteAccountBtn">Delete
-                        Account</button>
+                        <button class="btn btn-danger mb-1 mt-5 col-md-3 align-self-center" type="button"
+                            id="deleteAccountBtn">Delete
+                            Account</button>
                     </div>
-                    
+
                 </div>
             </div>
             <!-- </div> -->
