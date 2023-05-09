@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUpdateEntries = require("../utils/validateUpdateEntries");
-const sizeChecker = require("../utils/multerFileValidation");
 const validateUpdatePassword = require("../utils/validateUpdatePassword");
 
 const {

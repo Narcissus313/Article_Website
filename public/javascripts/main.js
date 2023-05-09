@@ -1,4 +1,3 @@
-
 const showAlert = (successStatus, text) => {
 	let alert = document.getElementById("alertBox");
 	let alertText = document.getElementById("alertText");

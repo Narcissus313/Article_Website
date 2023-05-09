@@ -4,7 +4,7 @@ const avaterStorage = multer.diskStorage({
 	destination: function (_req, _file, cb) {
 		cb(null, "public/images/userAvatars");
 	},
-	filename: function (req, file, cb) {
+	filename: function (_req, file, cb) {
 		// if (file.originalname === "grant.png") cb(new Error("Bad file name!"), null);
 		cb(null, Date.now() + "-" + file.originalname);
 	},

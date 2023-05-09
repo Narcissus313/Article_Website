@@ -34,6 +34,7 @@ genderDiv.innerHTML = `
 `;
 
 editInfoBtn.addEventListener("click", (e) => {
+	e.preventDefault();
 	editInfoBtn.classList.add("d-none");
 	saveInfoBtn.classList.remove("d-none");
 	newPasswordDiv.classList.remove("d-none");
@@ -106,7 +107,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		username,
 		phoneNumber,
 	};
-	console.log("data: ", data);
 
 	try {
 		const response = await fetch("http://localhost:3000/user/update", {
@@ -119,6 +119,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 
 		const result = await response.json();
 		showAlert(result.success, result.message);
+
 		if (result.success) {
 			inputFirstName.disabled = true;
 			inputFirstName.classList.remove("text-bg-white");
@@ -138,7 +139,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 
 			saveInfoBtn.classList.add("d-none");
 			editInfoBtn.classList.remove("d-none");
-			newPasswordDiv.classList.add("d-none");
 		}
 	} catch (error) {
 		console.log("Error:", error.message);

@@ -187,6 +187,7 @@ const uploadAvatar = (req, res, _next) => {
 	const uploadUserAvatar = userAvatarUpload.single("avatar");
 
 	uploadUserAvatar(req, res, async (err) => {
+		if (!req.file) return;
 		if (err) {
 			//delete if save with error
 			// if (req.file) await fs.unlink(join(__dirname, "../public", req.file.filename))
@@ -197,10 +198,10 @@ const uploadAvatar = (req, res, _next) => {
 			return res.status(500).send("server error!");
 		}
 
-		// if (!req.file)
-		// 	return res
-		// 		.status(400)
-		// 		.json({ success: false, message: "File not send!" });
+		if (!req.file)
+			return res
+				.status(400)
+				.json({ success: false, message: "File not send!" });
 
 		try {
 			// delete old avatar

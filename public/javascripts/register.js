@@ -9,7 +9,7 @@ registerBtn.addEventListener("click", async (e) => {
 	const username = document.getElementById("username").value.trim();
 	const phoneNumber = document.getElementById("phoneNumber").value.trim();
 	const gender = document.getElementById("gender").value.trim();
-	console.log('gender: ', gender);
+	console.log("gender: ", gender);
 	const newPassword = document
 		.getElementById("inputNewPassword")
 		.value.trim();
@@ -83,10 +83,3 @@ registerBtn.addEventListener("click", async (e) => {
 		console.log("Error:", error.message);
 	}
 });
-
-// const validateInputs = () => {
-// 	const firstName = document.getElementById("firstName").value;
-// 	const lastName = document.getElementById("lastName").value;
-// 	const username = document.getElementById("username").value;
-// 	const password = document.getElementById("password").value;
-// };

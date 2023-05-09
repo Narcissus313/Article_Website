@@ -1,4 +1,3 @@
-const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -47,7 +46,6 @@ app.get("/about", (_req, res) => {
 
 // catch 404 and forward to error handler
 app.all("*", function (_req, res, next) {
-	// next(createError(404));
 	res.render("pages/notFound");
 });
 
@@ -59,7 +57,7 @@ app.use(function (err, req, res, _next) {
 	// console.log('res.locals.message: ', res.locals.message);
 	res.locals.error = req.app.get("env") === "development" ? err : {};
 
-	// // render the error page
+	// render the error page
 	res.status(err.status || 500);
 	res.render("error");
 });
