@@ -20,13 +20,11 @@
             const userData = JSON.parse('<%- JSON.stringify(user) %>')
         </script>
 
-
         <!-- alert box -->
         <div class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-center align-content-center mt-4"
             role="alert" id="alertBox">
             <p class="text-center mt-3" id="alertText">alert text</p>
         </div>
-
 
         <!-- head navbar -->
         <section>
@@ -139,26 +137,19 @@
 
                                     <!-- Profile picture upload button-->
                                     <div class="d-flex justify-content-center">
-                                        <form  class="w-75 justify-content-center" id="avatar-form" enctype="multipart/form-data">
+                                        <form class="w-75 justify-content-center" id="avatar-form"
+                                            enctype="multipart/form-data">
                                             <div>
                                                 <label for="avatar">Select an avatar image:</label>
-                                                <input class="btn btn-success form-control" type="file" id="avatar" name="avatar" accept=".jpg, .jpeg, .png">
+                                                <input class="btn btn-success form-control" type="file" id="avatar"
+                                                    name="avatar" accept=".jpg, .jpeg, .png">
                                             </div>
-                                            <button class="btn btn-primary my-4 fs-6" type="submit" id="updateAvatarBtn">Upload Avatar</button>
-                                            <input class="btn btn-primary my-4 fs-6" type="button" value="Remove Avatar" id="removeAvatarBtn">
-                                        </form>
-                                    </div>
-                                    <!-- <div class="d-flex justify-content-center">
-                                        <form class="w-75 justify-content-center" action="/user/uploadAvatar"
-                                            enctype="multipart/form-data" method="post">
-                                            <input class="btn btn-success form-control" type="file" name="avatar"
-                                                id="avatar">
-                                            <input class="btn btn-primary my-4 fs-6" type="submit"
-                                                value="Update Avatar" id="updateAvatarBtn">
+                                            <button class="btn btn-primary my-4 fs-6" type="submit"
+                                                id="updateAvatarBtn">Upload Avatar</button>
                                             <input class="btn btn-primary my-4 fs-6" type="button" value="Remove Avatar"
                                                 id="removeAvatarBtn">
                                         </form>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -296,13 +287,7 @@
             </div>
             <!-- </div> -->
 
-            <!-- profile info -->
-
         </div>
-
-
-
-
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

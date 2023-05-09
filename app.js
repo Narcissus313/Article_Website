@@ -44,6 +44,10 @@ app.get("/about", (_req, res) => {
 	res.redirect("/");
 });
 
+app.get("/articles", (req, res) => {
+	res.render("pages/articles", { isLoggedIn: !!req.session.user });
+});
+
 // catch 404 and forward to error handler
 app.all("*", function (_req, res, next) {
 	res.render("pages/notFound");
