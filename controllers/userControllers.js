@@ -176,7 +176,7 @@ const getdashboardPage = (req, res, next) => {
 	res.render("pages/dashboard", { user: req.session.user });
 };
 
-const logout = (req, res, next) => {
+const logout = (req, res, _next) => {
 	req.session.destroy();
 
 	res.redirect("/user/login");
@@ -184,23 +184,23 @@ const logout = (req, res, next) => {
 
 const uploadAvatar = (req, res, _next) => {
 	const uploadUserAvatar = userAvatarUpload.single("avatar");
-
 	uploadUserAvatar(req, res, async (err) => {
-		if (!req.file) return;
 		if (err) {
-			//delete if save with error
-			// if (req.file) await fs.unlink(join(__dirname, "../public", req.file.filename))
-			if (err.message)
+			if (err.code === "LIMIT_FILE_SIZE") {
+				// File size limit exceeded
+				return res.json({
+					success: false,
+					message: "File size limit exceeded",
+				});
+			}
+
+			if (err.message) {
 				return res
 					.status(400)
 					.json({ success: false, message: err.message });
+			}
 			return res.status(500).send("server error!");
 		}
-
-		if (!req.file)
-			return res
-				.status(400)
-				.json({ success: false, message: "File not send!" });
 
 		try {
 			// delete old avatar
@@ -217,13 +217,12 @@ const uploadAvatar = (req, res, _next) => {
 				},
 				{ new: true }
 			);
-
 			req.session.user.avatar = user.avatar;
 
-			// return res.json(user);
-			res.redirect("/user/dashboard");
+			return res
+				.status(200)
+				.json({ success: true, message: "avatar uploaded" });
 		} catch (err) {
-			// return next(createError(500, "Server Error!"));
 			return res.status(400).json({
 				success: false,
 				message: "File size limit exceeded",

@@ -1,9 +1,9 @@
 const createError = require("http-errors");
 
 const roleAc = (roles) => {
-	return (req, res, next) => {
+	return (req, _res, next) => {
 		if (roles.includes(req.session.user.role)) return next();
-		return next(createError(403, "Access Denied!"));
+		next(createError(403, "Access Denied!"));
 	};
 };
 

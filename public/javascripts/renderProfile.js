@@ -20,9 +20,9 @@ const inputNewPassword = document.getElementById("inputNewPassword");
 const inputNewPasswordConfirm = document.getElementById(
 	"inputNewPasswordConfirm"
 );
+const fileInput = document.getElementById("avatar");
+const uploadButton = document.getElementById("updateAvatarBtn");
 const removeAvatarBtn = document.getElementById("removeAvatarBtn");
-// const form = document.getElementById("avatarForm");
-// const fileInput = document.getElementById("file");
 
 genderDiv.innerHTML = ``;
 genderDiv.innerHTML = `
@@ -33,6 +33,36 @@ genderDiv.innerHTML = `
         <option value="female">female</option>
     </select>
 `;
+
+uploadButton.addEventListener("click", async (event) => {
+	event.preventDefault();
+	const file = fileInput.files[0];
+
+	if (!file) return showAlert(false, "Please select a file to upload");
+	
+	const formData = new FormData();
+	formData.append("avatar", file);
+
+	try {
+		const response = await fetch(
+			"http://localhost:3000/user/uploadAvatar",
+			{
+				method: "POST",
+				body: formData,
+			}
+		);
+		const result = await response.json();
+		showAlert(result.success, result.message);
+
+		if (result.success) {
+			setTimeout(() => {
+				window.location.href = "http://localhost:3000/user/dashboard";
+			}, 1000);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+});
 
 editInfoBtn.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -219,30 +249,12 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 	}
 });
 
-// form.addEventListener("submit", async (e) => {
-// 	try {
-// 		e.preventDefault();
-
-// 		const file = fileInput.files[0];
-// 		const formData = new FormData();
-// 		formData.append("file", file);
-
-// 		const response = await fetch(
-// 			"http://localhost:3000/user/uploadAvatar",
-// 			{
-// 				method: "POST",
-// 				body: formData,
-// 			}
-// 		);
-// 		const result = await response.json();
-// 		console.log("result: ", result);
-// 	} catch (error) {
-// 		console.log("Error:", error.message);
-// 	}
-// });
-
 removeAvatarBtn.addEventListener("click", async (e) => {
 	e.preventDefault();
+	console.log(userData);
+	if (!userData.avatar)
+		return showAlert(false, "Please upload your avatar first");
+
 	const confirmStatus = confirm(
 		"Are you sure you want to delete your avatar?"
 	);
