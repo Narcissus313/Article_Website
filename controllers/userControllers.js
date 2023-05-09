@@ -183,25 +183,32 @@ const logout = (req, res, next) => {
 	res.redirect("/user/login");
 };
 
-const uploadAvatar = (req, res, next) => {
+const uploadAvatar = (req, res, _next) => {
 	const uploadUserAvatar = userAvatarUpload.single("avatar");
 
 	uploadUserAvatar(req, res, async (err) => {
 		if (err) {
 			//delete if save with error
 			// if (req.file) await fs.unlink(join(__dirname, "../public", req.file.filename))
-			if (err.message) return res.status(400).send(err.message);
+			if (err.message)
+				return res
+					.status(400)
+					.json({ success: false, message: err.message });
 			return res.status(500).send("server error!");
 		}
 
-		if (!req.file) return res.status(400).send("File not send!");
+		// if (!req.file)
+		// 	return res
+		// 		.status(400)
+		// 		.json({ success: false, message: "File not send!" });
 
 		try {
 			// delete old avatar
-			if (req.session.user.avatar)
+			if (req.session.user.avatar) {
 				await fs.unlink(
 					join(__dirname, "../public", req.session.user.avatar)
 				);
+			}
 
 			const user = await User.findByIdAndUpdate(
 				req.session.user._id,
@@ -216,7 +223,11 @@ const uploadAvatar = (req, res, next) => {
 			// return res.json(user);
 			res.redirect("/user/dashboard");
 		} catch (err) {
-			return next(createError(500, "Server Error!"));
+			// return next(createError(500, "Server Error!"));
+			return res.status(400).json({
+				success: false,
+				message: "File size limit exceeded",
+			});
 		}
 	});
 };

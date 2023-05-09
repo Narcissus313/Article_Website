@@ -138,16 +138,17 @@
                                     </div>
 
                                     <!-- Profile picture upload button-->
-                                    <form action="/user/uploadAvatar" enctype="multipart/form-data" method="post">
-                                        <input class="btn btn-primary" type="file" name="avatar">
-                                        <input class="btn btn-primary" type="submit" value="Update Avatar">
-                                    </form>
-                                    <!-- <button class="btn btn-primary" type="file">Upload new image</button> -->
-                                    <div class="mb-3 w-75" action="/user/uploadAvatar" enctype="multipart/form-data"
-                                        method="post">
-                                        <label for="formFile" class="form-label"></label>
-                                        <input class="form-control" type="file" id="formFile">
+                                    <div class="d-flex justify-content-center">
+                                        <form class="w-75 justify-content-center" action="/user/uploadAvatar" enctype="multipart/form-data" method="post">
+                                            <input class="btn btn-success form-control" type="file" name="avatar" id="avatar">
+                                            <input class="btn btn-primary my-4" type="submit" value="Update Avatar">
+                                        </form>
                                     </div>
+                                    <!-- <button class="btn btn-primary" type="file">Upload new image</button> -->
+                                    <!-- <form id="avatarForm">
+                                        <input class="btn btn-success form-control" type="file" name="avatar" id="file">
+                                        <button class="btn btn-primary my-4" type="submit">Upload</button>
+                                    </form> -->
                                 </div>
                             </div>
                         </div>
@@ -240,8 +241,9 @@
                     <!-- Form Group (Change Password)-->
 
 
-                    <div class="row gx-3 mb-3" id="newPasswordDiv">
-                        <div class="col-md-12">
+                    <div class="row gx-3 mb-3 d-flex flex-column justify-content-center align-items-center"
+                        id="newPasswordDiv">
+                        <div class="col-md-6">
                             <label class="small mb-1 text-danger" for="inputOldPassword">Your
                                 Password</label>
                             <input class="form-control text-bg-light text-black text-danger" id="inputOldPassword"
@@ -252,16 +254,17 @@
                         <div class="col-md-6">
                             <label class="small mb-1 text-danger" for="inputNewPassword">New
                                 Password</label>
-                            <input class="form-control text-bg-light text-black" id="inputNewPassword" type="text"
+                            <input class="form-control text-bg-light text-black" id="inputNewPassword" type="password"
                                 placeholder="Enter your passsword">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-0">
                             <label class="small mb-1" for="inputNewPasswordConfirm"></label>
                             <input class="form-control text-bg-light text-black" id="inputNewPasswordConfirm"
-                                type="text" placeholder="Enter your pasasword">
+                                type="password" placeholder="Enter your pasasword">
                         </div>
+                        <button class="btn btn-primary my-4 w-25" type="button"
+                            id="saveChangedPasswordBtn">Save</button>
                     </div>
-                    <button class="btn btn-primary mb-1" type="button" id="saveChangedPasswordBtn">Save</button>
                 </div>
 
                 <!-- Delete Account Part -->
@@ -269,31 +272,8 @@
                     aria-labelledby="nav-info-tab">
                     <!-- Form Group (Change Password)-->
 
-
-                    <!-- <div class="row gx-3 mb-3" id="newPasswordDiv">
-                        <div class="col-md-12">
-                            <label class="small mb-1 text-danger" for="inputOldPassword">Your
-                                Password</label>
-                            <input class="form-control text-bg-light text-black text-danger" id="inputOldPassword"
-                                type="password" placeholder="Old Password" type="text"
-                                placeholder="Enter your email address">
-                        </div>
-                        <br>
-                        <div class="col-md-6">
-                            <label class="small mb-1 text-danger" for="inputNewPassword">New
-                                Password</label>
-                            <input class="form-control text-bg-light text-black" id="inputNewPassword" type="text"
-                                placeholder="Enter your passsword">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="small mb-1" for="inputNewPasswordConfirm"></label>
-                            <input class="form-control text-bg-light text-black" id="inputNewPasswordConfirm"
-                                type="text" placeholder="Enter your pasasword">
-                        </div>
-                    </div> -->
-
                     <div class="d-flex justify-content-center flex-column">
-                        <h2 class="text-danger text-center mt-5">Your account will be deleted perminantly.</h2>
+                        <h2 class="text-danger text-center mt-5">Your account will be deleted perminantly !!</h2>
                         <br>
                         <br>
                         <button class="btn btn-danger mb-1 mt-5 col-md-3 align-self-center" type="button"

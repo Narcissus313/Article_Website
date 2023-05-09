@@ -1,9 +1,11 @@
-const createError = require("http-errors");
+// const createError = require("http-errors");
 
 const isLoggedIn = (req, res, next) => {
-	if (req.session.user) return next();
-	// return next(createError(401, "auth error!"));
-	res.redirect("/user/login");
+	if (!req.session.user) {
+		res.redirect("/user/login");
+	}
+
+	next();
 };
 
 module.exports = {

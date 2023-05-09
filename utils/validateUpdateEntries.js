@@ -1,7 +1,7 @@
 const validator = require("validator");
 const User = require("../models/User");
 
-const genderOptions = ["not-ser", "male", "female"];
+const genderOptions = ["not-set", "male", "female"];
 
 const validateUpdateEntries = async (req, res, next) => {
 	const { firstName, lastName, username, phoneNumber, gender } = req.body;
@@ -31,15 +31,16 @@ const validateUpdateEntries = async (req, res, next) => {
 		});
 
 	try {
-		const existingUser = await User.findOne({ phoneNumber });
-		if (existingUser.username !== username) {
-			return res.json({
-				success: false,
-				message: "Phone number already exists",
-			});
-		}
+		// const existingUser = await User.findOne({ username });
+		// if (existingUser.username !== username) {
+		// 	return res.json({
+		// 		success: false,
+		// 		message: "Phone number already exists",
+		// 	});
+		// }
 
 		const user = await User.findOne({ username });
+		console.log("user: ", user);
 
 		if (!user) {
 			return res.json({
@@ -47,6 +48,16 @@ const validateUpdateEntries = async (req, res, next) => {
 				message: "Username is wrong",
 			});
 		}
+
+		const x = await User.findOne({ phoneNumber });
+		console.log("x: ", x);
+
+		if (!!x)
+			if (x.username !== user.username)
+				return res.json({
+					success: false,
+					message: "Phone number already exists",
+				});
 
 		next();
 	} catch (err) {

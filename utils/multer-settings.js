@@ -1,7 +1,7 @@
 const multer = require("multer");
 
 const avaterStorage = multer.diskStorage({
-	destination: function (req, file, cb) {
+	destination: function (_req, _file, cb) {
 		cb(null, "public/images/userAvatars");
 	},
 	filename: function (req, file, cb) {
@@ -12,7 +12,7 @@ const avaterStorage = multer.diskStorage({
 
 const userAvatarUpload = multer({
 	storage: avaterStorage,
-	fileFilter: (req, file, cb) => {
+	fileFilter: (_req, file, cb) => {
 		if (
 			file.mimetype == "image/png" ||
 			file.mimetype == "image/jpg" ||

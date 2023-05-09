@@ -14,12 +14,14 @@ const saveChangedPasswordBtn = document.getElementById(
 	"saveChangedPasswordBtn"
 );
 const deleteAccountBtn = document.getElementById("deleteAccountBtn");
-
+const uploadAvatarBtn = document.getElementById("uploadAvatarBtn");
 const inputOldPassword = document.getElementById("inputOldPassword");
 const inputNewPassword = document.getElementById("inputNewPassword");
 const inputNewPasswordConfirm = document.getElementById(
 	"inputNewPasswordConfirm"
 );
+// const form = document.getElementById("avatarForm");
+// const fileInput = document.getElementById("file");
 
 genderDiv.innerHTML = ``;
 genderDiv.innerHTML = `
@@ -75,7 +77,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	const lastName = inputLastName.value.trim();
 	const username = inputUsername.value.trim();
 	let gender = "";
-	// var gender = genderSelection.options[genderSelection.selectedIndex].value;
 	var options = ["male", "female", "not-set"];
 	for (const option of options) {
 		if (option === document.getElementById("genderSelection").value)
@@ -98,12 +99,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 			"Last name must be at least 3 characters and at most 30"
 		);
 
-	// if (username.length < 3 || username.length > 30)
-	// 	return showAlert(
-	// 		false,
-	// 		"Username must be at least 3 characters and at most 30"
-	// 	);
-
 	let data = {
 		firstName,
 		lastName,
@@ -123,7 +118,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		});
 
 		const result = await response.json();
-		console.log("result: ", result);
 		showAlert(result.success, result.message);
 		if (result.success) {
 			inputFirstName.disabled = true;
@@ -223,3 +217,25 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 		}
 	}
 });
+
+// form.addEventListener("submit", async (e) => {
+// 	try {
+// 		e.preventDefault();
+
+// 		const file = fileInput.files[0];
+// 		const formData = new FormData();
+// 		formData.append("file", file);
+
+// 		const response = await fetch(
+// 			"http://localhost:3000/user/uploadAvatar",
+// 			{
+// 				method: "POST",
+// 				body: formData,
+// 			}
+// 		);
+// 		const result = await response.json();
+// 		console.log("result: ", result);
+// 	} catch (error) {
+// 		console.log("Error:", error.message);
+// 	}
+// });
