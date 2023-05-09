@@ -20,6 +20,7 @@ const inputNewPassword = document.getElementById("inputNewPassword");
 const inputNewPasswordConfirm = document.getElementById(
 	"inputNewPasswordConfirm"
 );
+const removeAvatarBtn = document.getElementById("removeAvatarBtn");
 // const form = document.getElementById("avatarForm");
 // const fileInput = document.getElementById("file");
 
@@ -39,17 +40,17 @@ editInfoBtn.addEventListener("click", (e) => {
 	saveInfoBtn.classList.remove("d-none");
 	newPasswordDiv.classList.remove("d-none");
 
-	inputOldPassword.removeAttribute("disabled");
-	inputOldPassword.classList.remove("text-bg-light");
-	inputOldPassword.classList.add("text-bg-white");
+	// inputOldPassword.removeAttribute("disabled");
+	// inputOldPassword.classList.remove("text-bg-light");
+	// inputOldPassword.classList.add("text-bg-white");
 
-	inputNewPassword.removeAttribute("disabled");
-	inputNewPassword.classList.remove("text-bg-light");
-	inputNewPassword.classList.add("text-bg-white");
+	// inputNewPassword.removeAttribute("disabled");
+	// inputNewPassword.classList.remove("text-bg-light");
+	// inputNewPassword.classList.add("text-bg-white");
 
-	inputNewPasswordConfirm.removeAttribute("disabled");
-	inputNewPasswordConfirm.classList.remove("text-bg-light");
-	inputNewPasswordConfirm.classList.add("text-bg-white");
+	// inputNewPasswordConfirm.removeAttribute("disabled");
+	// inputNewPasswordConfirm.classList.remove("text-bg-light");
+	// inputNewPasswordConfirm.classList.add("text-bg-white");
 
 	inputFirstName.removeAttribute("disabled");
 	inputFirstName.classList.remove("text-bg-light");
@@ -239,3 +240,34 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 // 		console.log("Error:", error.message);
 // 	}
 // });
+
+removeAvatarBtn.addEventListener("click", async (e) => {
+	e.preventDefault();
+	const confirmStatus = confirm(
+		"Are you sure you want to delete your avatar?"
+	);
+	if (!confirmStatus) return;
+
+	try {
+		const response = await fetch(
+			"http://localhost:3000/user/removeAvatar",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const result = await response.json();
+		console.log("result: ", result);
+		showAlert(result.success, result.message);
+		if (result.success) {
+			setTimeout(() => {
+				window.location.href = "http://localhost:3000/user/dashboard";
+			}, 1000);
+		}
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+});

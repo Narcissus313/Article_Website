@@ -1,4 +1,3 @@
-const createError = require("http-errors");
 const url = require("url");
 const { join } = require("path");
 const fs = require("fs/promises");
@@ -233,7 +232,29 @@ const uploadAvatar = (req, res, _next) => {
 	});
 };
 
-const bulkUpload = (req, res, next) => {
+const removeAvatar = async (req, res, _next) => {
+	try {
+		// delete old avatar
+		const user = await User.updateOne(
+			{ _id: req.session.user._id },
+			{ $unset: { avatar: 1 } }
+		);
+
+		req.session.user.avatar = user.avatar;
+
+		res.status(200).json({
+			success: true,
+			message: "Avatar deleted successfully",
+		});
+	} catch (err) {
+		return res.status(400).json({
+			success: false,
+			message: "File size limit exceeded",
+		});
+	}
+};
+
+const bulkUpload = (req, res, _next) => {
 	const uploadUserAvatar = userAvatarUpload.array("gallery");
 
 	uploadUserAvatar(req, res, async (err) => {
@@ -278,6 +299,7 @@ module.exports = {
 	getdashboardPage,
 	logout,
 	uploadAvatar,
+	removeAvatar,
 	updatePassword,
 	bulkUpload,
 	updateUser,

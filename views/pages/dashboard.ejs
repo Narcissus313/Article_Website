@@ -139,9 +139,14 @@
 
                                     <!-- Profile picture upload button-->
                                     <div class="d-flex justify-content-center">
-                                        <form class="w-75 justify-content-center" action="/user/uploadAvatar" enctype="multipart/form-data" method="post">
-                                            <input class="btn btn-success form-control" type="file" name="avatar" id="avatar">
-                                            <input class="btn btn-primary my-4" type="submit" value="Update Avatar">
+                                        <form class="w-75 justify-content-center" action="/user/uploadAvatar"
+                                            enctype="multipart/form-data" method="post">
+                                            <input class="btn btn-success form-control" type="file" name="avatar"
+                                                id="avatar">
+                                            <input class="btn btn-primary my-4 fs-6" type="submit"
+                                                value="Update Avatar">
+                                            <input class="btn btn-primary my-4 fs-6" type="button" value="Remove Avatar"
+                                                id="removeAvatarBtn">
                                         </form>
                                     </div>
                                     <!-- <button class="btn btn-primary" type="file">Upload new image</button> -->
@@ -160,9 +165,9 @@
                                     <form>
                                         <!-- Form Group (username)-->
                                         <div class="mb-3 mt-1">
-                                            <label class="small mb-1" for="inputUsername">Username (how your name will
-                                                appear to other
-                                                users on the site)</label>
+                                            <label class="small mb-1" for="inputUsername">
+                                                <h5>Username</h5>
+                                            </label>
                                             <input class="form-control text-bg-light fs-2 fw-bold text-primary"
                                                 id="inputUsername" type="text" placeholder="Enter your username"
                                                 value="<%=user.username%>" disabled>
@@ -187,8 +192,9 @@
                                         <!-- Form Row        -->
                                         <div class="row gx-3 mb-3">
                                             <!-- Form Group (Gender)-->
-                                            <div class="form-group mt-3 col-md-6" id="genderDiv">
-                                                <select class="form-select form-select-lg text-black fs-6"
+                                            <div class="form-group mt-4 col-md-6" id="genderDiv">
+                                                <select
+                                                    class="form-select mt-5 form-select-lg text-black fs-6  text-bg-light"
                                                     aria-label=".form-select-lg example" id="genderSelection" disabled>
                                                     <option value="not-set" selected>not-set</option>
                                                     <option value="male">male</option>
@@ -246,7 +252,7 @@
                         <div class="col-md-6">
                             <label class="small mb-1 text-danger" for="inputOldPassword">Your
                                 Password</label>
-                            <input class="form-control text-bg-light text-black text-danger" id="inputOldPassword"
+                            <input class="form-control text-bg-white text-black text-danger" id="inputOldPassword"
                                 type="password" placeholder="Old Password" type="text"
                                 placeholder="Enter your email address">
                         </div>
@@ -254,12 +260,12 @@
                         <div class="col-md-6">
                             <label class="small mb-1 text-danger" for="inputNewPassword">New
                                 Password</label>
-                            <input class="form-control text-bg-light text-black" id="inputNewPassword" type="password"
+                            <input class="form-control text-bg-white text-black" id="inputNewPassword" type="password"
                                 placeholder="Enter your passsword">
                         </div>
                         <div class="col-md-6 mt-0">
                             <label class="small mb-1" for="inputNewPasswordConfirm"></label>
-                            <input class="form-control text-bg-light text-black" id="inputNewPasswordConfirm"
+                            <input class="form-control text-bg-white text-black" id="inputNewPasswordConfirm"
                                 type="password" placeholder="Enter your pasasword">
                         </div>
                         <button class="btn btn-primary my-4 w-25" type="button"

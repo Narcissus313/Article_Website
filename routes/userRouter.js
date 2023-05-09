@@ -12,6 +12,7 @@ const {
 	getdashboardPage,
 	logout,
 	uploadAvatar,
+	removeAvatar,
 	bulkUpload,
 	updateUser,
 	updatePassword,
@@ -36,6 +37,7 @@ router.get("/dashboard", getdashboardPage);
 router.get("/logout", isLoggedIn, logout);
 
 router.post("/uploadAvatar", isLoggedIn, uploadAvatar);
+router.get("/removeAvatar", isLoggedIn, removeAvatar);
 
 //test route
 router.post("/bulkUpload", bulkUpload);
