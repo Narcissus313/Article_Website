@@ -2,6 +2,7 @@ const url = require("url");
 const { join } = require("path");
 const fs = require("fs/promises");
 const User = require("../models/User");
+const Article = require("../models/Article");
 const { userAvatarUpload } = require("../utils/multer-settings");
 
 const getRegisterPage = (req, res, _next) => {
@@ -131,8 +132,7 @@ const updatePassword = async (req, res, _next) => {
 const getLoginPage = (req, res, _next) => {
 	if (req.session.user) return res.redirect("/user/dashboard");
 
-	const { errorMessage = null, message = null } = req.query;
-	res.render("pages/login", { errorMessage, message });
+	res.render("pages/login", { isLoggedIn: !!req.session.user });
 };
 
 const loginUser = async (req, res, next) => {
@@ -179,7 +179,7 @@ const getdashboardPage = (req, res, next) => {
 const logout = (req, res, _next) => {
 	req.session.destroy();
 
-	res.redirect("/user/login");
+	res.redirect("/");
 };
 
 const uploadAvatar = (req, res, _next) => {
@@ -290,6 +290,55 @@ const deleteUser = async (req, res, next) => {
 	}
 };
 
+const getUserArticles = async (req, res, _next) => {
+	try {
+		if (req.session.user) {
+			const id = req.session.user._id;
+			const articles = await Article.find({ author: id });
+			// console.log("articles: ", articles);
+
+			return res.render("pages/userArticles", {
+				articles,
+				isLoggedIn: !!req.session.user,
+			});
+		}
+	} catch (error) {
+		res.send("NO!!");
+	}
+};
+
+const addArticle = async (req, res, _next) => {
+	const { title, content } = req.body;
+	const author = req.session.user._id;
+	const newArticle = new Article({
+		title,
+		content,
+		author,
+	});
+
+	try {
+		newArticle.save();
+		res.json({ success: true, message: "Article saved successfully" });
+	} catch (err) {
+		res.status(500).json({
+			success: false,
+			message: "server error!",
+		});
+	}
+};
+
+const showAllArticles = async (req, res) => {
+	try {
+		const articles = await Article.find({});
+		res.render("pages/explore", {
+			articles,
+			isLoggedIn: !!req.session.user,
+		});
+	} catch (error) {
+		res.status(500).json({ success: false, message: "server error!" });
+	}
+};
+
 module.exports = {
 	getRegisterPage,
 	registerUser,
@@ -303,4 +352,7 @@ module.exports = {
 	bulkUpload,
 	updateUser,
 	deleteUser,
+	getUserArticles,
+	addArticle,
+	showAllArticles,
 };

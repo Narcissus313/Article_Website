@@ -50,7 +50,6 @@ const validateUpdateEntries = async (req, res, next) => {
 		}
 
 		const x = await User.findOne({ phoneNumber });
-		console.log("x: ", x);
 
 		if (!!x)
 			if (x.username !== user.username)

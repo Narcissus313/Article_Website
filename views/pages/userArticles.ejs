@@ -17,8 +17,16 @@
 <body>
 
    <script>
-      const isLoggedIn = (<%= isLoggedIn %>)
+      const isLoggedIn = '(<%- isLoggedIn %>)';
+      const userArticles = JSON.parse('<%- JSON.stringify(articles) %>')
    </script>
+
+   <!-- alert box -->
+   <div
+      class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-center align-content-center mt-4"
+      role="alert" id="alertBox">
+      <p class="text-center mt-3" id="alertText">alert text</p>
+   </div>
 
    <!-- Nav section -->
    <section>
@@ -28,9 +36,9 @@
                <ul class="nav navb nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
                      <form method="GET">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                           data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="true"
-                           type="submit" formaction="/">Home</button>
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                           role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/">Home</button>
                      </form>
 
                   </li>
@@ -57,8 +65,8 @@
                            formaction="/user/dashboard">Dashboard</button>
                      </form>
                      <form method="GET">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
-                           aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane"
+                           role="tab" aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
                            formaction="/user/articles">My
                            Articles</button>
                      </form>
@@ -81,20 +89,18 @@
          </div>
 
 
-            <div class="tab-content" id="myTabContent">
-               <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-                  tabindex="0">
-               </div>
-               <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                  tabindex="0">
-               </div>
-               <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-                  tabindex="0">
-               </div>
-               <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
-                  tabindex="0">...
-               </div>
+         <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+               tabindex="0">
             </div>
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            </div>
+            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            </div>
+            <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+               tabindex="0">...
+            </div>
+         </div>
       </nav>
    </section>
 
@@ -124,7 +130,41 @@
          </div><!--end col-->
       </div><!--end row-->
 
-      
+
+      <!-- Modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+         data-bs-whatever="@mdo">New Article</button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form>
+                     <div class="mb-3">
+                        <label for="title" class="col-form-label">title:</label>
+                        <input type="text" class="form-control" id="title" value="">
+                     </div>
+                     <div class="mb-3">
+                        <label for="content" class="col-form-label">content:</label>
+                        <textarea class="form-control" id="content" value=""></textarea>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                     id="saveArticleBtn">Save</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+      <div class="row" id="articlesDiv"></div>
+
    </div>
 
 
@@ -132,6 +172,7 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<script src="/javascripts/renderHome.js"></script>
+<script src="/javascripts/main.js"></script>
+<script src="/javascripts/renderUserArticles.js"></script>
 
 </html>

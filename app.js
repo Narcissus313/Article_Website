@@ -8,6 +8,8 @@ const session = require("express-session");
 const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
 
+const { showAllArticles } = require("./controllers/userControllers");
+
 const app = express();
 
 mongoose.connect("mongodb://127.0.0.1:27017/Blog88").then(() => {
@@ -44,11 +46,8 @@ app.get("/about", (_req, res) => {
 	res.redirect("/");
 });
 
-app.get("/articles", (req, res) => {
-	res.render("pages/articles", { isLoggedIn: !!req.session.user });
-});
+app.get("/explore", showAllArticles);
 
-// catch 404 and forward to error handler
 app.all("*", function (_req, res, next) {
 	res.render("pages/notFound");
 });

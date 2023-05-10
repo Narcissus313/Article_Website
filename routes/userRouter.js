@@ -17,6 +17,8 @@ const {
 	updateUser,
 	updatePassword,
 	deleteUser,
+	getUserArticles,
+	addArticle,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -38,6 +40,9 @@ router.get("/logout", isLoggedIn, logout);
 
 router.post("/uploadAvatar", isLoggedIn, uploadAvatar);
 router.get("/removeAvatar", isLoggedIn, removeAvatar);
+
+router.get("/articles", isLoggedIn, getUserArticles);
+router.post("/articles", isLoggedIn, addArticle);
 
 //test route
 router.post("/bulkUpload", bulkUpload);

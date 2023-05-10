@@ -44,11 +44,8 @@
                                 <form method="GET">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
                                         role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                                        formaction="/user/articles">Articles</button>
+                                        formaction="/explore">Explore</button>
                                 </form>
-                                <!-- <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                    data-bs-target="#articles-tab-pane" type="button" role="tab"
-                                    aria-controls="profile-tab-pane" aria-selected="false">Articles</button> -->
                             </li>
                             <form method="GET">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
@@ -65,13 +62,18 @@
                                     data-bs-target="#dashboard-tab-pane" type="button" role="tab"
                                     aria-controls="disabled-tab-pane" aria-selected="false">Dashboard</button>
                             </li>
+                            <form method="GET">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
+                                    aria-controls="my-articles-tab-pane" aria-selected="true" type="submit" formaction="/user/articles">My
+                                    Articles</button>
+                            </form>
                     </div>
                     <div class="righ">
                         <form class="d-flex justify-content-end" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                            <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
                             <form method="GET">
-                                <button class="btn btn-outline-danger ms-5 me-1" data-bs-toggle="tab"
+                                <button class="btn btn-outline-danger mx-2" data-bs-toggle="tab"
                                     data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane"
                                     aria-selected="true" type="submit" formaction="/user/logout">Logout</button>
                             </form>

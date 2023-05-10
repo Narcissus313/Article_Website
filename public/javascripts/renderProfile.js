@@ -39,7 +39,7 @@ uploadButton.addEventListener("click", async (event) => {
 	const file = fileInput.files[0];
 
 	if (!file) return showAlert(false, "Please select a file to upload");
-	
+
 	const formData = new FormData();
 	formData.append("avatar", file);
 
@@ -164,9 +164,9 @@ saveInfoBtn.addEventListener("click", async (e) => {
 			inputPhoneNumber.classList.remove("text-bg-white");
 			inputPhoneNumber.classList.add("text-bg-light");
 
-			genderSelection.disabled = true;
-			genderSelection.classList.remove("text-bg-white");
-			genderSelection.classList.add("text-bg-light");
+			document
+				.getElementById("genderSelection")
+				.setAttribute("disabled", "disabled");
 
 			saveInfoBtn.classList.add("d-none");
 			editInfoBtn.classList.remove("d-none");
