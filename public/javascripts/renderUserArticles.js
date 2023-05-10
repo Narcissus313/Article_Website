@@ -7,8 +7,8 @@ saveArticleBtn.addEventListener("click", async () => {
 	let content = document.querySelector("#content");
 
 	const data = {
-		title: title.value,
-		content: content.value,
+		title: title.value.trim(),
+		content: content.value.trim(),
 	};
 
 	try {

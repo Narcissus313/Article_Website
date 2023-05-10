@@ -21,6 +21,9 @@ const ArticleSchema = new mongoose.Schema(
 			required: [true, "author is required"],
 			trim: true,
 		},
+		// tags: {
+		// 	type: [String],
+		// },
 	},
 	{
 		timestamps: true,

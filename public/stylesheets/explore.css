@@ -1,3 +1,7 @@
+body::-webkit-scrollbar {
+   display: none;
+}
+
 .shadow {
    box-shadow: 0 0 3px rgb(53 64 78 / 20%) !important;
 }
@@ -119,13 +123,9 @@
 }
 
 .btn {
-   padding: 8px 20px;
-   outline: none;
    text-decoration: none;
-   font-size: 16px;
    letter-spacing: 0.5px;
    transition: all 0.3s;
-   font-weight: 600;
    border-radius: 5px;
 }
 

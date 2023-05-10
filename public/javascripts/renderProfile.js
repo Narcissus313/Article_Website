@@ -38,7 +38,7 @@ uploadButton.addEventListener("click", async (event) => {
 	event.preventDefault();
 	const file = fileInput.files[0];
 
-	if (!file) return showAlert(false, "Please select a file to upload");
+	if (!file) return showAlert(false, "Please upload your avatar first");
 
 	const formData = new FormData();
 	formData.append("avatar", file);

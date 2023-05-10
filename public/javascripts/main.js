@@ -23,7 +23,7 @@ const renderArticles = (articles) => {
             <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
             <div class="card border-0 bg-light rounded shadow">
                <div class="card-body p-4">
-                  <span class="badge rounded-pill bg-primary float-md-end mb-3 mb-sm-0">${article.title}</span>
+                  <span class="badge rounded-pill bg-primary float-md-end mb-3 mb-sm-0">${article.createdAt}</span>
                   <h5>${article.title}</h5>
                   <div class="mt-3">
                      <span class="text-muted d-block"><i class="fa fa-home" aria-hidden="true"></i> <a href="#"
