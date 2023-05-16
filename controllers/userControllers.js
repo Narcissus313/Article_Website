@@ -272,7 +272,7 @@ const bulkUpload = (req, res, _next) => {
 	});
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
 		await User.deleteOne({ _id: userId });
@@ -294,8 +294,9 @@ const getUserArticles = async (req, res, _next) => {
 	try {
 		if (req.session.user) {
 			const id = req.session.user._id;
-			const articles = await Article.find({ author: id });
-			// console.log("articles: ", articles);
+			const articles = await Article.find({ author: id }).populate(
+				"author"
+			);
 
 			return res.render("pages/userArticles", {
 				articles,
@@ -303,7 +304,10 @@ const getUserArticles = async (req, res, _next) => {
 			});
 		}
 	} catch (error) {
-		res.send("NO!!");
+		res.status(500).json({
+			success: false,
+			message: "Server error in getting articles list!!",
+		});
 	}
 };
 
@@ -330,8 +334,23 @@ const addArticle = async (req, res, _next) => {
 const showAllArticles = async (req, res) => {
 	try {
 		const articles = await Article.find({});
+		const result = [];
+		for (const article of articles) {
+			// const x = (await User.findOne({ _id: article.author })).firstName;
+			// console.log("x: ", x);
+			const articleData = {
+				id: article._id,
+				title: article.title,
+				author:
+					(await User.findOne({ _id: article.author })).firstName +
+					" " +
+					(await User.findOne({ _id: article.author })).lastName,
+				createdAt: article.createdAt,
+			};
+			result.push(articleData);
+		}
 		res.render("pages/explore", {
-			articles,
+			result,
 			isLoggedIn: !!req.session.user,
 		});
 	} catch (error) {

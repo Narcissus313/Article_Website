@@ -17,70 +17,71 @@
 <body>
 
    <script>
-      const isLoggedIn = (<%= isLoggedIn %>)
+      const isLoggedIn = JSON.parse('<%= isLoggedIn %>');
    </script>
 
    <!-- Nav section -->
-<section>
-   <nav class="mb-4 bg-light mt-0 px-3 px-3">
-      <div class="d-flex justify-content-between mt-1">
-         <div class="lef">
-            <ul class="nav navb nav-tabs" id="myTab" role="tablist">
-               <li class="nav-item" role="presentation">
-                  <form method="GET">
-                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                        role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                        formaction="/">Home</button>
-                  </form>
+   <section>
+      <nav class="mb-4 bg-light mt-0 px-3 px-3">
+         <div class="d-flex justify-content-between mt-1">
+            <div class="lef">
+               <ul class="nav navb nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                     <form method="GET">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                           data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="true"
+                           type="submit" formaction="/">Home</button>
+                     </form>
 
-               </li>
-               <li class="nav-item" role="presentation">
+                  </li>
+                  <li class="nav-item" role="presentation">
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/explore">Explore</button>
+                     </form>
+                  </li>
+                  <form method="GET">
+                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                        aria-controls="home-tab-pane" aria-selected="true" type="submit" formaction="/">Contact</button>
+                  </form>
                   <form method="GET">
                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
                         aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                        formaction="/explore">Explore</button>
+                        formaction="/about">About</button>
                   </form>
-               </li>
-               <form method="GET">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
-                     aria-controls="home-tab-pane" aria-selected="true" type="submit" formaction="/">Contact</button>
-               </form>
-               <form method="GET">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
-                     aria-controls="home-tab-pane" aria-selected="true" type="submit" formaction="/about">About</button>
-               </form>
-               <% if(isLoggedIn){%>
-                  <form method="GET">
-                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
-                        aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                        formaction="/user/dashboard">Dashboard</button>
-                  </form>
-                  <form method="GET">
-                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
-                        aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
-                        formaction="/user/articles">My
-                        Articles</button>
-                  </form>
-                  <%}%>
-         </div>
-
-
-         <div class="righ">
-            <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
-                  type="search" placeholder="Search" aria-label="Search">
-               <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
-               <% if(isLoggedIn){%>
-                  <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/logout">Logout</a>
-                  <%}else{%>
-                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/login">Login</a>
-                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/register">Signup</a>
+                  <% if(isLoggedIn){%>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/user/dashboard">Dashboard</button>
+                     </form>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
+                           aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
+                           formaction="/user/articles">My
+                           Articles</button>
+                     </form>
                      <%}%>
-            </form>
-         </div>
-      </div>
+            </div>
 
-   </nav>
-</section>
+
+            <div class="righ">
+               <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
+                     type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
+                  <% if(isLoggedIn){%>
+                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/logout">Logout</a>
+                     <%}else{%>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/login">Login</a>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/register">Signup</a>
+                        <%}%>
+               </form>
+            </div>
+         </div>
+
+      </nav>
+   </section>
 
    <!-- content -->
    <div class="container mt-5 pt-4">
@@ -108,7 +109,7 @@
          </div><!--end col-->
       </div><!--end row-->
 
-      
+
    </div>
 
 

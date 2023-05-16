@@ -3,12 +3,12 @@ const saveArticleBtn = document.getElementById("saveArticleBtn");
 const articlesDiv = document.getElementById("articlesDiv");
 
 saveArticleBtn.addEventListener("click", async () => {
-	let title = document.querySelector("#title");
-	let content = document.querySelector("#content");
+	let title = document.querySelector("#titleInput").value.trim();
+	let content = document.querySelector(".ql-editor").innerHTML;
 
 	const data = {
-		title: title.value.trim(),
-		content: content.value.trim(),
+		title: title,
+		content: content,
 	};
 
 	try {

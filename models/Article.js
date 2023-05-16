@@ -17,13 +17,10 @@ const ArticleSchema = new mongoose.Schema(
 		},
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			ref: "user",
 			required: [true, "author is required"],
 			trim: true,
 		},
-		// tags: {
-		// 	type: [String],
-		// },
 	},
 	{
 		timestamps: true,

@@ -7,6 +7,7 @@ const session = require("express-session");
 
 const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
+const apiRouter = require("./routes/apiRouter");
 
 const { showAllArticles } = require("./controllers/userControllers");
 
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
+app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {
 	res.render("home", { isLoggedIn: !!req.session.user });
