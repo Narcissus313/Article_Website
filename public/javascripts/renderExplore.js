@@ -1,4 +1,5 @@
 const articlesDiv = document.getElementById("articlesDiv");
 console.log(articles);
 
-renderArticles(articles);
+articlesDiv.innerHTML = "";
+articlesDiv.innerHTML = renderExploreArticles(articles);

@@ -275,7 +275,18 @@ const bulkUpload = (req, res, _next) => {
 const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
+		console.log("1");
+		if (!!req.session.user.avatar) {
+			console.log("2");
+			await fs.unlink(
+				join(__dirname, "../public", req.session.user.avatar)
+			);
+		}
+		console.log("3");
 		await User.deleteOne({ _id: userId });
+		console.log("4");
+		await Article.deleteMany({ author: userId });
+		console.log("5");
 		req.session.destroy();
 		return res.json({ success: true, message: "Account deleted" });
 	} catch (error) {
@@ -294,9 +305,10 @@ const getUserArticles = async (req, res, _next) => {
 	try {
 		if (req.session.user) {
 			const id = req.session.user._id;
-			const articles = await Article.find({ author: id }).populate(
-				"author"
-			);
+			const articles = await Article.find({ author: id }).populate({
+				path: "author",
+				select: "firstName,lastName, username",
+			});
 
 			return res.render("pages/userArticles", {
 				articles,
@@ -333,24 +345,12 @@ const addArticle = async (req, res, _next) => {
 
 const showAllArticles = async (req, res) => {
 	try {
-		const articles = await Article.find({});
-		const result = [];
-		for (const article of articles) {
-			// const x = (await User.findOne({ _id: article.author })).firstName;
-			// console.log("x: ", x);
-			const articleData = {
-				id: article._id,
-				title: article.title,
-				author:
-					(await User.findOne({ _id: article.author })).firstName +
-					" " +
-					(await User.findOne({ _id: article.author })).lastName,
-				createdAt: article.createdAt,
-			};
-			result.push(articleData);
-		}
+		const articles = await Article.find({}).populate({
+			path: "author",
+			select: "firstName lastName username",
+		});
 		res.render("pages/explore", {
-			result,
+			articles,
 			isLoggedIn: !!req.session.user,
 		});
 	} catch (error) {

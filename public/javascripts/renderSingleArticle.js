@@ -11,4 +11,5 @@ const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 });
 
 articleDate.innerHTML = articleShortDate;
-articleName.innerHTML = "by " + article.author.firstName + " " + article.author.lastName;
+articleName.innerHTML =
+	"by " + article.author.firstName + " " + article.author.lastName;

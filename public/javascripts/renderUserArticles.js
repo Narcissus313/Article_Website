@@ -26,7 +26,7 @@ saveArticleBtn.addEventListener("click", async () => {
 		content.value = "";
 		showAlert(result.success, result.message);
 
-		renderArticles(userArticles);
+		articlesDiv.innerHTML = renderUserArticles(userArticles);
 
 		if (result.success) {
 			setTimeout(() => {
@@ -38,4 +38,4 @@ saveArticleBtn.addEventListener("click", async () => {
 	}
 });
 articlesDiv.innerHTML = "";
-renderArticles(userArticles);
+articlesDiv.innerHTML = renderUserArticles(userArticles);
