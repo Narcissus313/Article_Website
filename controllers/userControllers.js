@@ -4,6 +4,7 @@ const fs = require("fs/promises");
 const User = require("../models/User");
 const Article = require("../models/Article");
 const { userAvatarUpload } = require("../utils/multer-settings");
+const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getRegisterPage = (req, res, _next) => {
 	if (req.session.user) return res.redirect("/user/dashboard");
@@ -13,7 +14,7 @@ const getRegisterPage = (req, res, _next) => {
 };
 
 const registerUser = async (req, res, _next) => {
-	const { firstName, lastName, username, phoneNumber, newPassword, gender } =
+	const { firstName, lastName, username, phoneNumber, newPassword } =
 		req.body;
 	const newUser = new User({
 		firstName,
@@ -22,6 +23,7 @@ const registerUser = async (req, res, _next) => {
 		username,
 		phoneNumber,
 		password: newPassword,
+		avatar: "/images/userAvatars/default-avatar.png",
 	});
 
 	const userExists =
@@ -204,11 +206,16 @@ const uploadAvatar = (req, res, _next) => {
 
 		try {
 			// delete old avatar
-			if (req.session.user.avatar) {
-				await fs.unlink(
-					join(__dirname, "../public", req.session.user.avatar)
-				);
-			}
+			console.log("1");
+			// if (!!req.session.user.avatar) {
+			// console.log("2");
+			// await fs.unlink(
+			// 	join(__dirname, "../public", req.session.user.avatar)
+			// );
+			await deleteAvatarPic(req.session.user.avatar);
+			console.log("3");
+			// }
+			// console.log("4");
 
 			const user = await User.findByIdAndUpdate(
 				req.session.user._id,
@@ -234,9 +241,10 @@ const uploadAvatar = (req, res, _next) => {
 const removeAvatar = async (req, res, _next) => {
 	try {
 		// delete old avatar
-		const user = await User.updateOne(
+		const user = await User.findOneAndUpdate(
 			{ _id: req.session.user._id },
-			{ $unset: { avatar: 1 } }
+			{ avatar: "/images/userAvatars/default-avatar.png" },
+			{ new: true }
 		);
 
 		req.session.user.avatar = user.avatar;
@@ -275,18 +283,13 @@ const bulkUpload = (req, res, _next) => {
 const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
-		console.log("1");
 		if (!!req.session.user.avatar) {
-			console.log("2");
 			await fs.unlink(
 				join(__dirname, "../public", req.session.user.avatar)
 			);
 		}
-		console.log("3");
 		await User.deleteOne({ _id: userId });
-		console.log("4");
 		await Article.deleteMany({ author: userId });
-		console.log("5");
 		req.session.destroy();
 		return res.json({ success: true, message: "Account deleted" });
 	} catch (error) {

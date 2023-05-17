@@ -1,0 +1,12 @@
+const { unlink } = require("fs/promises");
+const { join } = require("path");
+
+const deleteAvatarPic = async (avatar) => {
+	if (avatar !== "/images/userAvatars/default-avatar.png") {
+		try {
+			await unlink(join(__dirname, "../public", avatar));
+		} catch (error) {}
+	}
+	return;
+};
+module.exports = deleteAvatarPic;
