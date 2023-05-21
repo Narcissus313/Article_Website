@@ -20,6 +20,7 @@ articleAuthor.innerHTML = `
 by <a class="fw-bold text-decoration-none text-black">&nbsp; ${article.author.firstName} ${article.author.lastName}</a>
 `;
 
+console.log('article.pic: ', article.pic);
 articleHeader.innerHTML = `
 <div class="d-flex justify-content-start col-md-6 mt-4 fs-2">${article.title}</div>
 <div class="d-flex justify-content-end col-md-6"><img class="col-md-6" src="${article.pic}" style="max-width: 120px;max-height: 120px;"></img></div>
@@ -96,34 +97,28 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 		);
 
 		const result = await response.json();
-		// console.log("result: ", result);
+
 		const articleId = article._id;
-		// console.log("article._id: ", article._id);
 
 		const fileInput = document.getElementById("articlePic");
 		const file = fileInput.files[0];
 
-		if (!file) return;
+		if (file) {
+			const formData = new FormData();
+			formData.append("pic", file);
 
-		const formData = new FormData();
-		formData.append("pic", file);
+			const picChangeResponse = await fetch(
+				`http://localhost:3000/api/article/uploadPic/${articleId}`,
+				{
+					method: "POST",
+					body: formData,
+				}
+			);
+			const picChangeResult = await picChangeResponse.json();
+			// console.log("picChangeResult: ", picChangeResult);
+		}
 
-		const picChangeResponse = await fetch(
-			`http://localhost:3000/api/article/uploadPic/${articleId}`,
-			{
-				method: "POST",
-				body: formData,
-			}
-		);
-		const picChangeResult = await picChangeResponse.json();
-		console.log("picChangeResult: ", picChangeResult);
-
-		// title.value = "";
-		// content.innerHTML = "";
-		// summary.value = "";
 		showAlert(result.success, result.message);
-
-		// articlesDiv.innerHTML = renderUserArticles(userArticles);
 
 		if (result.success) {
 			setTimeout(() => {

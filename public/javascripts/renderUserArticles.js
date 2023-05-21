@@ -9,13 +9,6 @@ saveArticleBtn.addEventListener("click", async () => {
 	let content = document.querySelector(".ql-editor").innerHTML;
 	const fileInput = document.getElementById("articlePic");
 
-	const file = fileInput.files[0];
-
-	if (!file) return showAlert(false, "Please upload your thumbnail first");
-
-	const formData = new FormData();
-	formData.append("pic", file);
-
 	if (!title.length) {
 		return showAlert(false, "Please enter a title for the article");
 	}
@@ -23,6 +16,13 @@ saveArticleBtn.addEventListener("click", async () => {
 	if (!content.length) {
 		return showAlert(false, "Please enter a content for the article");
 	}
+
+	const file = fileInput.files[0];
+
+	if (!file) return showAlert(false, "Please upload your thumbnail first");
+
+	const formData = new FormData();
+	formData.append("pic", file);
 
 	const data = {
 		title,
@@ -61,7 +61,7 @@ saveArticleBtn.addEventListener("click", async () => {
 		summary.value = "";
 		showAlert(result.success, result.message);
 
-		articlesDiv.innerHTML = renderUserArticles(userArticles);
+		// articlesDiv.innerHTML = renderUserArticles(userArticles);
 
 		if (result.success) {
 			setTimeout(() => {
