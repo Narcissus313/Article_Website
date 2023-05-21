@@ -385,6 +385,7 @@ const updateArticle = async (req, res, _next) => {
 			articleId,
 			{
 				title: req.body.title,
+				summary: req.body.summary,
 				content: req.body.content,
 			},
 			{ new: true }

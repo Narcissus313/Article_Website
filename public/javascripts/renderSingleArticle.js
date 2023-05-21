@@ -11,6 +11,7 @@ const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	month: "short",
 	day: "numeric",
 });
+const saveUpdatedArticleBtn = document.getElementById("saveUpdatedArticleBtn");
 
 if (!!article.summary) articleSummary.innerHTML = article.summary + "<hr>";
 articleDate.innerHTML = articleShortDate;
@@ -23,6 +24,16 @@ articleHeader.innerHTML = `
 <div class="d-flex justify-content-start col-md-6 mt-4 fs-2">${article.title}</div>
 <div class="d-flex justify-content-end col-md-6"><img class="col-md-6" src="${article.pic}" style="max-width: 120px;max-height: 120px;"></img></div>
 `;
+
+const openEditModal = () => {
+	const title = document.getElementById("titleInput");
+	const summary = document.getElementById("summaryInput");
+	let content = document.querySelector(".ql-editor");
+
+	title.value = article.title;
+	summary.value = article.summary;
+	content.innerHTML = article.content;
+};
 
 btnDelete.addEventListener("click", async (e) => {
 	e.preventDefault();
@@ -60,7 +71,70 @@ btnDelete.addEventListener("click", async (e) => {
 	}
 });
 
-btnEdit.addEventListener("click", function (e) {
+saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 	e.preventDefault();
-	console.log("edit");
+	const title = document.getElementById("titleInput").value.trim();
+	const summary = document.getElementById("summaryInput").value.trim();
+	let content = document.querySelector(".ql-editor").innerHTML;
+	// const content = document.getElementById("contentTextarea").value.trim();
+
+	const fileInput = document.getElementById("articlePic");
+	const file = fileInput.files[0];
+
+	if (file) {
+		const formData = new FormData();
+		formData.append("pic", file);
+	}
+
+	const data = {
+		title,
+		content,
+		summary,
+	};
+
+	try {
+		const response = await fetch(
+			`http://localhost:3000/user/articles/${article._id}`,
+			{
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		const result = await response.json();
+		console.log("result: ", result);
+		// const articleId = result.articleId;
+
+		// try {
+		// 	const response = await fetch(
+		// 		`http://localhost:3000/api/article/uploadPic/${articleId}`,
+		// 		{
+		// 			method: "POST",
+		// 			body: formData,
+		// 		}
+		// 	);
+		// 	const result = await response.json();
+		// 	console.log("result: ", result);
+		// } catch (error) {
+		// 	console.error(error);
+		// }
+
+		// title.value = "";
+		// content.innerHTML = "";
+		// summary.value = "";
+		// showAlert(result.success, result.message);
+
+		// articlesDiv.innerHTML = renderUserArticles(userArticles);
+
+		// if (result.success) {
+		// 	setTimeout(() => {
+		// 		window.location.href = "http://localhost:3000/user/articles";
+		// 	}, 1000);
+		// }
+	} catch (error) {
+		showAlert(false, error.message);
+	}
 });
