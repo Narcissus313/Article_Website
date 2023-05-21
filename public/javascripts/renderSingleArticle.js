@@ -76,15 +76,6 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 	const title = document.getElementById("titleInput").value.trim();
 	const summary = document.getElementById("summaryInput").value.trim();
 	let content = document.querySelector(".ql-editor").innerHTML;
-	// const content = document.getElementById("contentTextarea").value.trim();
-
-	const fileInput = document.getElementById("articlePic");
-	const file = fileInput.files[0];
-
-	if (file) {
-		const formData = new FormData();
-		formData.append("pic", file);
-	}
 
 	const data = {
 		title,
@@ -105,35 +96,40 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 		);
 
 		const result = await response.json();
-		console.log("result: ", result);
-		// const articleId = result.articleId;
+		// console.log("result: ", result);
+		const articleId = article._id;
+		// console.log("article._id: ", article._id);
 
-		// try {
-		// 	const response = await fetch(
-		// 		`http://localhost:3000/api/article/uploadPic/${articleId}`,
-		// 		{
-		// 			method: "POST",
-		// 			body: formData,
-		// 		}
-		// 	);
-		// 	const result = await response.json();
-		// 	console.log("result: ", result);
-		// } catch (error) {
-		// 	console.error(error);
-		// }
+		const fileInput = document.getElementById("articlePic");
+		const file = fileInput.files[0];
+
+		if (!file) return;
+
+		const formData = new FormData();
+		formData.append("pic", file);
+
+		const picChangeResponse = await fetch(
+			`http://localhost:3000/api/article/uploadPic/${articleId}`,
+			{
+				method: "POST",
+				body: formData,
+			}
+		);
+		const picChangeResult = await picChangeResponse.json();
+		console.log("picChangeResult: ", picChangeResult);
 
 		// title.value = "";
 		// content.innerHTML = "";
 		// summary.value = "";
-		// showAlert(result.success, result.message);
+		showAlert(result.success, result.message);
 
 		// articlesDiv.innerHTML = renderUserArticles(userArticles);
 
-		// if (result.success) {
-		// 	setTimeout(() => {
-		// 		window.location.href = "http://localhost:3000/user/articles";
-		// 	}, 1000);
-		// }
+		if (result.success) {
+			setTimeout(() => {
+				window.location.href = "http://localhost:3000/user/articles";
+			}, 1000);
+		}
 	} catch (error) {
 		showAlert(false, error.message);
 	}

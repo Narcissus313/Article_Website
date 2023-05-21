@@ -44,13 +44,13 @@ router.post("/article/uploadPic/:articleId", (req, res, _next) => {
 			return res.status(500).send("server error!");
 		}
 		try {
-			// await fs.unlink(
-			// 	join(
-			// 		__dirname,
-			// 		"../public",
-			// 		`/images/articlePics/${articleId}.jpg`
-			// 	)
-			// );
+			await fs.unlink(
+				join(
+					__dirname,
+					"../public",
+					`/images/articlePics/${articleId}.jpg`
+				)
+			);
 
 			await Article.findByIdAndUpdate(
 				articleId,
