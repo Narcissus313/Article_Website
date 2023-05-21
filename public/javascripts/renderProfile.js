@@ -42,6 +42,7 @@ uploadButton.addEventListener("click", async (event) => {
 
 	const formData = new FormData();
 	formData.append("avatar", file);
+	// console.log('formData: ', formData);
 
 	try {
 		const response = await fetch(

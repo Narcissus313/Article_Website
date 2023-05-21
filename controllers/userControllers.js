@@ -4,6 +4,7 @@ const fs = require("fs/promises");
 const User = require("../models/User");
 const Article = require("../models/Article");
 const { userAvatarUpload } = require("../utils/multer-settings");
+// const { articlePicUpload } = require("../utils/multer-article-pics-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getRegisterPage = (req, res, _next) => {
@@ -206,14 +207,14 @@ const uploadAvatar = (req, res, _next) => {
 
 		try {
 			// delete old avatar
-			console.log("1");
+			// console.log("1");
 			// if (!!req.session.user.avatar) {
 			// console.log("2");
 			// await fs.unlink(
 			// 	join(__dirname, "../public", req.session.user.avatar)
 			// );
 			await deleteAvatarPic(req.session.user.avatar);
-			console.log("3");
+			// console.log("3");
 			// }
 			// console.log("4");
 
@@ -238,6 +239,28 @@ const uploadAvatar = (req, res, _next) => {
 	});
 };
 
+// const ArticleUploadPic = (req, res, _next) => {
+// 	const uploadPic = articlePicUpload.single("pic");
+// 	uploadPic(req, res, async (err) => {
+// 		if (err) {
+// 			if (err.code === "LIMIT_FILE_SIZE") {
+// 				// File size limit exceeded
+// 				return res.json({
+// 					success: false,
+// 					message: "File size limit exceeded",
+// 				});
+// 			}
+
+// 			if (err.message) {
+// 				return res
+// 					.status(400)
+// 					.json({ success: false, message: err.message });
+// 			}
+// 			return res.status(500).send("server error!");
+// 		}
+// 	});
+// };
+
 const removeAvatar = async (req, res, _next) => {
 	try {
 		// delete old avatar
@@ -259,25 +282,6 @@ const removeAvatar = async (req, res, _next) => {
 			message: "File size limit exceeded",
 		});
 	}
-};
-
-const bulkUpload = (req, res, _next) => {
-	const uploadUserAvatar = userAvatarUpload.array("gallery");
-
-	uploadUserAvatar(req, res, async (err) => {
-		if (err) {
-			if (err.message) return res.status(400).send(err.message);
-			return res.status(500).send("server error!");
-		}
-
-		console.log(req.file);
-		console.log(req.files);
-
-		res.json({
-			file: req.file,
-			files: req.files,
-		});
-	});
 };
 
 const deleteUser = async (req, res, _next) => {
@@ -327,21 +331,79 @@ const getUserArticles = async (req, res, _next) => {
 };
 
 const addArticle = async (req, res, _next) => {
-	const { title, content } = req.body;
+	const { title, content, summary } = req.body;
 	const author = req.session.user._id;
 	const newArticle = new Article({
 		title,
 		content,
+		summary,
+		pic: "s",
 		author,
 	});
 
 	try {
 		newArticle.save();
-		res.json({ success: true, message: "Article saved successfully" });
+		res.json({
+			success: true,
+			message: "Article saved successfully",
+			articleId: newArticle._id,
+		});
 	} catch (err) {
 		res.status(500).json({
 			success: false,
 			message: "server error!",
+		});
+	}
+};
+
+const deleteArticle = async (req, res, _next) => {
+	const articleId = req.params.articleId;
+	try {
+		const deletedArticle = await Article.findByIdAndDelete(articleId);
+
+		if (!deletedArticle) {
+			return res
+				.status(404)
+				.json({ success: false, message: "Article not found" });
+		}
+
+		await fs.unlink(
+			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
+		);
+
+		return res.json({
+			success: true,
+			message: "Article deleted successfully",
+		});
+	} catch (error) {}
+};
+
+const updateArticle = async (req, res, _next) => {
+	const articleId = req.params.articleId;
+	try {
+		const updatedArticle = await Article.findByIdAndUpdate(
+			articleId,
+			{
+				title: req.body.title,
+				content: req.body.content,
+			},
+			{ new: true }
+		);
+
+		if (!updatedArticle) {
+			return res
+				.status(404)
+				.json({ success: false, message: "Article not found" });
+		}
+
+		return res.json({
+			success: true,
+			message: "Article updated successfully",
+		});
+	} catch (error) {
+		return res.json({
+			success: false,
+			message: "Article not updated",
 		});
 	}
 };
@@ -371,10 +433,11 @@ module.exports = {
 	uploadAvatar,
 	removeAvatar,
 	updatePassword,
-	bulkUpload,
 	updateUser,
 	deleteUser,
 	getUserArticles,
 	addArticle,
+	deleteArticle,
+	updateArticle,
 	showAllArticles,
 };

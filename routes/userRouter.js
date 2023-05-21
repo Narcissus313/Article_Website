@@ -3,6 +3,7 @@ const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUpdateEntries = require("../utils/validateUpdateEntries");
 const validateUpdatePassword = require("../utils/validateUpdatePassword");
+const validateArticleEntries = require("../utils/validationArticleEntries");
 
 const {
 	getRegisterPage,
@@ -13,12 +14,13 @@ const {
 	logout,
 	uploadAvatar,
 	removeAvatar,
-	bulkUpload,
 	updateUser,
 	updatePassword,
 	deleteUser,
 	getUserArticles,
 	addArticle,
+	deleteArticle,
+	updateArticle,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -42,9 +44,14 @@ router.post("/uploadAvatar", isLoggedIn, uploadAvatar);
 router.get("/removeAvatar", isLoggedIn, removeAvatar);
 
 router.get("/articles", isLoggedIn, getUserArticles);
-router.post("/articles", isLoggedIn, addArticle);
+router.post("/articles", isLoggedIn, validateArticleEntries, addArticle);
+router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
+router.patch(
+	"/articles/:articleId",
+	isLoggedIn,
+	validateArticleEntries,
+	updateArticle
+);
 
-//test route
-router.post("/bulkUpload", bulkUpload);
 
 module.exports = router;

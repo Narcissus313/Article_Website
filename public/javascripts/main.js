@@ -24,7 +24,8 @@ const showAlert = (successStatus, text) => {
 
 const renderExploreArticles = (articles) => {
 	return articles
-		.map((article) => {
+	.map((article) => {
+			// console.log('article.id: ', article.id);
 			return `
             <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
             <div class="card border-0 bg-light rounded shadow">
@@ -37,7 +38,7 @@ const renderExploreArticles = (articles) => {
 					})}</span>
                   <h5>${article.title}</h5>
                   <div class="mt-3">
-                     <span class="text-muted d-block"><i class="fa fa-pencil" aria-hidden="true"></i> ${
+                     <span class="text-muted d-block"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; written by ${
 								article.author.firstName +
 								" " +
 								article.author.lastName
@@ -46,7 +47,7 @@ const renderExploreArticles = (articles) => {
 
                   <div class="mt-3">
                      <a href="http://localhost:3000/api/article/${
-							article.id
+							article._id
 						}" class="btn btn-primary">View Details</a>
                   </div>
                </div>

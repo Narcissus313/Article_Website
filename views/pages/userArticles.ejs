@@ -148,16 +148,25 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">New Article</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
                   <form>
                      <div class="mb-3">
-                        <label for="title" class="col-form-label">title:</label>
+                        <label for="titleInput" class="col-form-label">title:</label>
                         <input type="text" class="form-control" id="titleInput" value="">
                      </div>
                      <div class="mb-3">
+                        <label for="summaryInput" class="col-form-label">Summary:</label>
+                        <input type="text" class="form-control" id="summaryInput" value="">
+                     </div>
+                     <div>
+                        <label for="articlePic">Select an image as thumbnail:</label>
+                        <input class="btn btn-success form-control" type="file" id="articlePic" name="pic"
+                           accept=".jpg, .jpeg, .png">
+                     </div>
+                     <div class="my-3">
                         <label for="content" class="col-form-label">content:</label>
                         <div id="editor" style="height: 300px;">
                            <textarea class="form-control" id="contentTextarea" value=""
