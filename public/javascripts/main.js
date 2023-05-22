@@ -15,7 +15,7 @@ const showAlert = (successStatus, text) => {
 	}, 2500);
 };
 
-console.log(articles);
+// console.log(articles);
 	const pageSize = 3;
 
 
