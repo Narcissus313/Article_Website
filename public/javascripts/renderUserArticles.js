@@ -1,4 +1,4 @@
-console.log("userArticles: ", userArticles);
+// console.log("userArticles: ", userArticles);
 const saveArticleBtn = document.getElementById("saveArticleBtn");
 const articlesDiv = document.getElementById("articlesDiv");
 const summaryInput = document.getElementById("summaryInput");
@@ -61,8 +61,6 @@ saveArticleBtn.addEventListener("click", async () => {
 		summary.value = "";
 		showAlert(result.success, result.message);
 
-		// articlesDiv.innerHTML = renderUserArticles(userArticles);
-
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href = "http://localhost:3000/api/articles";
@@ -72,5 +70,5 @@ saveArticleBtn.addEventListener("click", async () => {
 		console.log("Error:", error.message);
 	}
 });
-articlesDiv.innerHTML = "";
-articlesDiv.innerHTML = renderUserArticles(userArticles);
+// articlesDiv.innerHTML = "";
+// articlesDiv.innerHTML = renderUserArticles(userArticles);
