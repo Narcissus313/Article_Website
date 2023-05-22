@@ -15,8 +15,18 @@ const showAlert = (successStatus, text) => {
 	}, 2500);
 };
 
-const renderExploreArticles = (articles) => {
-	return articles
+// const skip = 0;
+const renderExploreArticles = (articles, page) => {
+	const paginationNav = document.getElementById("paginationNav");
+	const articlesToShow = articles.slice((page - 1) * num, page * num);
+
+	const numberOfArticlesPerPage = 2;
+	const numberOfPages =
+		Math.floor(articles.length / numberOfArticlesPerPage) + 1;
+	const skip=(page-1)*articles.length + number
+	
+
+	return articlesToShow
 		.map((article) => {
 			return `
             <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">

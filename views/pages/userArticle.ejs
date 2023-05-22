@@ -21,6 +21,8 @@
       <script>
          const article = JSON.parse('<%- JSON.stringify(article) %>');
          const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
+         const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
+         console.log('userIsOwner: ', userIsOwner);
          console.log('article: ', article);
       </script>
 
@@ -132,7 +134,7 @@
                   <div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'"></div>
                </div>
             </div>
-            <% if(userLoggedIn){ %>
+            <% if(userLoggedIn && userIsOwner){ %>
                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editArticleModal"
                   data-bs-whatever="@mdo" id="btnEdit" onclick="openEditModal()">Edit</button>
                <button class="btn btn-danger" id="btnDelete">Delete</button>
