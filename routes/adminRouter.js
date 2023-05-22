@@ -9,8 +9,4 @@ const { roleAc } = require("../middlewares/ac/ac");
 
 router.get("/getUsersList", isLoggedIn, roleAc(["ADMIN"]), getUsersList);
 
-// router.get("/test", isLoggedIn, roleAc(["ADMIN", "BLOGGER"]), test);
-
-// router.get("/sample", isLoggedIn, roleAc(["BLOGGER"]), sample);
-
 module.exports = router;

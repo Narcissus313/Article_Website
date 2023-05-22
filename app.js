@@ -41,7 +41,7 @@ app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {
-	res.render("home", { isLoggedIn: !!req.session.user });
+	res.render("home", { userLoggedIn: !!req.session.user });
 });
 
 app.get("/about", (_req, res) => {

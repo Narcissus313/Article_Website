@@ -135,7 +135,7 @@ const updatePassword = async (req, res, _next) => {
 const getLoginPage = (req, res, _next) => {
 	if (req.session.user) return res.redirect("/user/dashboard");
 
-	res.render("pages/login", { isLoggedIn: !!req.session.user });
+	res.render("pages/login", { userLoggedIn: !!req.session.user });
 };
 
 const loginUser = async (req, res, next) => {
@@ -319,7 +319,7 @@ const getUserArticles = async (req, res, _next) => {
 
 			return res.render("pages/userArticles", {
 				articles,
-				isLoggedIn: !!req.session.user,
+				userLoggedIn: !!req.session.user,
 			});
 		}
 	} catch (error) {
@@ -417,7 +417,7 @@ const showAllArticles = async (req, res) => {
 		});
 		res.render("pages/explore", {
 			articles,
-			isLoggedIn: !!req.session.user,
+			userLoggedIn: !!req.session.user,
 		});
 	} catch (error) {
 		res.status(500).json({ success: false, message: "server error!" });

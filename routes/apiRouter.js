@@ -29,18 +29,21 @@ router.get("/article/:articleId", async (req, res) => {
 		}
 
 		if (!!req.session.user) {
-			const isLoggedIn = !!req.session.user;
+			const userLoggedIn = !!req.session.user;
 			if (article.author.username === req.session.user.username) {
-				return res.render("pages/userArticle", { article, isLoggedIn });
+				return res.render("pages/userArticle", {
+					article,
+					userLoggedIn,
+				});
 			}
 			return res.render("pages/anonymousArticle", {
 				article,
-				isLoggedIn,
+				userLoggedIn,
 			});
 		}
 		return res.render("pages/anonymousArticle", {
 			article,
-			isLoggedIn: false,
+			userLoggedIn: false,
 		});
 	} catch (error) {
 		return res.redirect("pages/notFound");

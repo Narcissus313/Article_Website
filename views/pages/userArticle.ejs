@@ -20,7 +20,7 @@
    <div id="content">
       <script>
          const article = JSON.parse('<%- JSON.stringify(article) %>');
-         const isLoggedIn = JSON.parse('<%- JSON.stringify(isLoggedIn) %>');
+         const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
          console.log('article: ', article);
       </script>
 
@@ -62,7 +62,7 @@
                            aria-controls="home-tab-pane" aria-selected="true" type="submit"
                            formaction="/about">About</button>
                      </form>
-                     <% if(isLoggedIn){%>
+                     <% if(userLoggedIn){%>
                         <form method="GET">
                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
                               aria-controls="home-tab-pane" aria-selected="true" type="submit"
@@ -82,7 +82,7 @@
                   <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
                         type="search" placeholder="Search" aria-label="Search">
                      <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
-                     <% if(isLoggedIn){%>
+                     <% if(userLoggedIn){%>
                         <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/logout">Logout</a>
                         <%}else{%>
                            <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/login">Login</a>
@@ -132,7 +132,7 @@
                   <div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'"></div>
                </div>
             </div>
-            <% if(isLoggedIn){ %>
+            <% if(userLoggedIn){ %>
                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editArticleModal"
                   data-bs-whatever="@mdo" id="btnEdit" onclick="openEditModal()">Edit</button>
                <button class="btn btn-danger" id="btnDelete">Delete</button>
