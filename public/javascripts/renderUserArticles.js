@@ -31,7 +31,7 @@ saveArticleBtn.addEventListener("click", async () => {
 	};
 
 	try {
-		const response = await fetch("http://localhost:3000/user/articles", {
+		const response = await fetch("http://localhost:3000/api/articles", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -65,7 +65,7 @@ saveArticleBtn.addEventListener("click", async () => {
 
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/articles";
+				window.location.href = "http://localhost:3000/api/articles";
 			}, 1000);
 		}
 	} catch (error) {

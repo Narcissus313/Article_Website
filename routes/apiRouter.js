@@ -4,25 +4,46 @@ const Article = require("../models/Article");
 const { articlePicUpload } = require("../utils/multer-article-pics-settings");
 const { unlink, access } = require("node:fs/promises");
 const { join } = require("path");
+const validateArticleEntries = require("../utils/validationArticleEntries");
+const { isLoggedIn } = require("../middlewares/auth/auth");
+const {
+	getUserArticles,
+	addArticle,
+	deleteArticle,
+	updateArticle,
+} = require("../controllers/userControllers");
 
 router.get("/article/:articleId", async (req, res) => {
+	// console.log('vvv');
 	const articleId = req.params.articleId;
+	// console.log('articleId: ', articleId);
 	try {
-		// if (!articleId || isNaN(articleId))
-		// 	return res.json({ success: false, message: "Article not found" });
-
 		const article = await Article.findById(articleId).populate({
 			path: "author",
 			select: "firstName lastName username",
 		});
-		//! how to send failure message when requested a wrong article id?
-		if (!article)
+		// console.log('article: ', article);
+
+		if (!article) {
 			res.json({ success: false, message: "Article not found" });
-		const isLoggedIn = !!req.session.user;
-		res.render("pages/article", { article, isLoggedIn });
+		}
+
+		if (!!req.session.user) {
+			const isLoggedIn = !!req.session.user;
+			if (article.author.username === req.session.user.username) {
+				return res.render("pages/userArticle", { article, isLoggedIn });
+			}
+			return res.render("pages/anonymousArticle", {
+				article,
+				isLoggedIn,
+			});
+		}
+		return res.render("pages/anonymousArticle", {
+			article,
+			isLoggedIn: false,
+		});
 	} catch (error) {
-		// return res.json({ success: false, message: "Article not found" });
-		return res.redirect("/pages/notFound");
+		return res.redirect("pages/notFound");
 	}
 });
 
@@ -59,7 +80,7 @@ router.post("/article/uploadPic/:articleId", async (req, res, _next) => {
 
 	try {
 		const articleId = req.params.articleId;
-		
+
 		await Article.findByIdAndUpdate(
 			articleId,
 			{
@@ -78,5 +99,15 @@ router.post("/article/uploadPic/:articleId", async (req, res, _next) => {
 		});
 	}
 });
+
+router.get("/articles", isLoggedIn, getUserArticles);
+router.post("/articles", isLoggedIn, validateArticleEntries, addArticle);
+router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
+router.patch(
+	"/articles/:articleId",
+	isLoggedIn,
+	validateArticleEntries,
+	updateArticle
+);
 
 module.exports = router;

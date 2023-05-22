@@ -136,6 +136,13 @@ body::-webkit-scrollbar {
    box-shadow: 0 3px 7px rgb(109 199 122 / 50%);
 }
 
+.btn-primary-save {
+   background-color: #0d6efd !important;
+   /* border: 1px solid #6dc77a !important; */
+   color: #fff !important;
+   box-shadow: 0 3px 7px rgb(109 199 122 / 50%);
+}
+
 a {
    text-decoration: none;
 }

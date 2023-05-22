@@ -59,7 +59,7 @@
                      <form method="GET">
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
                            aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
-                           formaction="/user/articles">My
+                           formaction="/api/articles">My
                            Articles</button>
                      </form>
                      <%}%>
@@ -100,30 +100,29 @@
    <!-- content -->
    <div class="container mt-5 pt-4">
       <div class="row align-items-end mb-4 pb-2">
-         <!-- <div class="col-md-8">
-            <div class="section-title text-center text-md-start">
-               <h4 class="title mb-4">Find the articles needed!</h4>
-               <p class="text-muted mb-0 para-desc">Start work with Leaping. Build responsive, mobile-first projects on
-                  the
-                  web with the world's most popular front-end component library.</p>
-            </div>
-         </div> -->
-
          <div class="col-md-4 mt-4 mt-sm-0 d-none d-md-block">
             <div class="text-center text-md-end">
-               <!-- <a href="#" class="text-primary">View more Jobs
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="feather feather-arrow-right fea icon-sm">
-                     <line x1="5" y1="12" x2="19" y2="12"></line>
-                     <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-               </a> -->
             </div>
-         </div><!--end col-->
-      </div><!--end row-->
+         </div>
+      </div>
+
 
       <div class="row" id="articlesDiv"></div>
+<br>
+<br>
+<br>
+<br>
+      <div class="container d-flex justify-content-center mt-5">
+         <nav aria-label="..." class="mx-auto"> 
+            <ul class="pagination pagination-md">
+               <li class="page-item active" aria-current="page">
+                  <span class="page-link">1</span>
+               </li>
+               <li class="page-item"><a class="page-link" href="#">2</a></li>
+               <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+         </nav>
+      </div>
 
    </div>
 

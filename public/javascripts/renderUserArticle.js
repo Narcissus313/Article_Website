@@ -8,11 +8,11 @@ const btnEdit = document.getElementById("btnEdit");
 const btnDelete = document.getElementById("btnDelete");
 articleContent.innerHTML = article.content;
 const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
+	year: "numeric",
 	month: "short",
 	day: "numeric",
 });
 const saveUpdatedArticleBtn = document.getElementById("saveUpdatedArticleBtn");
-
 if (!!article.summary) articleSummary.innerHTML = article.summary + "<hr>";
 articleDate.innerHTML = articleShortDate;
 
@@ -20,7 +20,6 @@ articleAuthor.innerHTML = `
 by <a class="fw-bold text-decoration-none text-black">&nbsp; ${article.author.firstName} ${article.author.lastName}</a>
 `;
 
-console.log('article.pic: ', article.pic);
 articleHeader.innerHTML = `
 <div class="d-flex justify-content-start col-md-6 mt-4 fs-2">${article.title}</div>
 <div class="d-flex justify-content-end col-md-6"><img class="col-md-6" src="${article.pic}" style="max-width: 120px;max-height: 120px;"></img></div>
@@ -49,7 +48,7 @@ btnDelete.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			`http://localhost:3000/user/articles/${article._id}`,
+			`http://localhost:3000/api/articles/${article._id}`,
 			{
 				method: "DELETE",
 				headers: {
@@ -64,7 +63,7 @@ btnDelete.addEventListener("click", async (e) => {
 		showAlert(result.success, result.message);
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/articles";
+				window.location.href = "http://localhost:3000/api/articles";
 			}, 1000);
 		}
 	} catch (error) {
@@ -86,7 +85,7 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			`http://localhost:3000/user/articles/${article._id}`,
+			`http://localhost:3000/api/articles/${article._id}`,
 			{
 				method: "PATCH",
 				headers: {
@@ -122,7 +121,7 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/articles";
+				window.location.href = "http://localhost:3000/api/articles";
 			}, 1000);
 		}
 	} catch (error) {

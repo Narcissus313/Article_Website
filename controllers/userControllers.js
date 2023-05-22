@@ -314,7 +314,7 @@ const getUserArticles = async (req, res, _next) => {
 			const id = req.session.user._id;
 			const articles = await Article.find({ author: id }).populate({
 				path: "author",
-				select: "firstName,lastName, username",
+				select: "firstName lastName  username",
 			});
 
 			return res.render("pages/userArticles", {

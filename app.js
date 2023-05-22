@@ -48,6 +48,10 @@ app.get("/about", (_req, res) => {
 	res.redirect("/");
 });
 
+app.get("/home", (_req, res) => {
+	res.redirect("/");
+});
+
 app.get("/explore", showAllArticles);
 
 app.all("*", function (_req, res, next) {
