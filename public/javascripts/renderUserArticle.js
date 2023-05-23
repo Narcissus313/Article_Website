@@ -118,7 +118,6 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 
 		const articleId = article._id;
-console.log(1);
 		const fileInput = document.getElementById("articlePic");
 		const file = fileInput.files[0];
 
