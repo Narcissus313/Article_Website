@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const session = require("express-session");
+// const bodyParser = require("body-parser");
 
 const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
@@ -23,7 +24,8 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(

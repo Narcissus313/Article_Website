@@ -1,4 +1,3 @@
-// console.log("userArticles: ", userArticles);
 const saveArticleBtn = document.getElementById("saveArticleBtn");
 const articlesDiv = document.getElementById("articlesDiv");
 const summaryInput = document.getElementById("summaryInput");
@@ -23,52 +22,27 @@ saveArticleBtn.addEventListener("click", async () => {
 
 	const formData = new FormData();
 	formData.append("pic", file);
+	formData.append("title", title);
+	formData.append("summary", summary);
+	formData.append("content", content);
 
-	const data = {
-		title,
-		content,
-		summary,
-	};
+	// for (const entry of formData.entries()) {
+	// 	console.log(entry[0], entry[1]);
+	// }
 
 	try {
 		const response = await fetch("http://localhost:3000/api/articles", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
+			body: formData,
 		});
-
 		const result = await response.json();
-		const articleId = result.articleId;
-
-		try {
-			const response = await fetch(
-				`http://localhost:3000/api/article/uploadPic/${articleId}`,
-				{
-					method: "POST",
-					body: formData,
-				}
-			);
-			const result = await response.json();
-			console.log("result: ", result);
-		} catch (error) {
-			console.error(error);
-		}
-
-		title.value = "";
-		content.innerHTML = "";
-		summary.value = "";
-		showAlert(result.success, result.message);
-
+		console.log("Result:", result);
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href = "http://localhost:3000/api/articles";
 			}, 1000);
 		}
 	} catch (error) {
-		console.log("Error:", error.message);
+		console.log("errorrrr: ", error);
 	}
 });
-// articlesDiv.innerHTML = "";
-// articlesDiv.innerHTML = renderUserArticles(userArticles);

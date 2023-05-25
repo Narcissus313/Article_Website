@@ -5,9 +5,9 @@ const { join } = require("path");
 
 const uploadArticlePic = async (req, res, _next) => {
 	try {
-		await access(
-			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
-		);
+		// await access(
+		// 	join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
+		// );
 
 		await unlink(
 			join(__dirname, "../public", `/images/articlePics/${articleId}.jpg`)

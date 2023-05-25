@@ -4,7 +4,6 @@ const fs = require("fs/promises");
 const User = require("../models/User");
 const Article = require("../models/Article");
 const { userAvatarUpload } = require("../utils/multer-settings");
-// const { articlePicUpload } = require("../utils/multer-article-pics-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getRegisterPage = (req, res, _next) => {
@@ -239,28 +238,6 @@ const uploadAvatar = (req, res, _next) => {
 	});
 };
 
-// const ArticleUploadPic = (req, res, _next) => {
-// 	const uploadPic = articlePicUpload.single("pic");
-// 	uploadPic(req, res, async (err) => {
-// 		if (err) {
-// 			if (err.code === "LIMIT_FILE_SIZE") {
-// 				// File size limit exceeded
-// 				return res.json({
-// 					success: false,
-// 					message: "File size limit exceeded",
-// 				});
-// 			}
-
-// 			if (err.message) {
-// 				return res
-// 					.status(400)
-// 					.json({ success: false, message: err.message });
-// 			}
-// 			return res.status(500).send("server error!");
-// 		}
-// 	});
-// };
-
 const removeAvatar = async (req, res, _next) => {
 	try {
 		// delete old avatar
@@ -330,28 +307,50 @@ const getUserArticles = async (req, res, _next) => {
 	}
 };
 
-const addArticle = async (req, res, _next) => {
-	const { title, content, summary } = req.body;
+const addArticle = async (req, res) => {
+	console.log(3);
+	const { title, summary, content } = req.body;
 	const author = req.session.user._id;
-	const newArticle = new Article({
-		title,
-		content,
-		summary,
-		pic: "s",
-		author,
-	});
 
 	try {
-		newArticle.save();
-		res.json({
+		const newArticle = new Article({
+			title,
+			content,
+			summary,
+			author,
+		});
+
+		if (req.file)
+			newArticle.pic = `/images/articlePics/${newArticle._id.toString()}.jpg`;
+
+		const tempPath = join(
+			__dirname,
+			"../public",
+			"images",
+			"articlePics",
+			"temp.jpg"
+		);
+		const finalPath = join(
+			__dirname,
+			"../public",
+			"images",
+			"articlePics",
+			newArticle._id.toString() + ".jpg"
+		);
+
+		await fs.rename(tempPath, finalPath);
+
+		await newArticle.save();
+
+		return res.json({
 			success: true,
 			message: "Article saved successfully",
-			articleId: newArticle._id,
 		});
 	} catch (err) {
+		console.error(err);
 		res.status(500).json({
 			success: false,
-			message: "server error!",
+			message: "Server error!",
 		});
 	}
 };
@@ -367,9 +366,9 @@ const deleteArticle = async (req, res, _next) => {
 				.json({ success: false, message: "Article not found" });
 		}
 
-		await fs.unlink(
-			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
-		);
+		// await fs.unlink(
+		// 	join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
+		// );
 
 		return res.json({
 			success: true,

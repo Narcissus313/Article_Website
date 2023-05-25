@@ -1,28 +1,26 @@
 const multer = require("multer");
+const { join } = require("path");
 
-const picStorage = multer.diskStorage({
+const storage = multer.diskStorage({
 	destination: function (_req, _file, cb) {
-		cb(null, "public/images/articlePics");
+		console.log("dest");
+		cb(null, join(__dirname, "../public/images/articlePics/"));
 	},
 	filename: function (req, _file, cb) {
-		cb(null, req.params.articleId + ".jpg");
+		cb(null, "temp.jpg");
 	},
 });
-
-const articlePicUpload = multer({
-	storage: picStorage,
+const upload = multer({
+	storage,
 	fileFilter: (_req, file, cb) => {
 		if (
 			file.mimetype == "image/png" ||
 			file.mimetype == "image/jpg" ||
 			file.mimetype == "image/jpeg"
-		)
+		) {
+			console.log(2);
 			cb(null, true);
-		else
-			return cb(
-				new Error("Only .jpg format allowed!"),
-				false
-			);
+		} else return cb(new Error("Only .jpg format allowed!"), false);
 	},
 	limits: {
 		files: 10,
@@ -31,5 +29,5 @@ const articlePicUpload = multer({
 });
 
 module.exports = {
-	articlePicUpload,
+	upload,
 };
