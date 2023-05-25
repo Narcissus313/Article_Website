@@ -308,7 +308,6 @@ const getUserArticles = async (req, res, _next) => {
 };
 
 const addArticle = async (req, res) => {
-	console.log(3);
 	const { title, summary, content } = req.body;
 	const author = req.session.user._id;
 
@@ -378,32 +377,79 @@ const deleteArticle = async (req, res, _next) => {
 };
 
 const updateArticle = async (req, res, _next) => {
+	// const articleId = req.params.articleId;
+	// try {
+	// 	const updatedArticle = await Article.findByIdAndUpdate(
+	// 		articleId,
+	// 		{
+	// 			title: req.body.title,
+	// 			summary: req.body.summary,
+	// 			content: req.body.content,
+	// 		},
+	// 		{ new: true }
+	// 	);
+
+	// 	if (!updatedArticle) {
+	// 		return res
+	// 			.status(404)
+	// 			.json({ success: false, message: "Article not found" });
+	// 	}
+
+	// 	return res.json({
+	// 		success: true,
+	// 		message: "Article updated successfully",
+	// 	});
+	// } catch (error) {
+	// 	return res.json({
+	// 		success: false,
+	// 		message: "Article not updated",
+	// 	});
+	// }
+	const { title, summary, content } = req.body;
+	// const author = req.session.user._id;
 	const articleId = req.params.articleId;
 	try {
 		const updatedArticle = await Article.findByIdAndUpdate(
 			articleId,
 			{
-				title: req.body.title,
-				summary: req.body.summary,
-				content: req.body.content,
+				title,
+				summary,
+				content,
 			},
 			{ new: true }
 		);
 
-		if (!updatedArticle) {
-			return res
-				.status(404)
-				.json({ success: false, message: "Article not found" });
-		}
+		// if (req.file)
+		// 	newArticle.pic = `/images/articlePics/${newArticle._id.toString()}.jpg`;
+
+		const tempPath = join(
+			__dirname,
+			"../public",
+			"images",
+			"articlePics",
+			"temp.jpg"
+		);
+		const finalPath = join(
+			__dirname,
+			"../public",
+			"images",
+			"articlePics",
+			articleId.toString() + ".jpg"
+		);
+
+		await fs.rename(tempPath, finalPath);
+
+		// await updatedArticle.save();
 
 		return res.json({
 			success: true,
-			message: "Article updated successfully",
+			message: "Article saved successfully",
 		});
-	} catch (error) {
-		return res.json({
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
 			success: false,
-			message: "Article not updated",
+			message: "Server error!",
 		});
 	}
 };

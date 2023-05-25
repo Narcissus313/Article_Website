@@ -19,8 +19,6 @@ const {
 	uploadArticlePic,
 } = require("../controllers/articleController");
 
-//modal, pagination, protection, add article (done), summary in card, file size check in client side using formData entries,
-
 router.get("/article/:articleId", getSingleArticle);
 router.post("/articles", isLoggedIn, upload.single("pic"), addArticle);
 router.post("/article/uploadPic/:articleId", uploadArticlePic);
@@ -29,7 +27,8 @@ router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
 router.patch(
 	"/articles/:articleId",
 	isLoggedIn,
-	validateArticleEntries,
+	upload.single("pic"),
+	// validateArticleEntries,
 	updateArticle
 );
 

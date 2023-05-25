@@ -1,1 +1,1 @@
-//modal, pagination, protection, add article, summary card, 
+//modal, pagination, protection, add article (done), summary in card, file size check in client side using formData entries,

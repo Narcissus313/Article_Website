@@ -31,8 +31,6 @@ const showAlert = (successStatus, text) => {
 	}, 2500);
 };
 
-
-
 if (!!article.summary) articleSummary.innerHTML = article.summary + "<hr>";
 articleDate.innerHTML = articleShortDate;
 
@@ -96,54 +94,80 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 	const title = document.getElementById("titleInput").value.trim();
 	const summary = document.getElementById("summaryInput").value.trim();
 	let content = document.querySelector(".ql-editor").innerHTML;
+	const fileInput = document.getElementById("articlePic");
 
-	const data = {
-		title,
-		content,
-		summary,
-	};
+	// const data = {
+	// 	title,
+	// 	content,
+	// 	summary,
+	// };
 
+	// try {
+	// 	const response = await fetch(
+	// 		`http://localhost:3000/api/articles/${article._id}`,
+	// 		{
+	// 			method: "PATCH",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(data),
+	// 		}
+	// 	);
+
+	// 	const result = await response.json();
+
+	// 	const articleId = article._id;
+	// 	const fileInput = document.getElementById("articlePic");
+	// 	const file = fileInput.files[0];
+
+	// 	if (file) {
+	// 		const formData = new FormData();
+	// 		formData.append("pic", file);
+
+	// 		const picChangeResponse = await fetch(
+	// 			`http://localhost:3000/api/article/uploadPic/${articleId}`,
+	// 			{
+	// 				method: "POST",
+	// 				body: formData,
+	// 			}
+	// 		);
+	// 		const picChangeResult = await picChangeResponse.json();
+	// 		// console.log("picChangeResult: ", picChangeResult);
+	// 	}
+
+	// 	showAlert(result.success, result.message);
+
+	// 	if (result.success) {
+	// 		setTimeout(() => {
+	// 			window.location.href = "http://localhost:3000/api/articles";
+	// 		}, 1000);
+	// 	}
+	// } catch (error) {
+	// 	showAlert(false, error.message);
+	// }
+	const articleId = article._id;
+	const file = fileInput.files[0];
+	const formData = new FormData();
+	formData.append("pic", file);
+	formData.append("title", title);
+	formData.append("summary", summary);
+	formData.append("content", content);
 	try {
 		const response = await fetch(
-			`http://localhost:3000/api/articles/${article._id}`,
+			`http://localhost:3000/api/articles/${articleId}`,
 			{
 				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
+				body: formData,
 			}
 		);
-
 		const result = await response.json();
-
-		const articleId = article._id;
-		const fileInput = document.getElementById("articlePic");
-		const file = fileInput.files[0];
-
-		if (file) {
-			const formData = new FormData();
-			formData.append("pic", file);
-
-			const picChangeResponse = await fetch(
-				`http://localhost:3000/api/article/uploadPic/${articleId}`,
-				{
-					method: "POST",
-					body: formData,
-				}
-			);
-			const picChangeResult = await picChangeResponse.json();
-			// console.log("picChangeResult: ", picChangeResult);
-		}
-
-		showAlert(result.success, result.message);
-
+		console.log("Result:", result);
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href = "http://localhost:3000/api/articles";
 			}, 1000);
 		}
 	} catch (error) {
-		showAlert(false, error.message);
+		console.log("errorrrr: ", error);
 	}
 });

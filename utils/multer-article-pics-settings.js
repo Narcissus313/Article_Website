@@ -17,10 +17,9 @@ const upload = multer({
 			file.mimetype == "image/png" ||
 			file.mimetype == "image/jpg" ||
 			file.mimetype == "image/jpeg"
-		) {
-			console.log(2);
+		)
 			cb(null, true);
-		} else return cb(new Error("Only .jpg format allowed!"), false);
+		else return cb(new Error("Only .jpg format allowed!"), false);
 	},
 	limits: {
 		files: 10,
