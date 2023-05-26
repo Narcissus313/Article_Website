@@ -8,24 +8,16 @@ const {
 } = require("../utils/multer-article-pics-settings");
 const { isLoggedIn } = require("../middlewares/auth/auth");
 const {
-	// showAllArticles,
 	getUserArticles,
 	addArticle,
 	deleteArticle,
 	updateArticle,
 } = require("../controllers/articleController");
-const {
-	getSingleArticle,
-	uploadArticlePic,
-} = require("../controllers/articleController");
+const { getSingleArticle } = require("../controllers/articleController");
 
 router.get("/article/:articleId", getSingleArticle);
 
-// router.post("/article/uploadPic/:articleId", uploadArticlePic);
-
 router.get("/articles", isLoggedIn, getUserArticles);
-
-// router.get("/articles", isLoggedIn, showAllArticles);
 
 router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
 

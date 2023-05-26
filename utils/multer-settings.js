@@ -43,7 +43,7 @@ const userAvatarUpload = multer({
 	},
 	limits: {
 		files: 10,
-		fileSize: 5 * 1024 * 1024,
+		// fileSize: 5 * 1024 * 1024,
 	},
 });
 

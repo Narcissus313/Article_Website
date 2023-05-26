@@ -1,60 +1,7 @@
 const Article = require("../models/Article");
-const { articlePicUpload } = require("../utils/multer-article-pics-settings");
-const { unlink, access } = require("node:fs/promises");
+const { unlink } = require("node:fs/promises");
 const { join } = require("path");
 const fs = require("fs/promises");
-
-const uploadArticlePic = async (req, res, _next) => {
-	try {
-		// await access(
-		// 	join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
-		// );
-		const articleId = req.params.articleId;
-		await unlink(
-			join(__dirname, "../public", `/images/articlePics/${articleId}.jpg`)
-		);
-	} catch (error) {
-		const uploadPic = articlePicUpload.single("pic");
-		uploadPic(req, res, async (err) => {
-			if (err) {
-				if (err.code === "LIMIT_FILE_SIZE") {
-					return res.json({
-						success: false,
-						message: "File size limit exceeded",
-					});
-				}
-
-				if (err.message) {
-					return res
-						.status(400)
-						.json({ success: false, message: err.message });
-				}
-				return res.status(500).send("server error!");
-			}
-		});
-	}
-
-	try {
-		const articleId = req.params.articleId;
-
-		await Article.findByIdAndUpdate(
-			articleId,
-			{
-				pic: `/images/articlePics/${articleId}.jpg`,
-			},
-			{ new: true }
-		);
-
-		return res
-			.status(200)
-			.json({ success: true, message: "article pic uploaded" });
-	} catch (err) {
-		return res.status(400).json({
-			success: false,
-			message: "File size limit exceeded",
-		});
-	}
-};
 
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
@@ -169,7 +116,7 @@ const deleteArticle = async (req, res, _next) => {
 				.json({ success: false, message: "Article not found" });
 		}
 
-		await fs.unlink(
+		await unlink(
 			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
 		);
 
@@ -245,7 +192,6 @@ const showAllArticles = async (req, res, _next) => {
 
 module.exports = {
 	getSingleArticle,
-	// uploadArticlePic,
 	getUserArticles,
 	addArticle,
 	deleteArticle,

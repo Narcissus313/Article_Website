@@ -296,9 +296,4 @@ module.exports = {
 	updatePassword,
 	updateUser,
 	deleteUser,
-	// getUserArticles,
-	// addArticle,
-	// deleteArticle,
-	// updateArticle,
-	// showAllArticles,
 };

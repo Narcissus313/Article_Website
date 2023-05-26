@@ -54,12 +54,19 @@ const showAlert = (successStatus, text) => {
 uploadButton.addEventListener("click", async (event) => {
 	event.preventDefault();
 	const file = fileInput.files[0];
+	const formData = new FormData();
 
 	if (!file) return showAlert(false, "Please upload your avatar first");
 
-	const formData = new FormData();
-	formData.append("avatar", file);
-	// console.log('formData: ', formData);
+	if (!!file) {
+		if (+file.size > 5 * 1024 * 1024) {
+			return showAlert(
+				false,
+				"The avatar pic size should be smaller than 5MB"
+			);
+		}
+		formData.append("avatar", file);
+	}
 
 	try {
 		const response = await fetch(

@@ -115,7 +115,6 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 		formData.append("pic", file);
 	}
 
-	console.log("title article: ", title);
 	formData.append("title", title);
 	formData.append("summary", summary);
 	formData.append("content", content);
