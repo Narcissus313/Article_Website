@@ -10,7 +10,7 @@ const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
 const apiRouter = require("./routes/apiRouter");
 
-const { showAllArticles } = require("./controllers/userControllers");
+const { showAllArticles } = require("./controllers/articleController");
 
 const app = express();
 

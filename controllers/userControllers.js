@@ -137,7 +137,7 @@ const getLoginPage = (req, res, _next) => {
 	res.render("pages/login", { userLoggedIn: !!req.session.user });
 };
 
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, _next) => {
 	try {
 		const user = await User.findOne({ username: req.body.username });
 
@@ -172,7 +172,7 @@ const loginUser = async (req, res, next) => {
 	}
 };
 
-const getdashboardPage = (req, res, next) => {
+const getdashboardPage = (req, res, _next) => {
 	if (!req.session.user) return res.redirect("/user/login");
 
 	res.render("pages/dashboard", { user: req.session.user });
@@ -205,17 +205,7 @@ const uploadAvatar = (req, res, _next) => {
 		}
 
 		try {
-			// delete old avatar
-			// console.log("1");
-			// if (!!req.session.user.avatar) {
-			// console.log("2");
-			// await fs.unlink(
-			// 	join(__dirname, "../public", req.session.user.avatar)
-			// );
 			await deleteAvatarPic(req.session.user.avatar);
-			// console.log("3");
-			// }
-			// console.log("4");
 
 			const user = await User.findByIdAndUpdate(
 				req.session.user._id,
@@ -241,6 +231,7 @@ const uploadAvatar = (req, res, _next) => {
 const removeAvatar = async (req, res, _next) => {
 	try {
 		// delete old avatar
+		deleteAvatarPic(req.session.user.avatar);
 		const user = await User.findOneAndUpdate(
 			{ _id: req.session.user._id },
 			{ avatar: "/images/userAvatars/default-avatar.png" },
@@ -264,208 +255,32 @@ const removeAvatar = async (req, res, _next) => {
 const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
-		if (!!req.session.user.avatar) {
+		if (
+			req.session.user.avatar !== "/images/userAvatars/default-avatar.png"
+		)
 			await fs.unlink(
 				join(__dirname, "../public", req.session.user.avatar)
 			);
+
+		const articleIds = (await Article.find({ author: userId }, "_id")).map(
+			(article) => article._id.toString()
+		);
+		for (const articleId of articleIds) {
+			await fs.unlink(
+				join(__dirname, `../public/images/articlePics/${articleId}.jpg`)
+			);
 		}
-		await User.deleteOne({ _id: userId });
+
 		await Article.deleteMany({ author: userId });
+		await User.deleteOne({ _id: userId });
 		req.session.destroy();
+
 		return res.json({ success: true, message: "Account deleted" });
 	} catch (error) {
-		res.redirect(
-			url.format({
-				pathname: "/user/login",
-				query: {
-					errorMessage: "Server Error!",
-				},
-			})
-		);
-	}
-};
-
-const getUserArticles = async (req, res, _next) => {
-	try {
-		if (req.session.user) {
-			const id = req.session.user._id;
-			const articles = await Article.find({ author: id }).populate({
-				path: "author",
-				select: "firstName lastName  username",
-			});
-
-			return res.render("pages/userArticles", {
-				articles,
-				userLoggedIn: !!req.session.user,
-			});
-		}
-	} catch (error) {
-		res.status(500).json({
-			success: false,
-			message: "Server error in getting articles list!!",
-		});
-	}
-};
-
-const addArticle = async (req, res) => {
-	const { title, summary, content } = req.body;
-	const author = req.session.user._id;
-
-	try {
-		const newArticle = new Article({
-			title,
-			content,
-			summary,
-			author,
-		});
-
-		if (req.file)
-			newArticle.pic = `/images/articlePics/${newArticle._id.toString()}.jpg`;
-
-		const tempPath = join(
-			__dirname,
-			"../public",
-			"images",
-			"articlePics",
-			"temp.jpg"
-		);
-		const finalPath = join(
-			__dirname,
-			"../public",
-			"images",
-			"articlePics",
-			newArticle._id.toString() + ".jpg"
-		);
-
-		await fs.rename(tempPath, finalPath);
-
-		await newArticle.save();
-
 		return res.json({
-			success: true,
-			message: "Article saved successfully",
-		});
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({
 			success: false,
-			message: "Server error!",
+			message: "Server couldn't delete the user",
 		});
-	}
-};
-
-const deleteArticle = async (req, res, _next) => {
-	const articleId = req.params.articleId;
-	try {
-		const deletedArticle = await Article.findByIdAndDelete(articleId);
-
-		if (!deletedArticle) {
-			return res
-				.status(404)
-				.json({ success: false, message: "Article not found" });
-		}
-
-		// await fs.unlink(
-		// 	join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
-		// );
-
-		return res.json({
-			success: true,
-			message: "Article deleted successfully",
-		});
-	} catch (error) {}
-};
-
-const updateArticle = async (req, res, _next) => {
-	// const articleId = req.params.articleId;
-	// try {
-	// 	const updatedArticle = await Article.findByIdAndUpdate(
-	// 		articleId,
-	// 		{
-	// 			title: req.body.title,
-	// 			summary: req.body.summary,
-	// 			content: req.body.content,
-	// 		},
-	// 		{ new: true }
-	// 	);
-
-	// 	if (!updatedArticle) {
-	// 		return res
-	// 			.status(404)
-	// 			.json({ success: false, message: "Article not found" });
-	// 	}
-
-	// 	return res.json({
-	// 		success: true,
-	// 		message: "Article updated successfully",
-	// 	});
-	// } catch (error) {
-	// 	return res.json({
-	// 		success: false,
-	// 		message: "Article not updated",
-	// 	});
-	// }
-	const { title, summary, content } = req.body;
-	// const author = req.session.user._id;
-	const articleId = req.params.articleId;
-	try {
-		const updatedArticle = await Article.findByIdAndUpdate(
-			articleId,
-			{
-				title,
-				summary,
-				content,
-			},
-			{ new: true }
-		);
-
-		// if (req.file)
-		// 	newArticle.pic = `/images/articlePics/${newArticle._id.toString()}.jpg`;
-
-		const tempPath = join(
-			__dirname,
-			"../public",
-			"images",
-			"articlePics",
-			"temp.jpg"
-		);
-		const finalPath = join(
-			__dirname,
-			"../public",
-			"images",
-			"articlePics",
-			articleId.toString() + ".jpg"
-		);
-
-		await fs.rename(tempPath, finalPath);
-
-		// await updatedArticle.save();
-
-		return res.json({
-			success: true,
-			message: "Article saved successfully",
-		});
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({
-			success: false,
-			message: "Server error!",
-		});
-	}
-};
-
-const showAllArticles = async (req, res) => {
-	try {
-		const articles = await Article.find({}).populate({
-			path: "author",
-			select: "firstName lastName username",
-		});
-		res.render("pages/explore", {
-			articles,
-			userLoggedIn: !!req.session.user,
-		});
-	} catch (error) {
-		res.status(500).json({ success: false, message: "server error!" });
 	}
 };
 
@@ -481,9 +296,9 @@ module.exports = {
 	updatePassword,
 	updateUser,
 	deleteUser,
-	getUserArticles,
-	addArticle,
-	deleteArticle,
-	updateArticle,
-	showAllArticles,
+	// getUserArticles,
+	// addArticle,
+	// deleteArticle,
+	// updateArticle,
+	// showAllArticles,
 };

@@ -3,6 +3,7 @@ const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUpdateEntries = require("../utils/validateUpdateEntries");
 const validateUpdatePassword = require("../utils/validateUpdatePassword");
+const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
 // const validateArticleEntries = require("../utils/validationArticleEntries");
 
 const {
@@ -40,8 +41,14 @@ router.get("/dashboard", getdashboardPage);
 
 router.get("/logout", isLoggedIn, logout);
 
-router.post("/uploadAvatar", isLoggedIn, uploadAvatar);
 router.get("/removeAvatar", isLoggedIn, removeAvatar);
+
+router.post(
+	"/uploadAvatar",
+	isLoggedIn,
+	avatarSizeLimitMiddleware,
+	uploadAvatar
+);
 
 // router.get("/articles", isLoggedIn, getUserArticles);
 // router.post("/articles", isLoggedIn, validateArticleEntries, addArticle);
@@ -52,6 +59,5 @@ router.get("/removeAvatar", isLoggedIn, removeAvatar);
 // 	validateArticleEntries,
 // 	updateArticle
 // );
-
 
 module.exports = router;

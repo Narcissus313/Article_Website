@@ -10,6 +10,22 @@ const avaterStorage = multer.diskStorage({
 	},
 });
 
+const avatarSizeLimitMiddleware = async (req, res, next) => {
+	if (req.file && req.file.size > 5 * 1024 * 1024) {
+		console.log("req.file.path: ", req.file.path);
+		unlink(req.file.path, (err) => {
+			if (err) {
+				console.error("Error deleting file:", err);
+			}
+		});
+		return res.status(400).json({
+			success: false,
+			message: "File size exceeds the limit of 5MB",
+		});
+	}
+	next();
+};
+
 const userAvatarUpload = multer({
 	storage: avaterStorage,
 	fileFilter: (_req, file, cb) => {
@@ -33,5 +49,5 @@ const userAvatarUpload = multer({
 
 module.exports = {
 	userAvatarUpload,
-	// galleryUpload
+	avatarSizeLimitMiddleware,
 };

@@ -96,59 +96,26 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 	let content = document.querySelector(".ql-editor").innerHTML;
 	const fileInput = document.getElementById("articlePic");
 
-	// const data = {
-	// 	title,
-	// 	content,
-	// 	summary,
-	// };
+	if (!title.length) {
+		return showAlert(false, "Please enter a title for the article");
+	}
 
-	// try {
-	// 	const response = await fetch(
-	// 		`http://localhost:3000/api/articles/${article._id}`,
-	// 		{
-	// 			method: "PATCH",
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify(data),
-	// 		}
-	// 	);
+	if (!content.length) {
+		return showAlert(false, "Please enter a content for the article");
+	}
 
-	// 	const result = await response.json();
-
-	// 	const articleId = article._id;
-	// 	const fileInput = document.getElementById("articlePic");
-	// 	const file = fileInput.files[0];
-
-	// 	if (file) {
-	// 		const formData = new FormData();
-	// 		formData.append("pic", file);
-
-	// 		const picChangeResponse = await fetch(
-	// 			`http://localhost:3000/api/article/uploadPic/${articleId}`,
-	// 			{
-	// 				method: "POST",
-	// 				body: formData,
-	// 			}
-	// 		);
-	// 		const picChangeResult = await picChangeResponse.json();
-	// 		// console.log("picChangeResult: ", picChangeResult);
-	// 	}
-
-	// 	showAlert(result.success, result.message);
-
-	// 	if (result.success) {
-	// 		setTimeout(() => {
-	// 			window.location.href = "http://localhost:3000/api/articles";
-	// 		}, 1000);
-	// 	}
-	// } catch (error) {
-	// 	showAlert(false, error.message);
-	// }
 	const articleId = article._id;
 	const file = fileInput.files[0];
 	const formData = new FormData();
-	formData.append("pic", file);
+
+	if (!!file) {
+		if (+file.size > 1 * 1024 * 1024) {
+			return showAlert(false, "The file size should be smaller than 1MB");
+		}
+		formData.append("pic", file);
+	}
+
+	console.log("title article: ", title);
 	formData.append("title", title);
 	formData.append("summary", summary);
 	formData.append("content", content);
@@ -162,6 +129,9 @@ saveUpdatedArticleBtn.addEventListener("click", async (e) => {
 		);
 		const result = await response.json();
 		console.log("Result:", result);
+
+		showAlert(result.success, result.message);
+
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href = "http://localhost:3000/api/articles";

@@ -1,1 +1,11 @@
-//modal, pagination, protection, add article (done), summary in card, file size check in client side using formData entries,
+** modal, pagination
+** protection
+** add article (done)
+** update article(done)
+** delete pic after article delete (done)
+** remove user avatar resets it (done)
+** upload avatar file size
+** summary in card
+** file size check in client side using formData entries
+** article route
+** update article validatio (done)

@@ -1,34 +1,48 @@
 const express = require("express");
 const router = express.Router();
-// const multer = require("multer");
-// const Article = require("../models/Article");
-// const { join } = require("path");
-// const fs = require("fs");
 
 const validateArticleEntries = require("../utils/validationArticleEntries");
-const { upload } = require("../utils/multer-article-pics-settings");
+const {
+	upload,
+	fileSizeLimitMiddleware,
+} = require("../utils/multer-article-pics-settings");
 const { isLoggedIn } = require("../middlewares/auth/auth");
 const {
+	// showAllArticles,
 	getUserArticles,
 	addArticle,
 	deleteArticle,
 	updateArticle,
-} = require("../controllers/userControllers");
+} = require("../controllers/articleController");
 const {
 	getSingleArticle,
 	uploadArticlePic,
 } = require("../controllers/articleController");
 
 router.get("/article/:articleId", getSingleArticle);
-router.post("/articles", isLoggedIn, upload.single("pic"), addArticle);
-router.post("/article/uploadPic/:articleId", uploadArticlePic);
+
+// router.post("/article/uploadPic/:articleId", uploadArticlePic);
+
 router.get("/articles", isLoggedIn, getUserArticles);
+
+// router.get("/articles", isLoggedIn, showAllArticles);
+
 router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
+
+router.post(
+	"/articles",
+	isLoggedIn,
+	upload.single("pic"),
+	validateArticleEntries,
+	addArticle
+);
+
 router.patch(
 	"/articles/:articleId",
 	isLoggedIn,
 	upload.single("pic"),
-	// validateArticleEntries,
+	fileSizeLimitMiddleware,
+	validateArticleEntries,
 	updateArticle
 );
 
