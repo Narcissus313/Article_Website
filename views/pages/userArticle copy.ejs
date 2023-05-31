@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/png" href="/fav-icon.png">
+
+   <title>Article</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+   integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="/stylesheets/style.css">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<body>
+
+
+   <div id="content">
+      <script>
+         const article = JSON.parse('<%- JSON.stringify(article) %>');
+         const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
+         const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
+         // console.log('userIsOwner: ', userIsOwner);
+         // console.log('article: ', article);
+      </script>
+
+      <!-- alert box -->
+      <div
+         class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-center align-content-center mt-4"
+         role="alert" id="alertBox">
+         <p class="text-center mt-3 mx-auto" id="alertText">alert text</p>
+      </div>
+
+      <!-- head navbar -->
+      <section>
+         <nav class="mb-4 bg-light mt-0 px-3 px-3">
+            <div class="d-flex justify-content-between mt-1">
+               <div class="lef">
+                  <ul class="nav navb nav-tabs" id="myTab" role="tablist">
+                     <li class="nav-item" role="presentation">
+                        <form method="GET">
+                           <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                              role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                              formaction="/">Home</button>
+                        </form>
+
+                     </li>
+                     <li class="nav-item" role="presentation">
+                        <form method="GET">
+                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                              aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                              formaction="/explore">Explore</button>
+                        </form>
+                     </li>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/">Contact</button>
+                     </form>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/about">About</button>
+                     </form>
+                     <% if(userLoggedIn){%>
+                        <form method="GET">
+                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                              aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                              formaction="/user/dashboard">Dashboard</button>
+                        </form>
+                        <form method="GET">
+                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane"
+                              role="tab" aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
+                              formaction="/api/articles">My
+                              Articles</button>
+                        </form>
+                        <%}%>
+               </div>
+
+
+               <div class="righ">
+                  <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
+                        type="search" placeholder="Search" aria-label="Search">
+                     <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
+                     <% if(userLoggedIn){%>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/logout">Logout</a>
+                        <%}else{%>
+                           <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/login">Login</a>
+                           <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn"
+                              href="/user/register">Signup</a>
+                           <%}%>
+                  </form>
+               </div>
+            </div>
+
+
+            <div class="tab-content" id="myTabContent">
+               <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+                  tabindex="0">
+                  ...
+               </div>
+            </div>
+         </nav>
+      </section>
+
+      <div id="main">
+         <div class="container-lg">
+            <div class="content">
+               <div class="card mb-4">
+                  <div class="card-header">
+                     <div class="container-lg px-0">
+                        <div class="d-flex" id="articleHeader"></div>
+                     </div>
+
+                  </div>
+                  <div class="card-body">
+                     <h3 class="mb-1 fs-6" id="author"></h3>
+                     <hr>
+                     <p class="mb-1" id="summary"></p>
+                     <div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6'">
+                     </div>
+                     <hr>
+                     <div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'"></div>
+                  </div>
+               </div>
+               <% if(userLoggedIn && userIsOwner){ %>
+                  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editArticleModal"
+                     data-bs-whatever="@mdo" id="btnEdit" onclick="openEditMode()">Edit</button>
+                  <button class="btn btn-danger" id="btnDelete">Delete</button>
+                  <% } %>
+            </div>
+         </div>
+
+         <!-- <div class="modal fade" id="editArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="exampleModalLabel">New Article</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <form>
+                        <div class="mb-3">
+                           <label for="titleInput" class="col-form-label">title:</label>
+                           <input type="text" class="form-control" id="titleInput" value="">
+                        </div>
+                        <div class="mb-3">
+                           <label for="summaryInput" class="col-form-label">Summary:</label>
+                           <input type="text" class="form-control" id="summaryInput" value="">
+                        </div>
+                        <div>
+                           <label for="articlePic">Select an image as thumbnail:</label>
+                           <input class="btn btn-success form-control" type="file" id="articlePic" name="pic"
+                              accept=".jpg">
+                        </div>
+                        <div class="my-3">
+                           <label for="contentTextarea" class="col-form-label">content:</label>
+                           <div id="editor" style="height: 300px;">
+                              <textarea class="form-control" id="contentTextarea" value=""
+                                 style="height: 300px;"></textarea>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        id="saveUpdatedArticleBtn">Save</button>
+                  </div>
+               </div>
+            </div>
+         </div> -->
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <hr>
+      <hr>
+      <div>
+         <div class="container-lg">
+            <div class="content">
+               <div class="card mb-4">
+                  <div class="card-header">
+                     <div class="container-lg px-0">
+                        <div class="d-flex" id="articleHeader2">
+                           <div class="d-flex justify-content-start col-md-7 mt-2 fs-2">
+                              <input class="form-control col-md-6 mt-1 mb-3 fs-2 bg-white" placeholder="Title"
+                                 id="titleInput" value="tttt"></input></p>
+                              >
+                           </div>
+                           <div class="d-flex justify-content-end col-md-5">
+                              <input class="form-control p-4 text-black bg-light" type="file" id="articlePic" name="pic"
+                                 accept=".jpg"><img class="col-md-6" src=<%=article.pic %>
+                              style="max-width: 120px;max-height: 120px;"></img>
+                           </div>
+                        </div>
+                     </div>
+
+                  </div>
+                  <div class="card-body">
+                     <h3 class="mb-1 fs-6" id="author">by &nbsp; qqq qqq</h3>
+                     <hr>
+                     <p class="mb-1" id="summary"><input class="form-control mb-1 fs-6" id="summaryInput" value="ssss"
+                           placeholder="Summary"></input></p>
+                     <hr>
+                     <div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6';"
+                        style="height: fit-content;">
+                        <textarea class="form-control mb-1 mt-3 fs-6" id="editor"
+                           style=" min-height: 200px;height: fit-content;" placeholder="Content" name= "text">assa</textarea>
+                     </div>
+                     <!-- <div class="small text-muted mt-4" id="articleDate" style="border:'1px solid #dee2e6';">May 26, 2023
+                     </div> -->
+                  </div>
+               </div>
+               <% if(userLoggedIn && userIsOwner){ %>
+                  <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editArticleModal"
+                     data-bs-whatever="@mdo" id="btnSaveUpdated" onclick="">Save</button> -->
+                  <button class="btn btn-primary" id="btnSaveUpdatedArticle">Save</button>
+                  <% } %>
+            </div>
+         </div>
+
+         <!-- <div class="modal fade" id="editArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="exampleModalLabel">New Article</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <form>
+                        <div class="mb-3">
+                           <label for="titleInput" class="col-form-label">title:</label>
+                           <input type="text" class="form-control" id="titleInput" value="">
+                        </div>
+                        <div class="mb-3">
+                           <label for="summaryInput" class="col-form-label">Summary:</label>
+                           <input type="text" class="form-control" id="summaryInput" value="">
+                        </div>
+                        <div>
+                           <label for="articlePic">Select an image as thumbnail:</label>
+                           <input class="btn btn-success form-control" type="file" id="articlePic" name="pic"
+                              accept=".jpg">
+                        </div>
+                        <div class="my-3">
+                           <label for="contentTextarea" class="col-form-label">content:</label>
+                           <div id="editor" style="height: 300px;">
+                              <textarea class="form-control" id="contentTextarea" value=""
+                                 style="height: 300px;"></textarea>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        id="saveUpdatedArticleBtn">Save</button>
+                  </div>
+               </div>
+            </div>
+         </div> -->
+      </div>
+
+      <script>
+         var quill = new Quill('#editor', {
+            modules: {
+               toolbar: [
+                  [{ 'header': [1, 2, false] }],
+                  ['bold', 'italic', 'underline'],
+                  ['image', 'code-block']
+               ]
+            },
+            placeholder: 'Compose an epic...',
+            theme: 'snow'
+         });
+
+      </script>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<!-- <script src="/javascripts/main.js"></script> -->
+<script src="/javascripts/renderUserArticle.js"></script>
+
+</html>

@@ -14,6 +14,7 @@ const getSingleArticle = async (req, res, _next) => {
 		if (!article) {
 			res.json({ success: false, message: "Article not found" });
 		}
+		
 		let userIsOwner = false;
 		if (!!req.session.user) {
 			const userLoggedIn = !!req.session.user;
