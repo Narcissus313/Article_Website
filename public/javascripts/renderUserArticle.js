@@ -10,14 +10,14 @@ const btnDelete = document.getElementById("btnDelete");
 const btnSave = document.getElementById("btnSave");
 const btnCancel = document.getElementById("btnCancel");
 const btnSaveUpdatedArticle = document.getElementById("btnSaveUpdatedArticle");
-// articleContent.innerHTML = article.content;
 const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	year: "numeric",
 	month: "short",
 	day: "numeric",
 });
-// const saveUpdatedArticleBtn = document.getElementById("saveUpdatedArticleBtn");
+
 console.log(article);
+
 const showAlert = (successStatus, text) => {
 	let alert = document.getElementById("alertBox");
 	let alertText = document.getElementById("alertText");
@@ -63,51 +63,40 @@ const renderArticleBody = () => {
 
 renderArticleBody();
 
-// const openEditModal = () => {
-// 	const title = document.getElementById("titleInput");
-// 	const summary = document.getElementById("summaryInput");
-// 	let content = document.querySelector(".ql-editor");
+btnDelete.addEventListener("click", async (e) => {
+	e.preventDefault();
+	const deleteAnswer = confirm(
+		"Are you sure you want to delete this article?"
+	);
 
-// 	title.value = article.title;
-// 	summary.value = article.summary;
-// 	content.innerHTML = article.content;
-// };
+	if (!deleteAnswer) {
+		return;
+	}
 
-// btnDelete.addEventListener("click", async (e) => {
-// 	e.preventDefault();
-// 	// console.log("delete");
-// 	const deleteAnswer = confirm(
-// 		"Are you sure you want to delete this article?"
-// 	);
+	try {
+		const response = await fetch(
+			`http://localhost:3000/api/articles/${article._id}`,
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				// body: JSON.stringify(data),
+			}
+		);
 
-// 	if (!deleteAnswer) {
-// 		return;
-// 	}
-
-// 	try {
-// 		const response = await fetch(
-// 			`http://localhost:3000/api/articles/${article._id}`,
-// 			{
-// 				method: "DELETE",
-// 				headers: {
-// 					"Content-Type": "application/json",
-// 				},
-// 				// body: JSON.stringify(data),
-// 			}
-// 		);
-
-// 		const result = await response.json();
-// 		console.log("result: ", result);
-// 		showAlert(result.success, result.message);
-// 		if (result.success) {
-// 			setTimeout(() => {
-// 				window.location.href = "http://localhost:3000/api/articles";
-// 			}, 1000);
-// 		}
-// 	} catch (error) {
-// 		console.log("Error:", error.message);
-// 	}
-// });
+		const result = await response.json();
+		console.log("result: ", result);
+		showAlert(result.success, result.message);
+		if (result.success) {
+			setTimeout(() => {
+				window.location.href = "http://localhost:3000/api/articles";
+			}, 1000);
+		}
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+});
 
 const saveUpdatedArticle = async () => {
 	const title = document.getElementById("titleInput").value.trim();
@@ -146,25 +135,19 @@ const saveUpdatedArticle = async () => {
 			}
 		);
 		const result = await response.json();
-		// console.log("Result:", result);
 
 		showAlert(result.success, result.message);
 
-		// if (result.success) {
-		// 	setTimeout(() => {
-		// 		window.location.href = "http://localhost:3000/api/articles";
-		// 	}, 1000);
-		// }
+		if (result.success) {
+			setTimeout(() => {
+				window.location.href = "http://localhost:3000/api/articles";
+			}, 1000);
+		}
 		console.log("content: ", content);
 	} catch (error) {
 		console.log("errorrrr: ", error);
 	}
 };
-// const openEditMode = () => {
-// 	console.log("xxx");
-// };
-
-// btnSaveUpdatedArticle.addEventListener("click", saveUpdatedArticle);
 
 btnEdit.addEventListener("click", async () => {
 	document.getElementById("card").innerHTML = `

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { userIsOwner } = require("../middlewares/auth/userIsOwner");
 
 const validateArticleEntries = require("../utils/validationArticleEntries");
 const {
@@ -19,7 +20,7 @@ router.get("/article/:articleId", getSingleArticle);
 
 router.get("/articles", isLoggedIn, getUserArticles);
 
-router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
+router.delete("/articles/:articleId", isLoggedIn, userIsOwner, deleteArticle);
 
 router.post(
 	"/articles",
@@ -32,6 +33,7 @@ router.post(
 router.patch(
 	"/articles/:articleId",
 	isLoggedIn,
+	userIsOwner,
 	upload.single("pic"),
 	fileSizeLimitMiddleware,
 	validateArticleEntries,

@@ -1,6 +1,6 @@
-** modal
+** modal(done)
 ** pagination
-** protection
+** protection (done) - protection for user not done
 ** summary in card
 ** article route (done)
 
