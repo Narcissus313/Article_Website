@@ -4,7 +4,6 @@ const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUpdateEntries = require("../utils/validateUpdateEntries");
 const validateUpdatePassword = require("../utils/validateUpdatePassword");
 const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
-// const validateArticleEntries = require("../utils/validationArticleEntries");
 
 const {
 	getRegisterPage,
@@ -18,10 +17,6 @@ const {
 	updateUser,
 	updatePassword,
 	deleteUser,
-	// getUserArticles,
-	// addArticle,
-	// deleteArticle,
-	// updateArticle,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -49,15 +44,5 @@ router.post(
 	avatarSizeLimitMiddleware,
 	uploadAvatar
 );
-
-// router.get("/articles", isLoggedIn, getUserArticles);
-// router.post("/articles", isLoggedIn, validateArticleEntries, addArticle);
-// router.delete("/articles/:articleId", isLoggedIn, deleteArticle);
-// router.patch(
-// 	"/articles/:articleId",
-// 	isLoggedIn,
-// 	validateArticleEntries,
-// 	updateArticle
-// );
 
 module.exports = router;

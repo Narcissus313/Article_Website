@@ -1,9 +1,8 @@
-** modal(done)
+** modal(done) - for new article not done
 ** pagination
-** protection (done) - protection for user not done
 ** summary in card
+** protection (done)
 ** article route (done)
-
 ** update article(done)
 ** delete pic after article delete (done)
 ** remove user avatar resets it (done)
