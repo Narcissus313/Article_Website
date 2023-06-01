@@ -18,7 +18,7 @@ const { getSingleArticle } = require("../controllers/articleController");
 
 router.get("/article/:articleId", getSingleArticle);
 
-router.get("/articles", isLoggedIn, getUserArticles);
+router.get("/articles/:page", isLoggedIn, getUserArticles);
 
 router.delete("/articles/:articleId", isLoggedIn, userIsOwner, deleteArticle);
 

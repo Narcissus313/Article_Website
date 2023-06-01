@@ -51,8 +51,8 @@ app.get("/home", (_req, res) => {
 
 app.get("/explore", showAllArticles);
 
-app.all("*", function (_req, res, next) {
-	res.render("pages/notFound");
+app.all("*", function (req, res, _next) {
+	res.render("pages/notFound", { userLoggedIn: !!req.session.user });
 });
 
 // error handler
