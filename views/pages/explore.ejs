@@ -19,10 +19,8 @@
 
    <script>
       const userLoggedIn = '(<%- userLoggedIn %>)';
-      const textPage = '(<%- page %>)';
-      const page = + (textPage.substring(1, textPage.length - 1));
-      const textTotalPages = '(<%- totalPages %>)';
-      const totalPages = + (textTotalPages.substring(1, textTotalPages.length - 1));
+      const page = +'<%- page %>';
+      const totalPages = +'<%- totalPages %>';
       const articles = JSON.parse('<%- JSON.stringify(articles) %>')
    </script>
 
