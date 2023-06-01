@@ -88,7 +88,7 @@ btnDelete.addEventListener("click", async (e) => {
 		showAlert(result.success, result.message);
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/articles";
+				window.location.href = "http://localhost:3000/api/articles/pages/1";
 			}, 1000);
 		}
 	} catch (error) {
@@ -138,7 +138,7 @@ const saveUpdatedArticle = async () => {
 
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/articles";
+				window.location.href = "http://localhost:3000/api/articles/pages/1";
 			}, 1000);
 		}
 		console.log("content: ", content);

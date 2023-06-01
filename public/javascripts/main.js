@@ -15,8 +15,6 @@ const showAlert = (successStatus, text) => {
 	}, 2500);
 };
 
-// console.log(articles);
-console.log("totalPages", totalPages);
 const pageSize = 4;
 function generateCard(article) {
 	return `
@@ -61,10 +59,7 @@ function generateCard(article) {
 
 function renderPage(pageNumber) {
 	const startIndex = (pageNumber - 1) * pageSize;
-	console.log("startIndex: ", startIndex);
 	const endIndex = startIndex + pageSize;
-	console.log("endIndex: ", endIndex);
-
 	const articlesDiv = document.getElementById("articlesDiv");
 	articlesDiv.innerHTML = "";
 
@@ -76,7 +71,6 @@ function renderPage(pageNumber) {
 		}
 		break;
 	}
-	console.log("page: ", page);
 
 	renderPagination(page);
 }
@@ -85,7 +79,6 @@ function renderPage(pageNumber) {
 function renderPagination(currentPage) {
 	const paginationContainer = document.querySelector("#paginationNav");
 	paginationContainer.innerHTML = "";
-
 	for (
 		let i = currentPage !== 1 ? currentPage - 1 : 1;
 		i <= totalPages;
@@ -105,7 +98,10 @@ function renderPagination(currentPage) {
       `;
 		} else {
 			li.innerHTML = `
-        <a class="page-link mx-2 text-end" href="/api/articles/pages/${i}">${i}</a>
+        <a class="page-link mx-2 text-end" href="${window.location.pathname.slice(
+			0,
+			window.location.pathname.lastIndexOf("/") + 1
+		)}${i}">${i}</a>
       `;
 		}
 

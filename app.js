@@ -49,7 +49,7 @@ app.get("/home", (_req, res) => {
 	res.redirect("/");
 });
 
-app.get("/explore", showAllArticles);
+app.get("/explore/pages/:page", showAllArticles);
 
 app.all("*", function (req, res, _next) {
 	res.render("pages/notFound", { userLoggedIn: !!req.session.user });

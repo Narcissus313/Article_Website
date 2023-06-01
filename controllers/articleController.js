@@ -192,8 +192,19 @@ const showAllArticles = async (req, res, _next) => {
 			path: "author",
 			select: "firstName lastName username",
 		});
+
+		const page = req.params.page;
+		const pageSize = 4;
+		const totalPages = Math.ceil(articles.length / pageSize);
+		const startIndex = (page - 1) * pageSize;
+		const endIndex = startIndex + pageSize;
+
+		const targetArticles = articles.slice(startIndex, endIndex);
+
 		res.render("pages/explore", {
-			articles,
+			articles: targetArticles,
+			page,
+			totalPages,
 			userLoggedIn: !!req.session.user,
 		});
 	} catch (error) {

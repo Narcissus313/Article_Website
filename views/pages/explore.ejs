@@ -18,6 +18,11 @@
 <body>
 
    <script>
+      const userLoggedIn = '(<%- userLoggedIn %>)';
+      const textPage = '(<%- page %>)';
+      const page = + (textPage.substring(1, textPage.length - 1));
+      const textTotalPages = '(<%- totalPages %>)';
+      const totalPages = + (textTotalPages.substring(1, textTotalPages.length - 1));
       const articles = JSON.parse('<%- JSON.stringify(articles) %>')
    </script>
 
@@ -39,7 +44,7 @@
                      <form method="GET">
                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
                            aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                           formaction="/explore">Explore</button>
+                           formaction="/explore/pages/1">Explore</button>
                      </form>
                   </li>
                   <form method="GET">
