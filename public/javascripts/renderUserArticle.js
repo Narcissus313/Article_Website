@@ -61,8 +61,6 @@ const renderArticleBody = () => {
 	btnDelete.classList.remove("d-none");
 };
 
-renderArticleBody();
-
 btnDelete.addEventListener("click", async (e) => {
 	e.preventDefault();
 	const deleteAnswer = confirm(
@@ -101,7 +99,7 @@ btnDelete.addEventListener("click", async (e) => {
 const saveUpdatedArticle = async () => {
 	const title = document.getElementById("titleInput").value.trim();
 	const summary = document.getElementById("summaryInput").value.trim();
-	const content = document.querySelector(".after-edit").value.trim();
+	let content = document.querySelector(".ql-editor").innerHTML;
 	const fileInput = document.getElementById("articlePic");
 
 	if (!title.length) {
@@ -176,12 +174,13 @@ btnEdit.addEventListener("click", async () => {
                            placeholder="Summary"></input></p>
                      <hr>
                      <div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6';"
-                        style="height: fit-content;">
-                        <textarea class="form-control mb-1 mt-3 fs-6 ql-editor after-edit" id="editor"
-                           style=" min-height: 200px;height: fit-content;" placeholder="Content"></textarea>
+                        style="">
+                        <div id="editor" style="height: 300px;">
+                           <textarea class="form-control" id="contentTextarea" value=""
+                              style="height: 300px;"></textarea>
+                        </div>
                      </div>
-                     <!-- <div class="small text-muted mt-4" id="articleDate" style="border:'1px solid #dee2e6';">May 26, 2023
-                     </div> -->
+                     
                   </div>
                </div>
                
@@ -194,10 +193,10 @@ btnEdit.addEventListener("click", async () => {
 				["bold", "italic", "underline"],
 			],
 		},
-		placeholder: "Compose an epic...",
+		placeholder: "Content",
 		theme: "snow",
 	});
-	document.getElementById("editor").innerHTML = article.content;
+	
 	btnEdit.classList.add("d-none");
 	btnDelete.classList.add("d-none");
 	btnSave.classList.remove("d-none");
@@ -207,3 +206,5 @@ btnEdit.addEventListener("click", async () => {
 btnCancel.addEventListener("click", renderArticleBody);
 
 btnSave.addEventListener("click", saveUpdatedArticle);
+
+renderArticleBody();

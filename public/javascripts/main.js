@@ -21,7 +21,7 @@ const showAlert = (successStatus, text) => {
 
 function generateCard(article) {
 	return `
-        <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
+        <div class="col-lg-6 col-md-6 col-12 mt-4 pt-2">
 					<div class="card border-0 bg-light shadowx" style="height:280px;">
 						<div class="card-body p-4">
 							<span class="badge rounded-pill bg-primary float-md-end mb-1 mb-sm-0">${new Date(
@@ -32,10 +32,17 @@ function generateCard(article) {
 								day: "numeric",
 							})}</span>
 							<h5 class="mt-3">${article.title}</h5>
-							<div class="d-flex justify-content-end" style="height:100px;">
-							<img class="mt-0 rounded-3" src="${
-								article.pic
-							}" style="width:100px;height:100px;">
+							<div class="d-flex justify-content-between">
+								<div class="d-flex justify-content-start" style="height:100px;">
+									<p>
+										${article.summary.slice(0,10)+'...'}
+									</p>
+								</div>
+								<div class="d-flex justify-content-end" style="height:100px;">
+									<img class="mt-0 rounded-3" src="${
+										article.pic
+									}" style="width:100px;height:100px;">
+								</div>
 							</div>
 							<div class="mt-3">
 							<span class="text-muted d-block"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; written by ${
