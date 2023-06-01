@@ -16,9 +16,8 @@ const showAlert = (successStatus, text) => {
 };
 
 // console.log(articles);
-	const pageSize = 3;
-
-
+console.log("totalPages", totalPages);
+const pageSize = 4;
 function generateCard(article) {
 	return `
         <div class="col-lg-6 col-md-6 col-12 mt-4 pt-2">
@@ -35,7 +34,7 @@ function generateCard(article) {
 							<div class="d-flex justify-content-between">
 								<div class="d-flex justify-content-start" style="height:100px;">
 									<p>
-										${article.summary.slice(0,10)+'...'}
+										${article.summary.slice(0, 10) + "..."}
 									</p>
 								</div>
 								<div class="d-flex justify-content-end" style="height:100px;">
@@ -59,29 +58,39 @@ function generateCard(article) {
          	</div>
       `;
 }
-function renderPage(page) {
-	const startIndex = (page - 1) * pageSize;
+
+function renderPage(pageNumber) {
+	const startIndex = (pageNumber - 1) * pageSize;
+	console.log("startIndex: ", startIndex);
 	const endIndex = startIndex + pageSize;
+	console.log("endIndex: ", endIndex);
 
 	const articlesDiv = document.getElementById("articlesDiv");
 	articlesDiv.innerHTML = "";
 
-	for (let i = startIndex; i < endIndex && i < articles.length; i++) {
-		const cardHtml = generateCard(articles[i]);
-		articlesDiv.innerHTML += cardHtml;
+	for (let i = startIndex; i < endIndex; i++) {
+		if (articles[i]) {
+			const cardHtml = generateCard(articles[i]);
+			articlesDiv.innerHTML += cardHtml;
+			continue;
+		}
+		break;
 	}
+	console.log("page: ", page);
 
 	renderPagination(page);
 }
 
 // Function to render the pagination links
 function renderPagination(currentPage) {
-	const totalPages = Math.ceil(articles.length / pageSize);
-
 	const paginationContainer = document.querySelector("#paginationNav");
 	paginationContainer.innerHTML = "";
 
-	for (let i = 1; i <= totalPages; i++) {
+	for (
+		let i = currentPage !== 1 ? currentPage - 1 : 1;
+		i <= totalPages;
+		i++
+	) {
 		const li = document.createElement("li");
 		li.classList.add("page-item");
 		li.classList.add("mx-2");
@@ -96,11 +105,8 @@ function renderPagination(currentPage) {
       `;
 		} else {
 			li.innerHTML = `
-        <a class="page-link mx-2 text-end" href="#">${i}</a>
+        <a class="page-link mx-2 text-end" href="/api/articles/pages/${i}">${i}</a>
       `;
-			li.addEventListener("click", function () {
-				renderPage(i);
-			});
 		}
 
 		paginationContainer.appendChild(li);
@@ -109,4 +115,3 @@ function renderPagination(currentPage) {
 
 // Initial rendering
 renderPage(1);
-

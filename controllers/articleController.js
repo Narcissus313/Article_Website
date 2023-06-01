@@ -14,7 +14,7 @@ const getSingleArticle = async (req, res, _next) => {
 		if (!article) {
 			res.json({ success: false, message: "Article not found" });
 		}
-		
+
 		let userIsOwner = false;
 		if (!!req.session.user) {
 			const userLoggedIn = !!req.session.user;
@@ -93,8 +93,18 @@ const getUserArticles = async (req, res, _next) => {
 				select: "firstName lastName username",
 			});
 
+			const page = req.params.page;
+			const pageSize = 4;
+			const totalPages = Math.ceil(articles.length / pageSize);
+			const startIndex = (page - 1) * pageSize;
+			const endIndex = startIndex + pageSize;
+
+			const targetArticles = articles.slice(startIndex, endIndex);
+
 			return res.render("pages/userArticles", {
-				articles,
+				articles: targetArticles,
+				page,
+				totalPages,
 				userLoggedIn: !!req.session.user,
 			});
 		}

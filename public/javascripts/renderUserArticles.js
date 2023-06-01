@@ -42,7 +42,8 @@ saveArticleBtn.addEventListener("click", async () => {
 		if (result.success) {
 			showAlert(true, "New article added");
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/articles";
+				window.location.href =
+					"http://localhost:3000/api/articles/pages/1";
 			}, 10);
 		}
 	} catch (error) {
