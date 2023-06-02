@@ -37,23 +37,11 @@ const validateUpdatePassword = async (req, res, next) => {
 
 		res.locals.password = newPassword;
 
-		// const updatedUser = await User.findByIdAndUpdate(
-		// 	user._id,
-		// 	{
-		// 		password: req.body.newPassword,
-		// 	},
-		// 	{ new: true }
-		// );
-		// req.session.user.firstName = user.firstName;
-		// req.session.user.lastName = user.lastName;
-		// req.session.user.phoneNumber = user.phoneNumber;
-
-		// res.json({ success: true, message: "User updated successfully" });
 		next();
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/login",
+				pathname: "/api/users/login",
 				query: {
 					errorMessage: "Server Error!",
 				},

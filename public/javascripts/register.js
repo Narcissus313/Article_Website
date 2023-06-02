@@ -63,20 +63,23 @@ registerBtn.addEventListener("click", async (e) => {
 	console.log("data: ", data);
 
 	try {
-		const response = await fetch("http://localhost:3000/user/register", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		});
+		const response = await fetch(
+			"http://localhost:3000/api/users/register",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
 
 		const result = await response.json();
 		console.log("result: ", result);
 		showAlert(result.success, result.message);
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/login";
+				window.location.href = "http://localhost:3000/api/users/login";
 			}, 1000);
 		}
 	} catch (error) {

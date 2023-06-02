@@ -53,7 +53,7 @@
                      <form method="GET">
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
                            aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                           formaction="/user/dashboard">Dashboard</button>
+                           formaction="/api/users/dashboard">Dashboard</button>
                      </form>
                      <form method="GET">
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
@@ -70,10 +70,10 @@
                      type="search" placeholder="Search" aria-label="Search">
                   <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
                   <% if(userLoggedIn){%>
-                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/logout">Logout</a>
+                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/logout">Logout</a>
                      <%}else{%>
-                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/login">Login</a>
-                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/user/register">Signup</a>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/login">Login</a>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/register">Signup</a>
                         <%}%>
                </form>
             </div>

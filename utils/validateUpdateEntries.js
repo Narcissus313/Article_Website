@@ -54,7 +54,7 @@ const validateUpdateEntries = async (req, res, next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/login",
+				pathname: "/api/users/login",
 				query: {
 					errorMessage: "Server Error!",
 				},

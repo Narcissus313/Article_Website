@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 const userIsOwner = async (req, res, next) => {
 	if (!req.session.user) {
-		return res.redirect("/user/login");
+		return res.redirect("/api/users/login");
 	}
 	const articleAuthorId = (await Article.findById(req.params.articleId))
 		.author._id;

@@ -70,7 +70,7 @@ uploadButton.addEventListener("click", async (event) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/user/uploadAvatar",
+			"http://localhost:3000/api/users/uploadAvatar",
 			{
 				method: "POST",
 				body: formData,
@@ -81,7 +81,8 @@ uploadButton.addEventListener("click", async (event) => {
 
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/dashboard";
+				window.location.href =
+					"http://localhost:3000/api/users/dashboard";
 			}, 1000);
 		}
 	} catch (error) {
@@ -153,7 +154,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	};
 
 	try {
-		const response = await fetch("http://localhost:3000/user/update", {
+		const response = await fetch("http://localhost:3000/api/users/update", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -213,7 +214,7 @@ saveChangedPasswordBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/user/updatePassword",
+			"http://localhost:3000/api/users/updatePassword",
 			{
 				method: "POST",
 				headers: {
@@ -239,7 +240,7 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 	if (deleteStatus === true) {
 		try {
 			const response = await fetch(
-				"http://localhost:3000/user/deleteUser",
+				"http://localhost:3000/api/users/deleteUser",
 				{
 					method: "DELETE",
 					headers: {
@@ -253,7 +254,8 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 			showAlert(result.success, result.message);
 			if (result.success) {
 				setTimeout(() => {
-					window.location.href = "http://localhost:3000/user/login";
+					window.location.href =
+						"http://localhost:3000/api/users/login";
 				}, 1000);
 			}
 		} catch (error) {
@@ -275,7 +277,7 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/user/removeAvatar",
+			"http://localhost:3000/api/users/removeAvatar",
 			{
 				method: "GET",
 				headers: {
@@ -289,7 +291,8 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 		showAlert(result.success, result.message);
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/user/dashboard";
+				window.location.href =
+					"http://localhost:3000/api/users/dashboard";
 			}, 1000);
 		}
 	} catch (error) {

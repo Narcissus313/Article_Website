@@ -7,7 +7,7 @@ const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getRegisterPage = (req, res, _next) => {
-	if (req.session.user) return res.redirect("/user/dashboard");
+	if (req.session.user) return res.redirect("/api/users/login");
 	res.render("pages/register", {
 		errorMessage: req.query.errorMessage ? req.query.errorMessage : null,
 	});
@@ -39,7 +39,7 @@ const registerUser = async (req, res, _next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/register",
+				pathname: "/api/users/register",
 				query: {
 					errorMessage: "Server Error!",
 				},
@@ -69,7 +69,7 @@ const updateUser = async (req, res, _next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/register",
+				pathname: "/api/users/register",
 				query: {
 					errorMessage: "Server Error!",
 				},
@@ -96,7 +96,7 @@ const updatePassword = async (req, res, _next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/login",
+				pathname: "/api/users/login",
 				query: {
 					errorMessage: "Server Error!",
 				},
@@ -122,7 +122,7 @@ const updatePassword = async (req, res, _next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/register",
+				pathname: "/api/users/register",
 				query: {
 					errorMessage: "Server Error!",
 				},
@@ -132,7 +132,7 @@ const updatePassword = async (req, res, _next) => {
 };
 
 const getLoginPage = (req, res, _next) => {
-	if (req.session.user) return res.redirect("/user/dashboard");
+	if (req.session.user) return res.redirect("/api/users/dashboard");
 
 	res.render("pages/login", { userLoggedIn: !!req.session.user });
 };
@@ -163,7 +163,7 @@ const loginUser = async (req, res, _next) => {
 	} catch (err) {
 		res.redirect(
 			url.format({
-				pathname: "/user/login",
+				pathname: "/api/users/login",
 				query: {
 					errorMessage: "Server Error!",
 				},
@@ -173,7 +173,7 @@ const loginUser = async (req, res, _next) => {
 };
 
 const getdashboardPage = (req, res, _next) => {
-	if (!req.session.user) return res.redirect("/user/login");
+	if (!req.session.user) return res.redirect("/api/users/login");
 
 	res.render("pages/dashboard", { user: req.session.user });
 };

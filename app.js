@@ -33,7 +33,6 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
 
