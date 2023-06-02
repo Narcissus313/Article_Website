@@ -54,6 +54,7 @@ const renderArticleBody = () => {
 		<div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'">${articleShortDate}</div>
 	</div>
 	`;
+
 	document.getElementById("articleContent").innerHTML = article.content;
 	if (!!btnDelete) {
 		btnSave.classList.add("d-none");
@@ -212,5 +213,32 @@ if (!!btnEdit)
 if (!!btnCancel) btnCancel.addEventListener("click", renderArticleBody);
 
 if (!!btnSave) btnSave.addEventListener("click", saveUpdatedArticle);
+
+btnPostComment.addEventListener("click", async (e) => {
+	e.preventDefault();
+	const content = textAreaComment.value;
+	const articleId = article._id;
+	const data = { content, article: articleId };
+	try {
+		const response = await fetch("http://localhost:3000/api/comments", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+
+		const result = await response.json();
+		showAlert(result.success, result.message);
+		// if (result.success) {
+		// 	setTimeout(() => {
+		// 		window.location.href =
+		// 			"http://localhost:3000/api/users/dashboard";
+		// 	}, 1000);
+		// }
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+});
 
 renderArticleBody();

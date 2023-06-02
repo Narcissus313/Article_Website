@@ -1,4 +1,5 @@
 const Article = require("../models/Article");
+const Comment = require("../models/Comment");
 const { unlink } = require("node:fs/promises");
 const { join } = require("path");
 const fs = require("fs/promises");
@@ -6,10 +7,20 @@ const fs = require("fs/promises");
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
 	try {
-		const article = await Article.findById(articleId).populate({
-			path: "author",
-			select: "firstName lastName username",
-		});
+		const article = await Article.findById(articleId)
+			.select("-__v -updatedAt")
+			.populate({
+				path: "author",
+				select: "firstName lastName username",
+			});
+
+		const comments = await Comment.find({ article: articleId })
+			.select("-__v -updatedAt")
+			.populate({
+				path: "author",
+				select: "firstName lastName username avatar",
+			});
+		// console.log("comments: ", comments);
 
 		if (!article) {
 			res.json({ success: false, message: "Article not found" });
@@ -25,12 +36,14 @@ const getSingleArticle = async (req, res, _next) => {
 				article,
 				userLoggedIn,
 				userIsOwner,
+				comments,
 			});
 		}
 		return res.render("pages/userArticle", {
 			article,
 			userLoggedIn: false,
 			userIsOwner: false,
+			comments,
 		});
 	} catch (error) {
 		return res.redirect("pages/notFound");

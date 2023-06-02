@@ -1,6 +1,8 @@
 ** sort articles on explore
+** status codes
+** textarea content in edit mode
 ** modal (done) - for new article not done
-
+** routes (done)
 ** pagination (done)
 ** summary in card (done)
 ** protection (done)
