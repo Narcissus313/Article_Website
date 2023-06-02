@@ -1,4 +1,6 @@
+** sort articles on explore
 ** modal (done) - for new article not done
+
 ** pagination (done)
 ** summary in card (done)
 ** protection (done)

@@ -79,11 +79,7 @@ function renderPage(pageNumber) {
 function renderPagination(currentPage) {
 	const paginationContainer = document.querySelector("#paginationNav");
 	paginationContainer.innerHTML = "";
-	for (
-		let i = currentPage !== 1 ? currentPage - 1 : 1;
-		i <= totalPages;
-		i++
-	) {
+	for (let i = currentPage >10 ? currentPage - 10 : 1; i <= totalPages; i++) {
 		const li = document.createElement("li");
 		li.classList.add("page-item");
 		li.classList.add("mx-2");

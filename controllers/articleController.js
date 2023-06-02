@@ -86,28 +86,32 @@ const addArticle = async (req, res, _next) => {
 
 const getUserArticles = async (req, res, _next) => {
 	try {
-		if (req.session.user) {
-			const id = req.session.user._id;
-			const articles = await Article.find({ author: id }).populate({
-				path: "author",
-				select: "firstName lastName username",
-			});
+		const page = req.params.page;
 
-			const page = req.params.page;
-			const pageSize = 4;
-			const totalPages = Math.ceil(articles.length / pageSize);
-			const startIndex = (page - 1) * pageSize;
-			const endIndex = startIndex + pageSize;
-
-			const targetArticles = articles.slice(startIndex, endIndex);
-
-			return res.render("pages/userArticles", {
-				articles: targetArticles,
-				page,
-				totalPages,
+		if (page <= 0)
+			res.status(400).render("pages/notFound", {
 				userLoggedIn: !!req.session.user,
 			});
-		}
+
+		const id = req.session.user._id;
+		const articles = await Article.find({ author: id }).populate({
+			path: "author",
+			select: "firstName lastName username",
+		});
+
+		const pageSize = 4;
+		const totalPages = Math.ceil(articles.length / pageSize);
+		const startIndex = (page - 1) * pageSize;
+		const endIndex = startIndex + pageSize;
+
+		const targetArticles = articles.slice(startIndex, endIndex);
+
+		return res.render("pages/userArticles", {
+			articles: targetArticles,
+			page,
+			totalPages,
+			userLoggedIn: !!req.session.user,
+		});
 	} catch (error) {
 		res.status(500).json({
 			success: false,

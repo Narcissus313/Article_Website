@@ -55,46 +55,50 @@ const renderArticleBody = () => {
 	</div>
 	`;
 	document.getElementById("articleContent").innerHTML = article.content;
-	btnSave.classList.add("d-none");
-	btnCancel.classList.add("d-none");
-	btnEdit.classList.remove("d-none");
-	btnDelete.classList.remove("d-none");
+	if (!!btnDelete) {
+		btnSave.classList.add("d-none");
+		btnCancel.classList.add("d-none");
+		btnEdit.classList.remove("d-none");
+		btnDelete.classList.remove("d-none");
+	}
 };
 
-btnDelete.addEventListener("click", async (e) => {
-	e.preventDefault();
-	const deleteAnswer = confirm(
-		"Are you sure you want to delete this article?"
-	);
-
-	if (!deleteAnswer) {
-		return;
-	}
-
-	try {
-		const response = await fetch(
-			`http://localhost:3000/api/articles/${article._id}`,
-			{
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				// body: JSON.stringify(data),
-			}
+if (!!btnDelete)
+	btnDelete.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const deleteAnswer = confirm(
+			"Are you sure you want to delete this article?"
 		);
 
-		const result = await response.json();
-		console.log("result: ", result);
-		showAlert(result.success, result.message);
-		if (result.success) {
-			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/articles/pages/1";
-			}, 1000);
+		if (!deleteAnswer) {
+			return;
 		}
-	} catch (error) {
-		console.log("Error:", error.message);
-	}
-});
+
+		try {
+			const response = await fetch(
+				`http://localhost:3000/api/articles/${article._id}`,
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					// body: JSON.stringify(data),
+				}
+			);
+
+			const result = await response.json();
+			console.log("result: ", result);
+			showAlert(result.success, result.message);
+			if (result.success) {
+				setTimeout(() => {
+					window.location.href =
+						"http://localhost:3000/api/articles/pages/1";
+				}, 1000);
+			}
+		} catch (error) {
+			console.log("Error:", error.message);
+		}
+	});
 
 const saveUpdatedArticle = async () => {
 	const title = document.getElementById("titleInput").value.trim();
@@ -138,7 +142,8 @@ const saveUpdatedArticle = async () => {
 
 		if (result.success) {
 			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/articles/pages/1";
+				window.location.href =
+					"http://localhost:3000/api/articles/pages/1";
 			}, 1000);
 		}
 		console.log("content: ", content);
@@ -147,8 +152,9 @@ const saveUpdatedArticle = async () => {
 	}
 };
 
-btnEdit.addEventListener("click", async () => {
-	document.getElementById("card").innerHTML = `
+if (!!btnEdit)
+	btnEdit.addEventListener("click", async () => {
+		document.getElementById("card").innerHTML = `
 	<div class="content">
                <div class="card mb-4">
                   <div class="card-header">
@@ -186,25 +192,25 @@ btnEdit.addEventListener("click", async () => {
                
             </div>
 	`;
-	var quill = new Quill("#editor", {
-		modules: {
-			toolbar: [
-				[{ header: [1, 2, false] }],
-				["bold", "italic", "underline"],
-			],
-		},
-		placeholder: "Content",
-		theme: "snow",
+		var quill = new Quill("#editor", {
+			modules: {
+				toolbar: [
+					[{ header: [1, 2, false] }],
+					["bold", "italic", "underline"],
+				],
+			},
+			placeholder: "Content",
+			theme: "snow",
+		});
+
+		btnEdit.classList.add("d-none");
+		btnDelete.classList.add("d-none");
+		btnSave.classList.remove("d-none");
+		btnCancel.classList.remove("d-none");
 	});
-	
-	btnEdit.classList.add("d-none");
-	btnDelete.classList.add("d-none");
-	btnSave.classList.remove("d-none");
-	btnCancel.classList.remove("d-none");
-});
 
-btnCancel.addEventListener("click", renderArticleBody);
+if (!!btnCancel) btnCancel.addEventListener("click", renderArticleBody);
 
-btnSave.addEventListener("click", saveUpdatedArticle);
+if (!!btnSave) btnSave.addEventListener("click", saveUpdatedArticle);
 
 renderArticleBody();

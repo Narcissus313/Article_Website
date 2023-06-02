@@ -95,18 +95,6 @@ editInfoBtn.addEventListener("click", (e) => {
 	saveInfoBtn.classList.remove("d-none");
 	newPasswordDiv.classList.remove("d-none");
 
-	// inputOldPassword.removeAttribute("disabled");
-	// inputOldPassword.classList.remove("text-bg-light");
-	// inputOldPassword.classList.add("text-bg-white");
-
-	// inputNewPassword.removeAttribute("disabled");
-	// inputNewPassword.classList.remove("text-bg-light");
-	// inputNewPassword.classList.add("text-bg-white");
-
-	// inputNewPasswordConfirm.removeAttribute("disabled");
-	// inputNewPasswordConfirm.classList.remove("text-bg-light");
-	// inputNewPasswordConfirm.classList.add("text-bg-white");
-
 	inputFirstName.removeAttribute("disabled");
 	inputFirstName.classList.remove("text-bg-light");
 	inputFirstName.classList.add("text-bg-white");
