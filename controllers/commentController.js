@@ -43,7 +43,7 @@ const updateComment = async (req, res, _next) => {
 			{ new: true }
 		);
 
-		return res.json({
+		return res.status(200).json({
 			success: true,
 			message: "Comment updated successfully",
 		});
@@ -68,12 +68,15 @@ const deleteComment = async (req, res, _next) => {
 				.json({ success: false, message: "Comment not found" });
 		}
 
-		return res.json({
+		return res.status(202).json({
 			success: true,
 			message: "Comment deleted successfully",
 		});
 	} catch (error) {
-		res.json({ success: false, message: "There is no pic to delete" });
+		res.status(400).json({
+			success: false,
+			message: "There is no pic to delete",
+		});
 	}
 };
 

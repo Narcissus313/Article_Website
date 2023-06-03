@@ -18,14 +18,14 @@ loginBtn.addEventListener("click", async (e) => {
 			},
 			body: JSON.stringify(data),
 		});
-
+		
 		const result = await response.json();
 		showAlert(result.success, result.message);
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href =
 					"http://localhost:3000/api/users/dashboard";
-			}, 500);
+			}, 0);
 		}
 	} catch (error) {
 		console.log("Error:", error.message);

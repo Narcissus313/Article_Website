@@ -20,38 +20,38 @@ const validateEntries = async (req, res, next) => {
 			: "not-set";
 
 	if (firstName?.trim().length < 3 || firstName?.trim().length > 30)
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "First name must be at least 3 and at most 30 characters",
 		});
 
 	if (lastName?.trim().length < 3 || lastName?.trim().length > 30)
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Last name must be at least 3 and at most 30 characters",
 		});
 
 	if (username?.trim().length < 3 || username?.trim().length > 30)
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Username must be at least 3 and at most 30 characters",
 		});
 
 	if (!validator.isMobilePhone(phoneNumber, "ir-IR"))
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Phone number not correct",
 		});
 
-	if (!newPassword.match(passwordRegex))
-		return res.json({
+	if (!newPassword || !newPassword.match(passwordRegex))
+		return res.status(400).json({
 			success: false,
 			message:
 				"Password must be at least 4 characters long using alpha numeric pattern",
 		});
 
-	if (newPassword !== newPasswordConfirm)
-		return res.json({
+	if (!newPasswordConfirm || newPassword !== newPasswordConfirm)
+		return res.status(400).json({
 			success: false,
 			message: "Passwords do not match",
 		});

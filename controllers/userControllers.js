@@ -32,11 +32,16 @@ const registerUser = async (req, res, _next) => {
 		(await User.findOne({ phoneNumber }));
 
 	if (userExists)
-		return res.json({ success: false, message: "User already exists" });
+		return res
+			.status(409)
+			.json({ success: false, message: "User already exists" });
 
 	try {
 		newUser.save();
-		res.json({ success: true, message: "User created successfully" });
+		res.status(201).json({
+			success: true,
+			message: "User created successfully",
+		});
 	} catch (err) {
 		res.redirect(
 			url.format({
@@ -66,7 +71,10 @@ const updateUser = async (req, res, _next) => {
 		req.session.user.phoneNumber = user.phoneNumber;
 		req.session.user.gender = user.gender;
 
-		res.json({ success: true, message: "User updated successfully" });
+		res.status(200).json({
+			success: true,
+			message: "User updated successfully",
+		});
 	} catch (err) {
 		res.redirect(
 			url.format({
@@ -90,7 +98,7 @@ const updatePassword = async (req, res, _next) => {
 		);
 
 		req.session.user = user;
-		return res.json({
+		return res.status(200).json({
 			success: true,
 			message: "Password successfully changed",
 		});
@@ -119,7 +127,10 @@ const updatePassword = async (req, res, _next) => {
 		req.session.user.lastName = user.lastName;
 		req.session.user.phoneNumber = user.phoneNumber;
 
-		res.json({ success: true, message: "User updated successfully" });
+		res.status(200).json({
+			success: true,
+			message: "User updated successfully",
+		});
 	} catch (err) {
 		res.redirect(
 			url.format({
@@ -143,21 +154,21 @@ const loginUser = async (req, res, _next) => {
 		const user = await User.findOne({ username: req.body.username });
 
 		if (!user) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Username or password is wrong",
 			});
 		}
 		const isMatch = await user.validatePassword(req.body.password);
 		if (!isMatch) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Username or password is wrong",
 			});
 		}
 
 		req.session.user = user;
-		return res.json({
+		return res.status(200).json({
 			success: true,
 			message: "Logging in...",
 		});
@@ -191,7 +202,7 @@ const uploadAvatar = (req, res, _next) => {
 		if (err) {
 			if (err.code === "LIMIT_FILE_SIZE") {
 				// File size limit exceeded
-				return res.json({
+				return res.status(400).json({
 					success: false,
 					message: "File size limit exceeded",
 				});
@@ -280,9 +291,11 @@ const deleteUser = async (req, res, _next) => {
 		await User.deleteOne({ _id: userId });
 		req.session.destroy();
 
-		return res.json({ success: true, message: "Account deleted" });
+		return res
+			.status(202)
+			.json({ success: true, message: "Account deleted" });
 	} catch (error) {
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Server couldn't delete the user",
 		});

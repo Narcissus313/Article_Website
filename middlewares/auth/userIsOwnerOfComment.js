@@ -12,7 +12,9 @@ const userIsOwnerOfComment = async (req, res, next) => {
 	const userId = req.session.user._id;
 
 	if (commentAuthorId !== userId) {
-		return res.json({ success: false, message: "You are not authorized" });
+		return res
+			.status(403)
+			.json({ success: false, message: "You are not authorized" });
 	}
 
 	next();

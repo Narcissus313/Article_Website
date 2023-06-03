@@ -16,7 +16,10 @@ const getSingleArticle = async (req, res, _next) => {
 			});
 
 		if (!article)
-			res.json({ success: false, message: "Article not found" });
+			res.status(404).json({
+				success: false,
+				message: "Article not found",
+			});
 
 		const comments = await Comment.find({ article: articleId })
 			.select("-__v -updatedAt")
@@ -37,12 +40,10 @@ const getSingleArticle = async (req, res, _next) => {
 		const allComments = comments.map((comment) => {
 			let forTheUser = false;
 
-
 			if (comment.author._id.toString() === req.session.user._id) {
 				console.log(7);
 				forTheUser = true;
 			}
-			
 
 			const newCm = Object.assign(comment._doc, { forTheUser });
 			return newCm;
@@ -105,7 +106,7 @@ const addArticle = async (req, res, _next) => {
 
 		await newArticle.save();
 
-		return res.json({
+		return res.status(201).json({
 			success: true,
 			message: "Article saved successfully",
 		});
@@ -179,12 +180,15 @@ const deleteArticle = async (req, res, _next) => {
 			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
 		);
 
-		return res.json({
+		return res.status(202).json({
 			success: true,
 			message: "Article deleted successfully",
 		});
 	} catch (error) {
-		res.json({ success: false, message: "There is no pic to delete" });
+		res.status(404).json({
+			success: false,
+			message: "There is no pic to delete",
+		});
 	}
 };
 
@@ -220,7 +224,7 @@ const updateArticle = async (req, res, _next) => {
 			await rename(tempPath, finalPath);
 		}
 
-		return res.json({
+		return res.status(200).json({
 			success: true,
 			message: "Article updated successfully",
 		});

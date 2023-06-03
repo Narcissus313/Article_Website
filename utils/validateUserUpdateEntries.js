@@ -7,25 +7,25 @@ const validateUserUpdateEntries = async (req, res, next) => {
 	const { firstName, lastName, username, phoneNumber, gender } = req.body;
 
 	if (firstName?.trim().length < 3 || firstName?.trim().length > 30)
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "First name must be at least 3 and at most 30 characters",
 		});
 
 	if (lastName?.trim().length < 3 || lastName?.trim().length > 30)
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Last name must be at least 3 and at most 30 characters",
 		});
 
 	if (!validator.isMobilePhone(phoneNumber, "ir-IR"))
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Phone number not correct",
 		});
 
 	if (!genderOptions.includes(gender))
-		return res.json({
+		return res.status(400).json({
 			success: false,
 			message: "Wrong gender sent",
 		});
@@ -35,7 +35,7 @@ const validateUserUpdateEntries = async (req, res, next) => {
 		console.log("user: ", user);
 
 		if (!user) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Username is wrong",
 			});
@@ -45,7 +45,7 @@ const validateUserUpdateEntries = async (req, res, next) => {
 
 		if (!!x)
 			if (x.username !== user.username)
-				return res.json({
+				return res.status(409).json({
 					success: false,
 					message: "Phone number already exists",
 				});

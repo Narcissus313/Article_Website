@@ -4,16 +4,18 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
 const apiRouter = require("./routes/apiRouter");
+const checkSystemAdminExists = require("./utils/checkSystemAdminExists");
 const { showAllArticles } = require("./controllers/articleController");
 
 const app = express();
 
 mongoose.connect("mongodb://127.0.0.1:27017/Blog88").then(() => {
-	console.log("[+] DB connected..");
+	console.log("[+] DB Connected...");
 });
+
+checkSystemAdminExists();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

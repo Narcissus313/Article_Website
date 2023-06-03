@@ -9,28 +9,28 @@ const validateUserUpdatePassword = async (req, res, next) => {
 		const user = await User.findOne({ username: username });
 
 		if (!user) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Username does not exist",
 			});
 		}
 		const isMatch = await user.validatePassword(oldPassword);
 		if (!isMatch) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Wrong Password",
 			});
 		}
 
 		if (!newPassword.match(passwordRegex))
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message:
 					"New Password must be at least 4 characters long using alpha numeric pattern",
 			});
 
 		if (newPassword !== newPasswordConfirm)
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "Passwords do not match",
 			});

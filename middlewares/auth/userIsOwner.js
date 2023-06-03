@@ -10,7 +10,9 @@ const userIsOwner = async (req, res, next) => {
    const authorUsername = (await User.findById(articleAuthorId)).username;
    
 	if (req.session.user.username !== authorUsername) {
-		return res.json({ success: false, message: "You are not authorized" });
+		return res
+			.status(403)
+			.json({ success: false, message: "You are not authorized" });
 	}
 
 	next();
