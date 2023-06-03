@@ -10,6 +10,8 @@ const btnDelete = document.getElementById("btnDelete");
 const btnSave = document.getElementById("btnSave");
 const btnCancel = document.getElementById("btnCancel");
 const btnSaveUpdatedArticle = document.getElementById("btnSaveUpdatedArticle");
+const commentsDiv = document.getElementById("commentsDiv");
+const commentSendBox = document.getElementById("commentSendBox");
 const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	year: "numeric",
 	month: "short",
@@ -56,11 +58,17 @@ const renderArticleBody = () => {
 	`;
 
 	document.getElementById("articleContent").innerHTML = article.content;
+
 	if (!!btnDelete) {
 		btnSave.classList.add("d-none");
 		btnCancel.classList.add("d-none");
 		btnEdit.classList.remove("d-none");
 		btnDelete.classList.remove("d-none");
+	}
+
+	if (!userLoggedIn) {
+		if (!!comments.length) commentSendBox.innerHTML = "Comments:";
+		else commentSendBox.innerHTML = "";
 	}
 };
 
@@ -142,12 +150,8 @@ const saveUpdatedArticle = async () => {
 
 		showAlert(result.success, result.message);
 
-		if (result.success) {
-			setTimeout(() => {
-				window.location.href =
-					"http://localhost:3000/api/articles/pages/1";
-			}, 500);
-		}
+		if (result.success) window.location.reload();
+
 		console.log("content: ", content);
 	} catch (error) {
 		console.log("errorrrr: ", error);

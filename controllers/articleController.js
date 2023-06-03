@@ -5,6 +5,8 @@ const { join } = require("path");
 
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
+	const userLoggedIn = !!req.session.user;
+
 	try {
 		const article = await Article.findById(articleId)
 			.select("-__v -updatedAt")
@@ -22,25 +24,32 @@ const getSingleArticle = async (req, res, _next) => {
 				path: "author",
 				select: "firstName lastName username avatar",
 			});
-		// console.log("comments: ", comments);
+
+		if (!req.session.user) {
+			return res.render("pages/userArticle", {
+				article,
+				userLoggedIn,
+				userIsOwner: false,
+				allComments: comments,
+			});
+		}
 
 		const allComments = comments.map((comment) => {
 			let forTheUser = false;
+
+
 			if (comment.author._id.toString() === req.session.user._id) {
+				console.log(7);
 				forTheUser = true;
 			}
+			
 
 			const newCm = Object.assign(comment._doc, { forTheUser });
-			// console.log("newCm: ", newCm);
-			const newCm2 = { ...comment, forTheUser };
-			// console.log("newCm2: ", newCm2);
 			return newCm;
 		});
-		// console.log("allComments: ", allComments);
 
 		let userIsOwner = false;
 		if (!!req.session.user) {
-			const userLoggedIn = !!req.session.user;
 			if (article.author.username === req.session.user.username) {
 				userIsOwner = true;
 			}
@@ -55,10 +64,10 @@ const getSingleArticle = async (req, res, _next) => {
 			article,
 			userLoggedIn: false,
 			userIsOwner: false,
-			comments,
+			allComments,
 		});
 	} catch (error) {
-		return res.redirect("pages/notFound");
+		return res.render("pages/notFound");
 	}
 };
 

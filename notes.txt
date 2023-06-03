@@ -1,5 +1,8 @@
 ** sort articles on explore
 ** status codes
+** middleware article exists
+
+
 ** textarea content in edit mode
 ** modal (done) - for new article not done
 ** routes (done)
