@@ -80,7 +80,7 @@ registerBtn.addEventListener("click", async (e) => {
 		if (result.success) {
 			setTimeout(() => {
 				window.location.href = "http://localhost:3000/api/users/login";
-			}, 1000);
+			}, 500);
 		}
 	} catch (error) {
 		console.log("Error:", error.message);

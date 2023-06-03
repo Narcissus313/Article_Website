@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
-const validateUpdateEntries = require("../utils/validateUpdateEntries");
-const validateUpdatePassword = require("../utils/validateUpdatePassword");
+const validateUserUpdateEntries = require("../utils/validateUserUpdateEntries");
+const validateUserUpdatePassword = require("../utils/validateUserUpdatePassword");
 const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
 
 const {
@@ -27,8 +27,8 @@ router.post("/register", validateRegisterEntries, registerUser);
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
 
-router.post("/update", validateUpdateEntries, updateUser);
-router.post("/updatePassword", validateUpdatePassword, updatePassword);
+router.post("/update", validateUserUpdateEntries, updateUser);
+router.post("/updatePassword", validateUserUpdatePassword, updatePassword);
 
 router.delete("/deleteUser", deleteUser);
 

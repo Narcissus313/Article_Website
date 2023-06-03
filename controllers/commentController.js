@@ -56,6 +56,27 @@ const updateComment = async (req, res, _next) => {
 	}
 };
 
+const deleteComment = async (req, res, _next) => {
+	const commentId = req.params.commentId;
+	try {
+		const deletedComment = await Comment.findByIdAndDelete(commentId);
+      console.log('deletedComment: ', deletedComment);
+
+		if (!deletedComment) {
+			return res
+				.status(404)
+				.json({ success: false, message: "Comment not found" });
+		}
+
+		return res.json({
+			success: true,
+			message: "Comment deleted successfully",
+		});
+	} catch (error) {
+		res.json({ success: false, message: "There is no pic to delete" });
+	}
+};
+
 /*
 
 */
@@ -127,30 +148,6 @@ const updateComment = async (req, res, _next) => {
 // 			success: false,
 // 			message: "Server error in getting articles list!!",
 // 		});
-// 	}
-// };
-
-// const deleteArticle = async (req, res, _next) => {
-// 	const articleId = req.params.articleId;
-// 	try {
-// 		const deletedArticle = await Article.findByIdAndDelete(articleId);
-
-// 		if (!deletedArticle) {
-// 			return res
-// 				.status(404)
-// 				.json({ success: false, message: "Article not found" });
-// 		}
-
-// 		await unlink(
-// 			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
-// 		);
-
-// 		return res.json({
-// 			success: true,
-// 			message: "Article deleted successfully",
-// 		});
-// 	} catch (error) {
-// 		res.json({ success: false, message: "There is no pic to delete" });
 // 	}
 // };
 
@@ -231,6 +228,7 @@ module.exports = {
 	// getUserArticles,
 	addComment,
 	updateComment,
+	deleteComment,
 	// deleteArticle,
 	// updateArticle,
 	// showAllArticles,

@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const genderOptions = ["not-set", "male", "female"];
 
-const validateUpdateEntries = async (req, res, next) => {
+const validateUserUpdateEntries = async (req, res, next) => {
 	const { firstName, lastName, username, phoneNumber, gender } = req.body;
 
 	if (firstName?.trim().length < 3 || firstName?.trim().length > 30)
@@ -63,4 +63,4 @@ const validateUpdateEntries = async (req, res, next) => {
 	}
 };
 
-module.exports = validateUpdateEntries;
+module.exports = validateUserUpdateEntries;

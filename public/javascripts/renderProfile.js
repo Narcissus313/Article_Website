@@ -83,7 +83,7 @@ uploadButton.addEventListener("click", async (event) => {
 			setTimeout(() => {
 				window.location.href =
 					"http://localhost:3000/api/users/dashboard";
-			}, 1000);
+			}, 500);
 		}
 	} catch (error) {
 		console.error(error);
@@ -256,7 +256,7 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 				setTimeout(() => {
 					window.location.href =
 						"http://localhost:3000/api/users/login";
-				}, 1000);
+				}, 500);
 			}
 		} catch (error) {
 			console.log("Error:", error.message);
@@ -293,7 +293,7 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 			setTimeout(() => {
 				window.location.href =
 					"http://localhost:3000/api/users/dashboard";
-			}, 1000);
+			}, 500);
 		}
 	} catch (error) {
 		console.log("Error:", error.message);

@@ -25,7 +25,7 @@ loginBtn.addEventListener("click", async (e) => {
 			setTimeout(() => {
 				window.location.href =
 					"http://localhost:3000/api/users/dashboard";
-			}, 1000);
+			}, 500);
 		}
 	} catch (error) {
 		console.log("Error:", error.message);

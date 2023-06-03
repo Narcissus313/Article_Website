@@ -27,7 +27,7 @@
    <div id="content">
       <script>
          const article = JSON.parse('<%- JSON.stringify(article) %>');
-         const comments = JSON.parse('<%- JSON.stringify(comments) %>');
+         const comments = JSON.parse('<%- JSON.stringify(allComments) %>');
          // console.log('comments: ', comments);
          const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
          const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
@@ -157,10 +157,11 @@
                            <textarea class="form-control mt-2" placeholder="write a comment..." rows="3"
                               id="textAreaComment"></textarea>
                            <br>
-                           <button type="button" class="btn btn-primary pull-right px-4"
+                           <button type="button" class="btn btn-primary pull-right px-4 mb-5"
                               id="btnPostComment">Post</button>
+                              <hr>
                            <div class="clearfix"></div>
-                           <ul class="media-list list-unstyled" id="commentList"></ul>
+                           <ul class="media-list list-unstyled mb-5" id="commentList"></ul>
                         </div>
                      </div>
                   </div>

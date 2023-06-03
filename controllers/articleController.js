@@ -14,6 +14,9 @@ const getSingleArticle = async (req, res, _next) => {
 				select: "firstName lastName username",
 			});
 
+		if (!article)
+			res.json({ success: false, message: "Article not found" });
+
 		const comments = await Comment.find({ article: articleId })
 			.select("-__v -updatedAt")
 			.populate({
@@ -22,9 +25,19 @@ const getSingleArticle = async (req, res, _next) => {
 			});
 		// console.log("comments: ", comments);
 
-		if (!article) {
-			res.json({ success: false, message: "Article not found" });
-		}
+		const allComments = comments.map((comment) => {
+			let forTheUser = false;
+			if (comment.author._id.toString() === req.session.user._id) {
+				forTheUser = true;
+			}
+
+			const newCm = Object.assign(comment._doc, { forTheUser });
+			// console.log("newCm: ", newCm);
+			const newCm2 = { ...comment, forTheUser };
+			// console.log("newCm2: ", newCm2);
+			return newCm;
+		});
+		// console.log("allComments: ", allComments);
 
 		let userIsOwner = false;
 		if (!!req.session.user) {
@@ -36,7 +49,7 @@ const getSingleArticle = async (req, res, _next) => {
 				article,
 				userLoggedIn,
 				userIsOwner,
-				comments,
+				allComments,
 			});
 		}
 		return res.render("pages/userArticle", {
@@ -142,6 +155,16 @@ const deleteArticle = async (req, res, _next) => {
 			return res
 				.status(404)
 				.json({ success: false, message: "Article not found" });
+		}
+
+		const deletedComments = await Comment.deleteMany({
+			article: articleId,
+		});
+
+		if (!deletedComments) {
+			return res
+				.status(404)
+				.json({ success: false, message: "Comments not found" });
 		}
 
 		await unlink(

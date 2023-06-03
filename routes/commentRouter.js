@@ -1,5 +1,5 @@
 const router = require("express").Router();
-// const validateArticleEntries = require("../utils/validationArticleEntries");
+// const validateArticleEntries = require("../utils/validateArticleEntries");
 // const {
 // 	upload,
 // 	fileSizeLimitMiddleware,
@@ -9,33 +9,33 @@ const {
 	// getUserArticles,
 	addComment,
 	updateComment,
+	deleteComment,
 	// deleteArticle,
 	// updateArticle,
 	// getSingleArticle,
 } = require("../controllers/commentController");
-const { userIsOwner } = require("../middlewares/auth/userIsOwner");
+const {
+	userIsOwnerOfComment,
+} = require("../middlewares/auth/userIsOwnerOfComment");
+const validateCommentContent = require("../utils/validateCommentContent");
 
-router.post(
-	"/",
-	isLoggedIn,
-	// upload.single("pic"),
-	// validateArticleEntries,
-	addComment
-);
+router.post("/", isLoggedIn, validateCommentContent, addComment);
 
 router.put(
 	"/:commentId",
 	isLoggedIn,
-	// userIsOwner,
+	validateCommentContent,
+	userIsOwnerOfComment,
 	updateComment
 );
+
+router.delete("/:commentId", isLoggedIn, userIsOwnerOfComment, deleteComment);
 
 /*
 router.get("/:articleId", getSingleArticle);
 
 router.get("/pages/:page", isLoggedIn, getUserArticles);
 
-router.delete("/:articleId", isLoggedIn, userIsOwner, deleteArticle);
 */
 
 module.exports = router;

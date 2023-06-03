@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
 
-const validateUpdatePassword = async (req, res, next) => {
+const validateUserUpdatePassword = async (req, res, next) => {
 	const { username, oldPassword, newPassword, newPasswordConfirm } = req.body;
 
 	try {
@@ -50,4 +50,4 @@ const validateUpdatePassword = async (req, res, next) => {
 	}
 };
 
-module.exports = validateUpdatePassword;
+module.exports = validateUserUpdatePassword;

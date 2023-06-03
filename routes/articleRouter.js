@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const validateArticleEntries = require("../utils/validationArticleEntries");
+const validateArticleEntries = require("../utils/validateArticleEntries");
 const {
 	upload,
 	fileSizeLimitMiddleware,

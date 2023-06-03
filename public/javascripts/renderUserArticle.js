@@ -94,7 +94,7 @@ if (!!btnDelete)
 				setTimeout(() => {
 					window.location.href =
 						"http://localhost:3000/api/articles/pages/1";
-				}, 1000);
+				}, 500);
 			}
 		} catch (error) {
 			console.log("Error:", error.message);
@@ -145,7 +145,7 @@ const saveUpdatedArticle = async () => {
 			setTimeout(() => {
 				window.location.href =
 					"http://localhost:3000/api/articles/pages/1";
-			}, 1000);
+			}, 500);
 		}
 		console.log("content: ", content);
 	} catch (error) {
@@ -230,12 +230,7 @@ btnPostComment.addEventListener("click", async (e) => {
 
 		const result = await response.json();
 		showAlert(result.success, result.message);
-		// if (result.success) {
-		// 	setTimeout(() => {
-		// 		window.location.href =
-		// 			"http://localhost:3000/api/users/dashboard";
-		// 	}, 1000);
-		// }
+		if (result.success) window.location.reload();
 	} catch (error) {
 		console.log("Error:", error.message);
 	}
