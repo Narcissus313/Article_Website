@@ -30,7 +30,7 @@ router.post(
 );
 
 router.patch(
-	"/articles/:articleId",
+	"/:articleId",
 	isLoggedIn,
 	userIsOwner,
 	upload.single("pic"),

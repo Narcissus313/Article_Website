@@ -83,7 +83,6 @@ if (!!btnDelete)
 					headers: {
 						"Content-Type": "application/json",
 					},
-					// body: JSON.stringify(data),
 				}
 			);
 
@@ -137,7 +136,9 @@ const saveUpdatedArticle = async () => {
 				body: formData,
 			}
 		);
+		console.log("response: ", response);
 		const result = await response.json();
+		console.log("result: ", result);
 
 		showAlert(result.success, result.message);
 

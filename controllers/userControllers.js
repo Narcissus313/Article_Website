@@ -3,6 +3,7 @@ const { join } = require("path");
 const fs = require("fs/promises");
 const User = require("../models/User");
 const Article = require("../models/Article");
+const Comment = require("../models/Comment");
 const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
@@ -265,13 +266,17 @@ const deleteUser = async (req, res, _next) => {
 		const articleIds = (await Article.find({ author: userId }, "_id")).map(
 			(article) => article._id.toString()
 		);
+
 		for (const articleId of articleIds) {
 			await fs.unlink(
 				join(__dirname, `../public/images/articlePics/${articleId}.jpg`)
 			);
+
+			await Comment.deleteMany({ article: articleId });
 		}
 
 		await Article.deleteMany({ author: userId });
+		await Comment.deleteMany({ author: userId });
 		await User.deleteOne({ _id: userId });
 		req.session.destroy();
 

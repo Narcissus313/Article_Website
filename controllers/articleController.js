@@ -1,8 +1,7 @@
 const Article = require("../models/Article");
 const Comment = require("../models/Comment");
-const { unlink } = require("node:fs/promises");
+const { unlink, rename } = require("node:fs/promises");
 const { join } = require("path");
-const fs = require("fs/promises");
 
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
@@ -75,7 +74,7 @@ const addArticle = async (req, res, _next) => {
 			author,
 		});
 
-		if (req.file)
+		if (!!req.file)
 			newArticle.pic = `/images/articlePics/${newArticle._id.toString()}.jpg`;
 
 		const tempPath = join(
@@ -83,7 +82,7 @@ const addArticle = async (req, res, _next) => {
 			"../public",
 			"images",
 			"articlePics",
-			"temp.jpg"
+			"temp" + newArticle._id.toString() + ".jpg"
 		);
 		const finalPath = join(
 			__dirname,
@@ -93,7 +92,7 @@ const addArticle = async (req, res, _next) => {
 			newArticle._id.toString() + ".jpg"
 		);
 
-		await fs.rename(tempPath, finalPath);
+		await rename(tempPath, finalPath);
 
 		await newArticle.save();
 
@@ -209,8 +208,7 @@ const updateArticle = async (req, res, _next) => {
 				"articlePics",
 				articleId.toString() + ".jpg"
 			);
-
-			await fs.rename(tempPath, finalPath);
+			await rename(tempPath, finalPath);
 		}
 
 		return res.json({
