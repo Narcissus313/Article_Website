@@ -15,7 +15,6 @@ const showAlert = (successStatus, text) => {
 	}, 2500);
 };
 
-const pageSize = 4;
 function generateCard(article) {
 	return `
         <div class="col-lg-6 col-md-6 col-12 mt-4 pt-2">
@@ -57,12 +56,13 @@ function generateCard(article) {
       `;
 }
 
-function renderPage(pageNumber) {
+function renderPage(pageNumber,articles) {
 	const startIndex = (pageNumber - 1) * pageSize;
 	const endIndex = startIndex + pageSize;
 	const articlesDiv = document.getElementById("articlesDiv");
 	articlesDiv.innerHTML = "";
 
+	// console.log('zzzzzzzz: ', articles);
 	for (let i = startIndex; i < endIndex; i++) {
 		if (articles[i]) {
 			const cardHtml = generateCard(articles[i]);
@@ -79,7 +79,11 @@ function renderPage(pageNumber) {
 function renderPagination(currentPage) {
 	const paginationContainer = document.querySelector("#paginationNav");
 	paginationContainer.innerHTML = "";
-	for (let i = currentPage >10 ? currentPage - 10 : 1; i <= totalPages; i++) {
+	for (
+		let i = currentPage > 10 ? currentPage - 10 : 1;
+		i <= totalPages;
+		i++
+	) {
 		const li = document.createElement("li");
 		li.classList.add("page-item");
 		li.classList.add("mx-2");
@@ -106,4 +110,4 @@ function renderPagination(currentPage) {
 }
 
 // Initial rendering
-renderPage(1);
+renderPage(1,articles);

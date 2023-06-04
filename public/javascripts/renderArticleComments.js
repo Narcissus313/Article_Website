@@ -110,7 +110,6 @@ const renderComments = () => {
 		})
 		.join("");
 
-	console.log("commentsBody: ", commentsBody);
 	commentsList.innerHTML = commentsBody;
 };
 

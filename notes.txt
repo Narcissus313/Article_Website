@@ -1,10 +1,9 @@
 ** sort articles on explore
-** status codes
-** middleware article exists
-** default profile pic in schema
 ** textarea content in edit mode
 
 
+** default profile pic in schema (done)
+** status codes (done)
 ** make admin role using postman (done)
 ** modal (done) - for new article not done
 ** routes (done)

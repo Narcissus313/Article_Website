@@ -43,6 +43,7 @@ const UserSchema = new mongoose.Schema(
 		},
 		avatar: {
 			type: String,
+			default: "/images/userAvatars/default-avatar.png",
 		},
 		role: {
 			type: String,
@@ -71,7 +72,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.pre("findOneAndUpdate", async function (next) {
 	const user = this._update;
-	
+
 	if (user.password) {
 		const salt = await bcrypt.genSalt(10);
 		user.password = await bcrypt.hash(user.password, salt);

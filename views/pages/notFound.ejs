@@ -24,15 +24,15 @@
                <ul class="nav navb nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
                      <form method="GET">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                           data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="true"
-                           type="submit" formaction="/explore/pages/1">Home</button>
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                           role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/">Home</button>
                      </form>
-
+   
                   </li>
                   <li class="nav-item" role="presentation">
                      <form method="GET">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
                            aria-controls="home-tab-pane" aria-selected="true" type="submit"
                            formaction="/explore/pages/1">Explore</button>
                      </form>
@@ -43,8 +43,7 @@
                   </form>
                   <form method="GET">
                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
-                        aria-controls="home-tab-pane" aria-selected="true" type="submit"
-                        formaction="/about">About</button>
+                        aria-controls="home-tab-pane" aria-selected="true" type="submit" formaction="/about">About</button>
                   </form>
                   <% if(userLoggedIn){%>
                      <form method="GET">
@@ -60,12 +59,24 @@
                      </form>
                      <%}%>
             </div>
-            <div class="righ" id="right">
-               <form class="d-flex justify-content-end" role="search" id="homeNav"></form>
+   
+   
+            <div class="righ">
+               <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
+                     type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
+                  <% if(userLoggedIn){%>
+                     <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/logout">Logout</a>
+                     <%}else{%>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/login">Login</a>
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn"
+                           href="/api/users/register">Signup</a>
+                        <%}%>
+               </form>
             </div>
          </div>
-
-
+   
+   
          <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                tabindex="0">
@@ -74,8 +85,8 @@
             </div>
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
             </div>
-            <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
-               tabindex="0">...
+            <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+               ...
             </div>
          </div>
       </nav>

@@ -92,7 +92,7 @@ const addArticle = async (req, res, _next) => {
 			"../public",
 			"images",
 			"articlePics",
-			"temp" + newArticle._id.toString() + ".jpg"
+			"temp.jpg"
 		);
 		const finalPath = join(
 			__dirname,
@@ -129,13 +129,21 @@ const getUserArticles = async (req, res, _next) => {
 			});
 
 		const id = req.session.user._id;
-		const articles = await Article.find({ author: id }).populate({
-			path: "author",
-			select: "firstName lastName username",
-		});
+		const articles = await Article.find({ author: id })
+			.populate({
+				path: "author",
+				select: "firstName lastName username",
+			})
+			.sort({ createdAt: -1 });
 
 		const pageSize = 4;
 		const totalPages = Math.ceil(articles.length / pageSize);
+
+		if (page > totalPages)
+			return res.render("pages/notFound", {
+				userLoggedIn: !!req.session.user,
+			});
+
 		const startIndex = (page - 1) * pageSize;
 		const endIndex = startIndex + pageSize;
 
@@ -145,6 +153,7 @@ const getUserArticles = async (req, res, _next) => {
 			articles: targetArticles,
 			page,
 			totalPages,
+			pageSize,
 			userLoggedIn: !!req.session.user,
 		});
 	} catch (error) {
@@ -237,24 +246,46 @@ const updateArticle = async (req, res, _next) => {
 	}
 };
 
+const showArticlesSorted = async (req, res, _next) => {
+	const requestSortBy = req.body.sortBy;
+	console.log("requestSortBy: ", requestSortBy);
+	req.session.sortBy = requestSortBy;
+	return res.redirect("/api/users/login");
+};
+
 const showAllArticles = async (req, res, _next) => {
+	if (!req.session.sortBy) req.session.sortBy = { createdAt: -1 };
+
 	try {
-		const articles = await Article.find({}).populate({
-			path: "author",
-			select: "firstName lastName username",
-		});
+		const articles = await Article.find({})
+			.populate({
+				path: "author",
+				select: "firstName lastName username",
+			})
+			.sort(req.session.sortBy);
 
 		const page = req.params.page;
 		const pageSize = 4;
 		const totalPages = Math.ceil(articles.length / pageSize);
+
+		if (page > totalPages)
+			return res.render("pages/notFound", {
+				userLoggedIn: !!req.session.user,
+			});
+
 		const startIndex = (page - 1) * pageSize;
 		const endIndex = startIndex + pageSize;
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
+		for (const article of targetArticles) {
+			console.log("X: ", article.title);
+		}
+
 		res.render("pages/explore", {
 			articles: targetArticles,
 			page,
+			pageSize,
 			totalPages,
 			userLoggedIn: !!req.session.user,
 		});
@@ -270,4 +301,5 @@ module.exports = {
 	deleteArticle,
 	updateArticle,
 	showAllArticles,
+	showArticlesSorted,
 };

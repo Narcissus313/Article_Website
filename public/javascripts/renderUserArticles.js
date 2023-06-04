@@ -1,7 +1,10 @@
 const saveArticleBtn = document.getElementById("saveArticleBtn");
 const articlesDiv = document.getElementById("articlesDiv");
 const summaryInput = document.getElementById("summaryInput");
+const selectSortBy = document.getElementById("selectSortBy");
+
 console.log(articles);
+
 saveArticleBtn.addEventListener("click", async () => {
 	let title = document.querySelector("#titleInput").value.trim();
 	let summary = document.querySelector("#summaryInput").value.trim();
@@ -49,4 +52,9 @@ saveArticleBtn.addEventListener("click", async () => {
 	} catch (error) {
 		console.log("errorrrr: ", error);
 	}
+});
+
+selectSortBy.addEventListener("click", () => {
+	const selectedOption = selectSortBy.value;
+	console.log('selectedOption: ', selectedOption);
 });

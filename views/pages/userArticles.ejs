@@ -22,6 +22,7 @@
    <script>
       const userLoggedIn = '(<%- userLoggedIn %>)';
       const page = +'<%- page %>';
+      const pageSize = +'<%- pageSize %>';
       const totalPages = +'<%- totalPages %>';
       const articles = JSON.parse('<%- JSON.stringify(articles) %>')
    </script>
@@ -112,9 +113,16 @@
       </nav>
    </section>
 
+   <!-- <select class="form-select w-25 ms-5 ml-autp mt-5 mb-0 ps-3"
+      style="max-width: 150px; left: 50px; position: relative; min-width: 180px;" aria-label="Default select example"
+      id="selectSortBy" aria-placeholder="ssa">
+      <option class="" value="0" selected></option>
+      <option class="" value="1">Newest</option>
+      <option class="" value="2">Oldest</option>
+   </select> -->
 
    <!-- content -->
-   <div class="container mt-5 pt-4">
+   <div class="container mt-0 pt-4">
       <div class="row align-items-end mb-4 pb-2">
 
          <div class="col-md-4 mt-4 mt-sm-0 d-none d-md-block">

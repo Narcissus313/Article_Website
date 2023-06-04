@@ -7,7 +7,10 @@ const session = require("express-session");
 const adminRouter = require("./routes/adminRouter");
 const apiRouter = require("./routes/apiRouter");
 const checkSystemAdminExists = require("./utils/checkSystemAdminExists");
-const { showAllArticles } = require("./controllers/articleController");
+const {
+	showAllArticles,
+	showArticlesSorted,
+} = require("./controllers/articleController");
 
 const app = express();
 
@@ -33,6 +36,8 @@ app.use(
 		resave: false,
 	})
 );
+
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/admin", adminRouter);
@@ -50,6 +55,7 @@ app.get("/home", (_req, res) => {
 	res.redirect("/");
 });
 
+app.post("/explore", showArticlesSorted);
 app.get("/explore/pages/:page", showAllArticles);
 
 app.all("*", function (req, res, _next) {

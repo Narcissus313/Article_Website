@@ -167,7 +167,15 @@ const loginUser = async (req, res, _next) => {
 			});
 		}
 
-		req.session.user = user;
+		const userData = { ...user._doc };
+		delete userData.password;
+		delete userData.phoneNumber;
+		delete userData.gender;
+		delete userData.createdAt;
+		delete userData.updatedAt;
+		delete userData.__v;
+
+		req.session.user = userData;
 		return res.status(200).json({
 			success: true,
 			message: "Logging in...",
