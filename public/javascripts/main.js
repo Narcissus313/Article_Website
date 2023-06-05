@@ -62,7 +62,6 @@ function renderPage(pageNumber,articles) {
 	const articlesDiv = document.getElementById("articlesDiv");
 	articlesDiv.innerHTML = "";
 
-	// console.log('zzzzzzzz: ', articles);
 	for (let i = startIndex; i < endIndex; i++) {
 		if (articles[i]) {
 			const cardHtml = generateCard(articles[i]);

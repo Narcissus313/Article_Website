@@ -98,10 +98,8 @@ if (!!btnDelete)
 			console.log("result: ", result);
 			showAlert(result.success, result.message);
 			if (result.success) {
-				setTimeout(() => {
-					window.location.href =
-						"http://localhost:3000/api/articles/pages/1";
-				}, 500);
+				window.location.href =
+					"http://localhost:3000/api/articles/pages/1";
 			}
 		} catch (error) {
 			console.log("Error:", error.message);
@@ -162,41 +160,41 @@ if (!!btnEdit)
 	btnEdit.addEventListener("click", async () => {
 		document.getElementById("card").innerHTML = `
 	<div class="content">
-               <div class="card mb-4">
-                  <div class="card-header">
-                     <div class="container-lg px-0">
-                        <div class="d-flex" id="articleHeader2">
-                           <div class="d-flex justify-content-start col-md-7 mt-2 fs-2">
-                              <input class="form-control col-md-6 mt-1 mb-3 fs-2 bg-white" placeholder="Title"
-                                 id="titleInput" value=${article.title}></input></p>
-                              >
-                           </div>
-                           <div class="d-flex justify-content-end col-md-5">
-                              <input class="form-control p-4 text-black bg-light" type="file" id="articlePic" name="pic"
-                                 accept=".jpg"><img class="col-md-6" src=${article.pic}
-                              style="max-width: 120px;max-height: 120px;"></img>
-                           </div>
-                        </div>
-                     </div>
+		<div class="card mb-4">
+			<div class="card-header">
+				<div class="container-lg px-0">
+					<div class="d-flex" id="articleHeader2">
+						<div class="d-flex justify-content-start col-md-7 mt-2 fs-2">
+							<input class="form-control col-md-6 mt-1 mb-3 fs-2 bg-white" placeholder="Title"
+								id="titleInput" value=${article.title}></input></p>
+							>
+						</div>
+						<div class="d-flex justify-content-end col-md-5">
+							<input class="form-control p-4 text-black bg-light" type="file" id="articlePic" name="pic"
+								accept=".jpg"><img class="col-md-6" src=${article.pic}
+							style="max-width: 120px;max-height: 120px;"></img>
+						</div>
+					</div>
+				</div>
 
-                  </div>
-                  <div class="card-body">
-                     <hr>
-                     <p class="mb-1" id="summary"><input class="form-control mb-1 fs-6" id="summaryInput" value=${article.summary}
-                           placeholder="Summary"></input></p>
-                     <hr>
-                     <div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6';"
-                        style="">
-                        <div id="editor" style="height: 300px;">
-                           <textarea class="form-control" id="contentTextarea" value=""
-                              style="height: 300px;"></textarea>
-                        </div>
-                     </div>
-                     
-                  </div>
-               </div>
+			</div>
+			<div class="card-body">
+				<hr>
+				<p class="mb-1" id="summary"><input class="form-control mb-1 fs-6" id="summaryInput" value=${article.summary}
+						placeholder="Summary"></input></p>
+				<hr>
+				<div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6';"
+					style="">
+					<div id="editor" style="height: 300px;">
+						<textarea class="form-control" id="contentTextarea" value=""
+							style="height: 300px;"></textarea>
+					</div>
+				</div>
+				
+			</div>
+		</div>
                
-            </div>
+	</div>
 	`;
 		var quill = new Quill("#editor", {
 			modules: {

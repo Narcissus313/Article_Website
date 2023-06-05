@@ -30,6 +30,8 @@
          const comments = JSON.parse('<%- JSON.stringify(allComments) %>');
          console.log('comments: ', comments);
          const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
+         const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
+         console.log('userIsAdmin: ', userIsAdmin);
          const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
       </script>
 
@@ -127,7 +129,7 @@
          <div class="container-lg">
             <div class="content">
                <div class="card mb-4" id="card"></div>
-               <% if(userLoggedIn && userIsOwner){ %>
+               <% if((userLoggedIn && userIsOwner) || userIsAdmin){ %>
                   <div id="divEditDelete">
                      <button class="btn btn-success" id="btnEdit">Edit</button>
                      <button class="btn btn-danger" id="btnDelete">Delete</button>

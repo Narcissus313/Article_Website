@@ -19,6 +19,7 @@
 
    <script>
       const userLoggedIn = '(<%- userLoggedIn %>)';
+      const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
       const page = +'<%- page %>';
       const totalPages = +'<%- totalPages %>';
       const pageSize = +'<%- pageSize %>';
@@ -105,10 +106,10 @@
    </section>
 
    <select class="form-select w-25 ms-5 ml-autp mt-5 mb-0 ps-3"
-   style="max-width: 150px; left: 50px; position: relative; min-width: 180px;" aria-label="Default select example"
-   id="selectSortBy" aria-placeholder="ssa">
+      style="max-width: 150px; left: 50px; position: relative; min-width: 180px;" aria-label="Default select example"
+      id="selectSortBy" aria-placeholder="ssa">
       <option class="" value="0" selected></option>
-      <option class="" value="1" >Newest</option>
+      <option class="" value="1">Newest</option>
       <option class="" value="2">Oldest</option>
       <!-- <option class="" value="3">More Comments</option> -->
    </select>

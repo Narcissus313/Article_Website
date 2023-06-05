@@ -6,6 +6,8 @@ const { join } = require("path");
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
 	const userLoggedIn = !!req.session.user;
+	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+	console.log("userIsAdmin: ", userIsAdmin);
 
 	try {
 		const article = await Article.findById(articleId)
@@ -32,6 +34,7 @@ const getSingleArticle = async (req, res, _next) => {
 			return res.render("pages/userArticle", {
 				article,
 				userLoggedIn,
+				userIsAdmin,
 				userIsOwner: false,
 				allComments: comments,
 			});
@@ -58,6 +61,7 @@ const getSingleArticle = async (req, res, _next) => {
 				article,
 				userLoggedIn,
 				userIsOwner,
+				userIsAdmin,
 				allComments,
 			});
 		}
@@ -65,6 +69,7 @@ const getSingleArticle = async (req, res, _next) => {
 			article,
 			userLoggedIn: false,
 			userIsOwner: false,
+			userIsAdmin,
 			allComments,
 		});
 	} catch (error) {
@@ -72,7 +77,7 @@ const getSingleArticle = async (req, res, _next) => {
 	}
 };
 
-const addArticle = async (req, res, _next) => {
+const addArticle = async (req, res, _next) => {userIsOwner
 	const { title, summary, content } = req.body;
 	const author = req.session.user._id;
 
@@ -120,6 +125,9 @@ const addArticle = async (req, res, _next) => {
 };
 
 const getUserArticles = async (req, res, _next) => {
+	const userIsAdmin =
+		!!req.session.user && !!req.session.user.role === "ADMIN";
+
 	try {
 		const page = req.params.page;
 
@@ -137,7 +145,7 @@ const getUserArticles = async (req, res, _next) => {
 			.sort({ createdAt: -1 });
 
 		const pageSize = 4;
-		const totalPages = Math.ceil(articles.length / pageSize);
+		const totalPages = Math.ceil(articles.length / pageSize) || 1;
 
 		if (page > totalPages)
 			return res.render("pages/notFound", {
@@ -154,6 +162,7 @@ const getUserArticles = async (req, res, _next) => {
 			page,
 			totalPages,
 			pageSize,
+			userIsAdmin,
 			userLoggedIn: !!req.session.user,
 		});
 	} catch (error) {
@@ -278,9 +287,11 @@ const showAllArticles = async (req, res, _next) => {
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
-		for (const article of targetArticles) {
-			console.log("X: ", article.title);
-		}
+		// for (const article of targetArticles) {
+		// 	console.log("X: ", article.title);
+		// }
+		const userIsAdmin =
+			!!req.session.user && !!req.session.user.role === "ADMIN";
 
 		res.render("pages/explore", {
 			articles: targetArticles,
@@ -288,6 +299,7 @@ const showAllArticles = async (req, res, _next) => {
 			pageSize,
 			totalPages,
 			userLoggedIn: !!req.session.user,
+			userIsAdmin,
 		});
 	} catch (error) {
 		res.status(500).json({ success: false, message: "server error!" });

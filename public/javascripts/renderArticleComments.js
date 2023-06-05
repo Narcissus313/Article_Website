@@ -101,7 +101,7 @@ const renderComments = () => {
 			} <a href="#" class="text-primary text-decoration-none">@${
 				comment.author.username
 			}</a></strong>
-		<p class="px-3 mt-2 ${comment.forTheUser ? " bg-light" : ""}">
+		<p class="px-3 mt-2 ${comment.forTheUser || userIsAdmin ? " bg-light" : ""}">
 			${comment.content}
 		</p>
 	</div>

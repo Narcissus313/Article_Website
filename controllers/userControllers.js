@@ -169,8 +169,6 @@ const loginUser = async (req, res, _next) => {
 
 		const userData = { ...user._doc };
 		delete userData.password;
-		delete userData.phoneNumber;
-		delete userData.gender;
 		delete userData.createdAt;
 		delete userData.updatedAt;
 		delete userData.__v;

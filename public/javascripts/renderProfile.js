@@ -4,6 +4,9 @@ const profileData = document.getElementById("profile-data");
 const newPasswordDiv = document.getElementById("newPasswordDiv");
 const editInfoBtn = document.getElementById("editInfoBtn");
 const saveInfoBtn = document.getElementById("saveInfoBtn");
+const cancelSaveEdittedInfoBtn = document.getElementById(
+	"cancelSaveEdittedInfoBtn"
+);
 const inputFirstName = document.getElementById("inputFirstName");
 const inputLastName = document.getElementById("inputLastName");
 const inputUsername = document.getElementById("inputUsername");
@@ -94,6 +97,7 @@ editInfoBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	editInfoBtn.classList.add("d-none");
 	saveInfoBtn.classList.remove("d-none");
+	cancelSaveEdittedInfoBtn.classList.remove("d-none");
 	newPasswordDiv.classList.remove("d-none");
 
 	inputFirstName.removeAttribute("disabled");
@@ -188,6 +192,28 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	} catch (error) {
 		console.log("Error:", error.message);
 	}
+});
+
+cancelSaveEdittedInfoBtn.addEventListener("click", () => {
+	inputFirstName.disabled = true;
+	inputFirstName.classList.remove("text-bg-white");
+	inputFirstName.classList.add("text-bg-light");
+
+	inputLastName.disabled = true;
+	inputLastName.classList.remove("text-bg-white");
+	inputLastName.classList.add("text-bg-light");
+
+	inputPhoneNumber.disabled = true;
+	inputPhoneNumber.classList.remove("text-bg-white");
+	inputPhoneNumber.classList.add("text-bg-light");
+
+	document
+		.getElementById("genderSelection")
+		.setAttribute("disabled", "disabled");
+
+	cancelSaveEdittedInfoBtn.classList.add("d-none");
+	saveInfoBtn.classList.add("d-none");
+	editInfoBtn.classList.remove("d-none");
 });
 
 saveChangedPasswordBtn.addEventListener("click", async (e) => {
