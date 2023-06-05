@@ -31,7 +31,7 @@ router.get("/login", getLoginPage);
 router.post("/login", loginUser);
 
 router.patch("/update", validateUserUpdateEntries, userIsAuthorized, updateUser);
-router.post(
+router.patch(
 	"/updatePassword",
 	validateUserUpdatePassword,
 	userIsAuthorized,

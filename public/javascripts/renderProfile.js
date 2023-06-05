@@ -28,7 +28,6 @@ const fileInput = document.getElementById("avatar");
 const uploadButton = document.getElementById("updateAvatarBtn");
 const removeAvatarBtn = document.getElementById("removeAvatarBtn");
 
-genderDiv.innerHTML = ``;
 genderDiv.innerHTML = `
     <select class="form-select form-select-lg bg-light fs-6"
         aria-label=".form-select-lg example" id="genderSelection" disabled>
@@ -120,7 +119,7 @@ editInfoBtn.addEventListener("click", (e) => {
 	inputPhoneNumber.classList.add("text-bg-white");
 
 	const genders = ["male", "female", "not-set"];
-	let temp = `<select class="form-select form-select-lg text-black fs-6"
+	let temp = `<select class="form-select form-select-lg fs-6"
         aria-label=".form-select-lg example" id="genderSelection">`;
 	for (const gender of genders) {
 		if (userData.gender === gender)
@@ -228,9 +227,14 @@ cancelSaveEdittedInfoBtn.addEventListener("click", () => {
 	roleInput.classList.remove("text-bg-white");
 	roleInput.classList.add("text-bg-light");
 
-	document
-		.getElementById("genderSelection")
-		.setAttribute("disabled", "disabled");
+	genderDiv.innerHTML = `
+    <select class="form-select form-select-lg bg-light fs-6"
+        aria-label=".form-select-lg example" id="genderSelection" disabled>
+        <option value=" not-set" selected>${userData.gender}</option>
+        <option value=" male">male</option>
+        <option value="female">female</option>
+    </select>
+`;
 
 	cancelSaveEdittedInfoBtn.classList.add("d-none");
 	saveInfoBtn.classList.add("d-none");
@@ -263,7 +267,7 @@ saveChangedPasswordBtn.addEventListener("click", async (e) => {
 		const response = await fetch(
 			"http://localhost:3000/api/users/updatePassword",
 			{
-				method: "POST",
+				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -274,6 +278,8 @@ saveChangedPasswordBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 		console.log("result: ", result);
 		showAlert(result.success, result.message);
+
+		if (result.success) window.location.reload();
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

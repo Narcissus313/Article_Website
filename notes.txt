@@ -1,9 +1,9 @@
 ** textarea content in edit mode
-** app.update method for updating user
 ** set select menu on cancel edit profile
 ** search for articles
 ** modal (done) - for new article not done
 
+** app.update method for updating user (done)
 ** admin line red in userlistforadmin (done)
 ** number of articles in userslistforadmin page (done)
 ** admin panel in notFound page(done)
