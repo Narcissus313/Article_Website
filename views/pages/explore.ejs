@@ -20,7 +20,6 @@
    <script>
       const userLoggedIn = '(<%- userLoggedIn %>)';
       const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
-      console.log('userIsAdmin: ', userIsAdmin);
       const page = +'<%- page %>';
       const totalPages = +'<%- totalPages %>';
       const pageSize = +'<%- pageSize %>';
@@ -116,19 +115,24 @@
       </nav>
    </section>
 
-   <select class="form-select w-25 ms-5 ml-autp mt-5 mb-0 ps-3"
-      style="max-width: 150px; left: 50px; position: relative; min-width: 180px;" aria-label="Default select example"
-      id="selectSortBy" aria-placeholder="ssa">
-      <option class="" value="0" selected></option>
-      <option class="" value="1">Newest</option>
-      <option class="" value="2">Oldest</option>
-      <!-- <option class="" value="3">More Comments</option> -->
-   </select>
+   <div class="form-group row mt-5 px-5">
+      <label for="selectSortBy" class="col-md-1 col-form-label me-0 fw-bold italic text-success">Sort By:</label>
+      <div class="col-md-11 ps-0">
+         <select class="form-select ml-autp ms-0 mb-0"
+            style="max-width: 150px; left: 50px; position: relative; min-width: 180px;"
+            aria-label="Default select example" id="selectSortBy" aria-placeholder="ssa">
+            <option class="" value="0" selected></option>
+            <option class="" value="1">Newest</option>
+            <option class="" value="2">Oldest</option>
+            <!-- <option class="" value="3">More Comments</option> -->
+         </select>
+      </div>
+   </div>
 
    <!-- content -->
    <div class="container mt-0 pt-4">
       <div class="row align-items-end mb-4 pb-2">
-         <div class="col-md-4 mt-4 mt-sm-0 d-none d-md-block">
+         <div class="col-md-4 mt-2 mt-sm-0 d-none d-md-block">
             <div class="text-center text-md-end">
             </div>
          </div>

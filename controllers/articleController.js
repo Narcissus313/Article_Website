@@ -7,7 +7,6 @@ const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
 	const userLoggedIn = !!req.session.user;
 	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
-	console.log("userIsAdmin: ", userIsAdmin);
 
 	try {
 		const article = await Article.findById(articleId)
@@ -79,7 +78,6 @@ const getSingleArticle = async (req, res, _next) => {
 };
 
 const addArticle = async (req, res, _next) => {
-	userIsOwner;
 	const { title, summary, content } = req.body;
 	const author = req.session.user._id;
 
