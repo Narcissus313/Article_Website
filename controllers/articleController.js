@@ -256,9 +256,9 @@ const updateArticle = async (req, res, _next) => {
 
 const showArticlesSorted = async (req, res, _next) => {
 	const requestSortBy = req.body.sortBy;
-	console.log("requestSortBy: ", requestSortBy);
 	req.session.sortBy = requestSortBy;
-	return res.redirect("/api/users/login");
+
+	res.redirect("/api/users/login");
 };
 
 const showAllArticles = async (req, res, _next) => {

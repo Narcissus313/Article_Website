@@ -7,8 +7,44 @@ const Comment = require("../models/Comment");
 const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
-const getAdminPanel = (req, res, _next) => {
-	res.status(200).render("pages/adminPanel");
+const getAdminPanel = async (req, res, _next) => {
+	// const pageNumber = req.params.pageNumber;
+	// console.log('pageNumber: ', pageNumber);
+	// res.status(200).render("pages/adminPanel");
+	try {
+		const users = await User.find().sort({ createdAt: -1 });
+
+		const page = req.params.pageNumber;
+		const pageSize = 2;
+		const totalPages = Math.ceil(users.length / pageSize);
+
+		if (page > totalPages || page < 1)
+			return res.render("pages/notFound", {
+				userLoggedIn: !!req.session.user,
+				userIsAdmin: req.session.user?.role === "ADMIN",
+			});
+
+		const startIndex = (page - 1) * pageSize;
+		const endIndex = startIndex + pageSize;
+
+		const targetUsers = users.slice(startIndex, endIndex);
+
+		// for (const user of targetUsers) {
+		// 	console.log("X: ", user.title);
+		// }
+		const userIsAdmin = req.session?.user.role === "ADMIN";
+
+		res.render("pages/adminPanel", {
+			users: targetUsers,
+			page,
+			pageSize,
+			totalPages,
+			userLoggedIn: !!req.session.user,
+			userIsAdmin,
+		});
+	} catch (error) {
+		res.status(500).json({ success: false, message: "server error!" });
+	}
 };
 
 const getRegisterPage = (req, res, _next) => {
@@ -196,7 +232,7 @@ const loginUser = async (req, res, _next) => {
 	}
 };
 
-const getUserPageForAdmin = async (req, res, _next) => {
+const getUsersListPageForAdmin = async (req, res, _next) => {
 	// if (!req.session.user) return res.redirect("/api/users/login");
 
 	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
@@ -206,7 +242,10 @@ const getUserPageForAdmin = async (req, res, _next) => {
 		const targetUser = await User.findById(userId);
 		const userIsAdmin = req.session.user.role === "ADMIN";
 
-		res.render("pages/userPageForAdmin", { user: targetUser, userIsAdmin });
+		res.render("pages/usersListPageForAdmin", {
+			user: targetUser,
+			userIsAdmin,
+		});
 	} catch (error) {
 		return res.redirect("pages/notFound");
 	}
@@ -346,5 +385,5 @@ module.exports = {
 	updatePassword,
 	updateUser,
 	deleteUser,
-	getUserPageForAdmin,
+	getUsersListPageForAdmin,
 };

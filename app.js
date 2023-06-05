@@ -61,7 +61,10 @@ app.post("/explore", showArticlesSorted);
 app.get("/explore/pages/:page", showAllArticles);
 
 app.all("*", function (req, res, _next) {
-	res.render("pages/notFound", { userLoggedIn: !!req.session.user });
+	res.render("pages/notFound", {
+		userLoggedIn: !!req.session.user,
+		userIsAdmin: req.session.user?.role === "ADMIN",
+	});
 });
 
 // error handler

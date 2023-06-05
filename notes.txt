@@ -3,6 +3,7 @@
 ** set select menu on cancel edit profile
 ** search for articles
 ** paginations in showing users to admin
+** admin panel in notFound page
 
 ** sort articles on explore (done)
 ** default profile pic in schema (done)

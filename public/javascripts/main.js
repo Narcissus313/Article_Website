@@ -93,7 +93,7 @@ function renderPagination(currentPage) {
 		if (i === currentPage) {
 			li.classList.add("active");
 			li.innerHTML = `
-        <span class="page-link btn-primary-save mb-5 text-white text-center px-2 rounded-5">${i}</span>
+        <span class="page-link btn-primary-save mb-5 text-white text-center px-2">${i}</span>
       `;
 		} else {
 			li.innerHTML = `
