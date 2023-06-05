@@ -11,7 +11,7 @@ const userIsOwnerOfComment = async (req, res, next) => {
 	).author._id.toString();
 	const userId = req.session.user._id;
 
-	if (commentAuthorId !== userId) {
+	if (commentAuthorId !== userId && req.session.user.role !== "ADMIN") {
 		return res
 			.status(403)
 			.json({ success: false, message: "You are not authorized" });

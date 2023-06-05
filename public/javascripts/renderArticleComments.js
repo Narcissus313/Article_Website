@@ -85,7 +85,7 @@ const renderComments = () => {
 		<small class="text-muted">
 			<div class="btn-group align-top">
 				${
-					comment.forTheUser
+					comment.forTheUser || userIsAdmin
 						? `<button class="btn btn-sm btn-outline-primary badge text-black mt-2 ms-5" type="button"
 					data-bs-toggle="modal" data-bs-target="#editCommentModal"
 					onclick="renderModalComment('${comment._id}','${comment.content}')">Edit</button><button
@@ -101,7 +101,7 @@ const renderComments = () => {
 			} <a href="#" class="text-primary text-decoration-none">@${
 				comment.author.username
 			}</a></strong>
-		<p class="px-3 mt-2 ${comment.forTheUser || userIsAdmin ? " bg-light" : ""}">
+		<p class="px-3 mt-2 ${comment.forTheUser ? " bg-light" : ""}">
 			${comment.content}
 		</p>
 	</div>
