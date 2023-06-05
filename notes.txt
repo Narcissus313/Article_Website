@@ -1,9 +1,10 @@
-** sort articles on explore
 ** textarea content in edit mode
-** app.update for updating user
+** app.update method for updating user
 ** set select menu on cancel edit profile
 ** search for articles
+** paginations in showing users to admin
 
+** sort articles on explore (done)
 ** default profile pic in schema (done)
 ** status codes (done)
 ** make admin role using postman (done)

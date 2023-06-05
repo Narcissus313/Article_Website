@@ -1,5 +1,4 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUserUpdateEntries = require("../utils/validateUserUpdateEntries");
 const validateUserUpdatePassword = require("../utils/validateUserUpdatePassword");
@@ -42,12 +41,7 @@ router.post(
 router.delete("/deleteUser", userIsAuthorized, deleteUser);
 
 router.get("/dashboard", isLoggedIn, getdashboardPage);
-router.get(
-	"/user-info/:userId",
-	isLoggedIn,
-	userIsAdmin,
-	getUserPageForAdmin
-);
+router.get("/user-info/:userId", isLoggedIn, userIsAdmin, getUserPageForAdmin);
 
 router.get("/adminPanel", isLoggedIn, userIsAdmin, getAdminPanel);
 
