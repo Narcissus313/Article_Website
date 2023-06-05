@@ -37,14 +37,16 @@ app.use(
 	})
 );
 
-
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {
-	res.render("home", { userLoggedIn: !!req.session.user });
+	res.render("home", {
+		userLoggedIn: !!req.session.user,
+		userIsAdmin: req.session.user?.role === "ADMIN",
+	});
 });
 
 app.get("/about", (_req, res) => {

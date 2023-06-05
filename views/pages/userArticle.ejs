@@ -28,10 +28,8 @@
       <script>
          const article = JSON.parse('<%- JSON.stringify(article) %>');
          const comments = JSON.parse('<%- JSON.stringify(allComments) %>');
-         console.log('comments: ', comments);
          const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
          const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
-         console.log('userIsAdmin: ', userIsAdmin);
          const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
       </script>
 
@@ -86,15 +84,21 @@
                               Articles</button>
                         </form>
                         <%}%>
+                        <% if(!!userIsAdmin) { %>
+                           <form method="GET">
+                              <button class="nav-link tex.black" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
+                                 aria-controls="my-articles-tab-pane" aria-selected="false" type="submit"
+                                 formaction="/api/users/adminPanel"><span class="text-danger fw-bold">Admin
+                                    Panel</span></button>
+                           </form>
+                           <%}%>
                </div>
 
 
                <div class="righ">
-                  <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
-                        type="search" placeholder="Search" aria-label="Search">
-                     <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
+                  <form class="d-flex justify-content-end" role="search" id="homeNav">
                      <% if(userLoggedIn){%>
-                        <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn"
+                        <a class="btn btn-outline-danger mx-2" role="tab" id="logoutBtn"
                            href="/api/users/logout">Logout</a>
                         <%}else{%>
                            <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn"

@@ -127,8 +127,7 @@ const addArticle = async (req, res, _next) => {
 };
 
 const getUserArticles = async (req, res, _next) => {
-	const userIsAdmin =
-		!!req.session.user && !!req.session.user.role === "ADMIN";
+	const userIsAdmin = req.session.user?.role === "ADMIN";
 
 	try {
 		const page = req.params.page;
@@ -292,8 +291,7 @@ const showAllArticles = async (req, res, _next) => {
 		// for (const article of targetArticles) {
 		// 	console.log("X: ", article.title);
 		// }
-		const userIsAdmin =
-			!!req.session.user && !!req.session.user.role === "ADMIN";
+		const userIsAdmin = req.session.user?.role === "ADMIN";
 
 		res.render("pages/explore", {
 			articles: targetArticles,

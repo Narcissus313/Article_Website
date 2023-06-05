@@ -24,6 +24,8 @@
       const page = +'<%- page %>';
       const pageSize = +'<%- pageSize %>';
       const totalPages = +'<%- totalPages %>';
+      const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
+      console.log('userIsAdmin: ', userIsAdmin);
       const articles = JSON.parse('<%- JSON.stringify(articles) %>')
    </script>
 
@@ -78,13 +80,20 @@
                            Articles</button>
                      </form>
                      <%}%>
+                        <% if(!!userIsAdmin) { %>
+                           <form method="GET">
+                              <button class="nav-link tex.black" data-bs-toggle="tab"
+                                 data-bs-target="#my-articles-tab-pane" role="tab" aria-controls="my-articles-tab-pane"
+                                 aria-selected="false" type="submit" formaction="/api/users/adminPanel"><span
+                                    class="text-danger fw-bold">Admin
+                                    Panel</span></button>
+                           </form>
+                           <%}%>
             </div>
 
 
             <div class="righ">
-               <form class="d-flex justify-content-end" role="search" id="homeNav"><input class="form-control me-2"
-                     type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
+               <form class="d-flex justify-content-end" role="search" id="homeNav">
                   <% if(userLoggedIn){%>
                      <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/logout">Logout</a>
                      <%}else{%>
@@ -112,14 +121,6 @@
          </div>
       </nav>
    </section>
-
-   <!-- <select class="form-select w-25 ms-5 ml-autp mt-5 mb-0 ps-3"
-      style="max-width: 150px; left: 50px; position: relative; min-width: 180px;" aria-label="Default select example"
-      id="selectSortBy" aria-placeholder="ssa">
-      <option class="" value="0" selected></option>
-      <option class="" value="1">Newest</option>
-      <option class="" value="2">Oldest</option>
-   </select> -->
 
    <!-- content -->
    <div class="container mt-0 pt-4">

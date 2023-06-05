@@ -3,6 +3,7 @@ const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUserUpdateEntries = require("../utils/validateUserUpdateEntries");
 const validateUserUpdatePassword = require("../utils/validateUserUpdatePassword");
+const AdminRoleChecker = require("../utils/userIsAdmin");
 const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
 
 const {
@@ -17,6 +18,7 @@ const {
 	updateUser,
 	updatePassword,
 	deleteUser,
+	getAdminPanel,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -33,6 +35,8 @@ router.post("/updatePassword", validateUserUpdatePassword, updatePassword);
 router.delete("/deleteUser", deleteUser);
 
 router.get("/dashboard", getdashboardPage);
+
+router.get("/adminPanel", AdminRoleChecker, getAdminPanel);
 
 router.get("/logout", isLoggedIn, logout);
 

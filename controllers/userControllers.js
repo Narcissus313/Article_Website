@@ -7,6 +7,11 @@ const Comment = require("../models/Comment");
 const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
+const getAdminPanel = (req, res, _next) => {
+	res.status(200).render("pages/adminPanel", {});
+	// res.render("pages/notFound", { userLoggedIn: !!req.session.user });
+};
+
 const getRegisterPage = (req, res, _next) => {
 	if (req.session.user) return res.redirect("/api/users/login");
 	res.render("pages/register", {
@@ -193,7 +198,9 @@ const loginUser = async (req, res, _next) => {
 const getdashboardPage = (req, res, _next) => {
 	if (!req.session.user) return res.redirect("/api/users/login");
 
-	res.render("pages/dashboard", { user: req.session.user });
+	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+
+	res.render("pages/dashboard", { user: req.session.user, userIsAdmin });
 };
 
 const logout = (req, res, _next) => {
@@ -310,6 +317,7 @@ const deleteUser = async (req, res, _next) => {
 
 module.exports = {
 	getRegisterPage,
+	getAdminPanel,
 	registerUser,
 	getLoginPage,
 	loginUser,

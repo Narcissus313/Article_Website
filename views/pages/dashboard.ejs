@@ -17,7 +17,8 @@
 
     <div id="content">
         <script>
-            const userData = JSON.parse('<%- JSON.stringify(user) %>')
+            const userData = JSON.parse('<%- JSON.stringify(user) %>');
+            const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
         </script>
 
         <!-- alert box -->
@@ -68,16 +69,25 @@
                                     formaction="/api/articles/pages/1">My
                                     Articles</button>
                             </form>
+                            <% if(!!userIsAdmin) { %>
+                                <form method="GET">
+                                    <button class="nav-link tex.black" data-bs-toggle="tab"
+                                        data-bs-target="#my-articles-tab-pane" role="tab"
+                                        aria-controls="my-articles-tab-pane" aria-selected="false" type="submit"
+                                        formaction="/api/users/adminPanel"><span class="text-danger fw-bold">Admin
+                                            Panel</span></button>
+                                </form>
+                                <%}%>
+
                     </div>
                     <div class="righ">
                         <form class="d-flex justify-content-end" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-primary mx-2" type="submit">Search</button>
                             <form method="GET">
                                 <button class="btn btn-outline-danger mx-2" data-bs-toggle="tab"
                                     data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane"
                                     aria-selected="true" type="submit" formaction="/api/users/logout">Logout</button>
                             </form>
+
                         </form>
                     </div>
                 </div>
@@ -204,8 +214,8 @@
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputLocation">Role</label>
                                                 <input class="form-control text-bg-light text-black" id="inputLocation"
-                                                    type="text" placeholder="Enter your location" value="<%= user.role %>"
-                                                    disabled>
+                                                    type="text" placeholder="Enter your location"
+                                                    value="<%= user.role %>" disabled>
                                             </div>
                                         </div>
 
@@ -233,7 +243,8 @@
                                             Info</button>
                                         <button class="btn btn-success mb-1 d-none" type="button" id="saveInfoBtn">Save
                                             changes</button>
-                                        <button class="btn btn-primary mb-1 d-none" type="button" id="cancelSaveEdittedInfoBtn">Cancel</button>
+                                        <button class="btn btn-primary mb-1 d-none" type="button"
+                                            id="cancelSaveEdittedInfoBtn">Cancel</button>
                                     </form>
                                 </div>
                             </div>

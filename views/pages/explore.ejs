@@ -20,6 +20,7 @@
    <script>
       const userLoggedIn = '(<%- userLoggedIn %>)';
       const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
+      console.log('userIsAdmin: ', userIsAdmin);
       const page = +'<%- page %>';
       const totalPages = +'<%- totalPages %>';
       const pageSize = +'<%- pageSize %>';
@@ -69,6 +70,16 @@
                            Articles</button>
                      </form>
                      <%}%>
+
+                        <% if(!!userIsAdmin) { %>
+                           <form method="GET">
+                              <button class="nav-link tex.black" data-bs-toggle="tab"
+                                 data-bs-target="#my-articles-tab-pane" role="tab" aria-controls="my-articles-tab-pane"
+                                 aria-selected="false" type="submit" formaction="/api/users/adminPanel"><span
+                                    class="text-danger fw-bold">Admin
+                                    Panel</span></button>
+                           </form>
+                           <%}%>
             </div>
 
 
