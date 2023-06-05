@@ -8,11 +8,40 @@ const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getAdminPanel = async (req, res, _next) => {
-	// const pageNumber = req.params.pageNumber;
-	// console.log('pageNumber: ', pageNumber);
-	// res.status(200).render("pages/adminPanel");
 	try {
-		const users = await User.find().sort({ createdAt: -1 });
+		// const users = await User.find().sort({ createdAt: -1 });
+		const users = await User.aggregate([
+			{
+				$lookup: {
+					from: "articles",
+					localField: "_id",
+					foreignField: "author",
+					as: "articles",
+				},
+			},
+			{
+				$lookup: {
+					from: "comments",
+					localField: "_id",
+					foreignField: "author",
+					as: "comments",
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					firstName: 1,
+					lastName: 1,
+					gender: 1,
+					phoneNumber: 1,
+					username: 1,
+					role: 1,
+					createdAt: 1,
+					articleCount: { $size: "$articles" },
+					commentCount: { $size: "$comments" },
+				},
+			},
+		]).sort({ createdAt: -1 });
 
 		const page = req.params.pageNumber;
 		const pageSize = 2;
@@ -96,18 +125,33 @@ const registerUser = async (req, res, _next) => {
 
 const updateUser = async (req, res, _next) => {
 	try {
-		const user = await User.findOneAndUpdate(
-			req.body.username,
-			{
-				firstName: req.body.firstName,
-				lastName: req.body.lastName,
-				phoneNumber: req.body.phoneNumber,
-				gender: req.body.gender,
-			},
-			{ new: true }
-		);
+		const userIsAdmin = req.session?.user.role === "ADMIN";
 
-		const x = await User.findById(req.session.user._id);
+		// const targetUser = await User.findOne({ username: req.body.username });
+
+		const newInfoForUserToUpdate = {
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			phoneNumber: req.body.phoneNumber,
+			gender: req.body.gender,
+			role: userIsAdmin ? req.body.role : "BLOGGER",
+		};
+
+		// console.log("newInfoForUserToUpdate: ", newInfoForUserToUpdate);
+		if (req.body.role !== "ADMIN" && req.body.role !== "BLOGGER")
+			delete newInfoForUserToUpdate.role;
+
+		// console.log("newInfoForUserToUpdate: ", newInfoForUserToUpdate);
+		console.log("zzz");
+		await User.findOneAndUpdate(
+			{ username: req.body.username },
+			newInfoForUserToUpdate,
+			{
+				new: true,
+			}
+		);
+		console.log("xxx");
+		const x = await User.findById(req.session?.user._id);
 		req.session.user.firstName = x.firstName;
 		req.session.user.lastName = x.lastName;
 		req.session.user.phoneNumber = x.phoneNumber;
@@ -232,29 +276,23 @@ const loginUser = async (req, res, _next) => {
 	}
 };
 
-const getUsersListPageForAdmin = async (req, res, _next) => {
-	// if (!req.session.user) return res.redirect("/api/users/login");
-
-	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+const getUserPageForAdmin = async (req, res, _next) => {
 	const userId = req.params.userId;
 
 	try {
 		const targetUser = await User.findById(userId);
 		const userIsAdmin = req.session.user.role === "ADMIN";
 
-		res.render("pages/usersListPageForAdmin", {
+		res.render("pages/userPageForAdmin", {
 			user: targetUser,
 			userIsAdmin,
 		});
 	} catch (error) {
 		return res.redirect("pages/notFound");
 	}
-	// res.send('ss')
 };
 
 const getdashboardPage = (req, res, _next) => {
-	// if (!req.session.user) return res.redirect("/api/users/login");
-
 	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
 
 	res.render("pages/dashboard", { user: req.session.user, userIsAdmin });
@@ -385,5 +423,5 @@ module.exports = {
 	updatePassword,
 	updateUser,
 	deleteUser,
-	getUsersListPageForAdmin,
+	getUserPageForAdmin,
 };

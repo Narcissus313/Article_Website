@@ -11,6 +11,8 @@ const commentShortDate = (comment) =>
 		year: "numeric",
 		month: "short",
 		day: "numeric",
+		hour: "numeric",
+		minute: "numeric",
 	});
 
 const renderModalComment = (commentId, commentContent) => {

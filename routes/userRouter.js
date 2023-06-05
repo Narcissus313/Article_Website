@@ -19,7 +19,7 @@ const {
 	updatePassword,
 	deleteUser,
 	getAdminPanel,
-	getUsersListPageForAdmin,
+	getUserPageForAdmin,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -30,7 +30,7 @@ router.post("/register", validateRegisterEntries, registerUser);
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
 
-router.post("/update", validateUserUpdateEntries, userIsAuthorized, updateUser);
+router.patch("/update", validateUserUpdateEntries, userIsAuthorized, updateUser);
 router.post(
 	"/updatePassword",
 	validateUserUpdatePassword,
@@ -41,14 +41,14 @@ router.post(
 router.delete("/deleteUser", userIsAuthorized, deleteUser);
 
 router.get("/dashboard", isLoggedIn, getdashboardPage);
+router.get("/user-info/:userId", isLoggedIn, userIsAdmin, getUserPageForAdmin);
+
 router.get(
-	"/user-info/:userId",
+	"/adminPanel/page/:pageNumber",
 	isLoggedIn,
 	userIsAdmin,
-	getUsersListPageForAdmin
+	getAdminPanel
 );
-
-router.get("/adminPanel/page/:pageNumber", isLoggedIn, userIsAdmin, getAdminPanel);
 
 router.get("/logout", isLoggedIn, logout);
 

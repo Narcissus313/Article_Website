@@ -16,6 +16,8 @@ const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	year: "numeric",
 	month: "short",
 	day: "numeric",
+	hour: "numeric",
+	minute: "numeric",
 });
 
 console.log("article: ", article);
@@ -53,7 +55,7 @@ const renderArticleBody = () => {
 		<hr>
 		<div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6'"></div>
 		<hr>
-		<div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'">${articleShortDate}</div>
+		<div class="small text-muted bg-warning" id="articleDate" style="border:'1px solid #dee2e6'">${articleShortDate}</div>
 	</div>
 	`;
 

@@ -2,14 +2,16 @@
 ** app.update method for updating user
 ** set select menu on cancel edit profile
 ** search for articles
-** paginations in showing users to admin
-** admin panel in notFound page
+** modal (done) - for new article not done
 
+** admin line red in userlistforadmin (done)
+** number of articles in userslistforadmin page (done)
+** admin panel in notFound page(done)
+** paginations in showing users to admin (done)
 ** sort articles on explore (done)
 ** default profile pic in schema (done)
 ** status codes (done)
 ** make admin role using postman (done)
-** modal (done) - for new article not done
 ** routes (done)
 ** pagination (done)
 ** summary in card (done)

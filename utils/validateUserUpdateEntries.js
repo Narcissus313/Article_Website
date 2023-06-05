@@ -32,7 +32,6 @@ const validateUserUpdateEntries = async (req, res, next) => {
 
 	try {
 		const user = await User.findOne({ username });
-		console.log("user: ", user);
 
 		if (!user) {
 			return res.status(400).json({

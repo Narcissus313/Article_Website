@@ -20,12 +20,14 @@ function generateCard(article) {
         <div class="col-lg-6 col-md-6 col-12 mt-4 pt-2">
 					<div class="card border-0 bg-light shadowx" style="height:280px;">
 						<div class="card-body p-4">
-							<span class="badge rounded-pill bg-primary float-md-end mb-1 mb-sm-0">${new Date(
+							<span class="badge rounded-pill bg-warning float-md-end mb-1 mb-sm-0">${new Date(
 								article.createdAt
 							).toLocaleString("en-US", {
 								year: "numeric",
 								month: "short",
 								day: "numeric",
+								hour: "numeric",
+								minute: "numeric",
 							})}</span>
 							<h5 class="mt-3">${article.title}</h5>
 							<div class="d-flex justify-content-between">
@@ -56,7 +58,7 @@ function generateCard(article) {
       `;
 }
 
-function renderPage(pageNumber,articles) {
+function renderPage(pageNumber, articles) {
 	const startIndex = (pageNumber - 1) * pageSize;
 	const endIndex = startIndex + pageSize;
 	const articlesDiv = document.getElementById("articlesDiv");
@@ -109,4 +111,4 @@ function renderPagination(currentPage) {
 }
 
 // Initial rendering
-renderPage(1,articles);
+renderPage(1, articles);

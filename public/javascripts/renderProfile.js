@@ -13,6 +13,7 @@ const inputUsername = document.getElementById("inputUsername");
 const inputPhoneNumber = document.getElementById("inputPhoneNumber");
 const genderSelection = document.getElementById("genderSelection");
 const genderDiv = document.getElementById("genderDiv");
+const roleInput = document.getElementById("roleInput");
 const saveChangedPasswordBtn = document.getElementById(
 	"saveChangedPasswordBtn"
 );
@@ -29,7 +30,7 @@ const removeAvatarBtn = document.getElementById("removeAvatarBtn");
 
 genderDiv.innerHTML = ``;
 genderDiv.innerHTML = `
-    <select class="form-select form-select-lg text-black fs-6"
+    <select class="form-select form-select-lg bg-light fs-6"
         aria-label=".form-select-lg example" id="genderSelection" disabled>
         <option value=" not-set" selected>${userData.gender}</option>
         <option value=" male">male</option>
@@ -108,6 +109,12 @@ editInfoBtn.addEventListener("click", (e) => {
 	inputLastName.classList.remove("text-bg-light");
 	inputLastName.classList.add("text-bg-white");
 
+	if (userIsAdmin) {
+		roleInput.removeAttribute("disabled");
+		roleInput.classList.remove("text-bg-light");
+		roleInput.classList.add("text-bg-white");
+	}
+
 	inputPhoneNumber.removeAttribute("disabled");
 	inputPhoneNumber.classList.remove("text-bg-light");
 	inputPhoneNumber.classList.add("text-bg-white");
@@ -129,6 +136,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	const firstName = inputFirstName.value.trim();
 	const lastName = inputLastName.value.trim();
 	const username = inputUsername.value.trim();
+	const role = roleInput.value.trim();
 	let gender = "";
 	var options = ["male", "female", "not-set"];
 	for (const option of options) {
@@ -152,17 +160,21 @@ saveInfoBtn.addEventListener("click", async (e) => {
 			"Last name must be at least 3 characters and at most 30"
 		);
 
+	if (role !== "ADMIN" && role !== "BLOGGER")
+		return showAlert(false, "Wrong role");
+
 	let data = {
 		firstName,
 		lastName,
 		gender,
 		username,
 		phoneNumber,
+		role,
 	};
 
 	try {
 		const response = await fetch("http://localhost:3000/api/users/update", {
-			method: "POST",
+			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -211,6 +223,10 @@ cancelSaveEdittedInfoBtn.addEventListener("click", () => {
 	inputPhoneNumber.disabled = true;
 	inputPhoneNumber.classList.remove("text-bg-white");
 	inputPhoneNumber.classList.add("text-bg-light");
+
+	roleInput.disabled = true;
+	roleInput.classList.remove("text-bg-white");
+	roleInput.classList.add("text-bg-light");
 
 	document
 		.getElementById("genderSelection")
