@@ -1,6 +1,8 @@
 ** sort articles on explore
 ** textarea content in edit mode
-
+** app.update for updating user
+** set select menu on cancel edit profile
+** search for articles
 
 ** default profile pic in schema (done)
 ** status codes (done)

@@ -8,8 +8,7 @@ const { userAvatarUpload } = require("../utils/multer-settings");
 const deleteAvatarPic = require("../utils/deleteAvatarPic");
 
 const getAdminPanel = (req, res, _next) => {
-	res.status(200).render("pages/adminPanel", {});
-	// res.render("pages/notFound", { userLoggedIn: !!req.session.user });
+	res.status(200).render("pages/adminPanel");
 };
 
 const getRegisterPage = (req, res, _next) => {
@@ -61,8 +60,8 @@ const registerUser = async (req, res, _next) => {
 
 const updateUser = async (req, res, _next) => {
 	try {
-		const user = await User.findByIdAndUpdate(
-			req.session.user._id,
+		const user = await User.findOneAndUpdate(
+			req.body.username,
 			{
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
@@ -71,10 +70,12 @@ const updateUser = async (req, res, _next) => {
 			},
 			{ new: true }
 		);
-		req.session.user.firstName = user.firstName;
-		req.session.user.lastName = user.lastName;
-		req.session.user.phoneNumber = user.phoneNumber;
-		req.session.user.gender = user.gender;
+
+		const x = await User.findById(req.session.user._id);
+		req.session.user.firstName = x.firstName;
+		req.session.user.lastName = x.lastName;
+		req.session.user.phoneNumber = x.phoneNumber;
+		req.session.user.gender = x.gender;
 
 		res.status(200).json({
 			success: true,
@@ -195,8 +196,25 @@ const loginUser = async (req, res, _next) => {
 	}
 };
 
+const getUserPageForAdmin = async (req, res, _next) => {
+	// if (!req.session.user) return res.redirect("/api/users/login");
+
+	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+	const userId = req.params.userId;
+
+	try {
+		const targetUser = await User.findById(userId);
+		const userIsAdmin = req.session.user.role === "ADMIN";
+
+		res.render("pages/userPageForAdmin", { user: targetUser, userIsAdmin });
+	} catch (error) {
+		return res.redirect("pages/notFound");
+	}
+	// res.send('ss')
+};
+
 const getdashboardPage = (req, res, _next) => {
-	if (!req.session.user) return res.redirect("/api/users/login");
+	// if (!req.session.user) return res.redirect("/api/users/login");
 
 	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
 
@@ -328,4 +346,5 @@ module.exports = {
 	updatePassword,
 	updateUser,
 	deleteUser,
+	getUserPageForAdmin,
 };

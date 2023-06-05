@@ -3,9 +3,10 @@ const router = express.Router();
 const validateRegisterEntries = require("../utils/validateRegisterEntries");
 const validateUserUpdateEntries = require("../utils/validateUserUpdateEntries");
 const validateUserUpdatePassword = require("../utils/validateUserUpdatePassword");
-const AdminRoleChecker = require("../utils/userIsAdmin");
+const userIsAdmin = require("../utils/userIsAdmin");
+const userIsAuthorized = require("../utils/userIsAuthorized");
 const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
-
+11;
 const {
 	getRegisterPage,
 	registerUser,
@@ -19,6 +20,7 @@ const {
 	updatePassword,
 	deleteUser,
 	getAdminPanel,
+	getUserPageForAdmin,
 } = require("../controllers/userControllers");
 
 const { isLoggedIn } = require("../middlewares/auth/auth");
@@ -29,14 +31,25 @@ router.post("/register", validateRegisterEntries, registerUser);
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
 
-router.post("/update", validateUserUpdateEntries, updateUser);
-router.post("/updatePassword", validateUserUpdatePassword, updatePassword);
+router.post("/update", validateUserUpdateEntries, userIsAuthorized, updateUser);
+router.post(
+	"/updatePassword",
+	validateUserUpdatePassword,
+	userIsAuthorized,
+	updatePassword
+);
 
-router.delete("/deleteUser", deleteUser);
+router.delete("/deleteUser", userIsAuthorized, deleteUser);
 
-router.get("/dashboard", getdashboardPage);
+router.get("/dashboard", isLoggedIn, getdashboardPage);
+router.get(
+	"/user-info/:userId",
+	isLoggedIn,
+	userIsAdmin,
+	getUserPageForAdmin
+);
 
-router.get("/adminPanel", AdminRoleChecker, getAdminPanel);
+router.get("/adminPanel", isLoggedIn, userIsAdmin, getAdminPanel);
 
 router.get("/logout", isLoggedIn, logout);
 

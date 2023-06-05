@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/png" href="/fav-icon.png">
+
+   <title>User Info</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+   integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="/stylesheets/style.css">
+
+<body>
+
+   <div id="content">
+      <script>
+         const userData = JSON.parse('<%- JSON.stringify(user) %>');
+         const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
+      </script>
+
+      <!-- alert box -->
+      <div
+         class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-center align-content-center mt-4"
+         role="alert" id="alertBox">
+         <p class="text-center mt-3 mx-auto" id="alertText">alert text</p>
+      </div>
+
+      <!-- head navbar -->
+      <section>
+         <nav class="mb-4 bg-light mt-0 px-3">
+            <div class="d-flex justify-content-between mt-1">
+               <div class="lef">
+                  <ul class="nav navb nav-tabs" id="myTab" role="tablist">
+                     <li class="nav-item" role="presentation">
+                        <form method="GET">
+                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                              aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                              formaction="/">Home</button>
+                        </form>
+
+                     </li>
+                     <li class="nav-item" role="presentation">
+                        <form method="GET">
+                           <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                              aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                              formaction="/explore/pages/1">Explore</button>
+                        </form>
+                     </li>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/contact">Contact</button>
+                     </form>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/about">About</button>
+                     </form>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab"
+                           aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/api/users/dashboard">Dashboard</button>
+                     </form>
+                     <form method="GET">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
+                           aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
+                           formaction="/api/articles/pages/1">My
+                           Articles</button>
+                     </form>
+                     <% if(!!userIsAdmin) { %>
+                        <form method="GET">
+                           <button class="nav-link tex.black" data-bs-toggle="tab"
+                              data-bs-target="#my-articles-tab-pane" role="tab" aria-controls="my-articles-tab-pane"
+                              aria-selected="false" type="submit" formaction="/api/users/adminPanel"><span
+                                 class="text-danger fw-bold">Admin
+                                 Panel</span></button>
+                        </form>
+                        <%}%>
+
+               </div>
+               <div class="righ">
+                  <form class="d-flex justify-content-end" role="search">
+                     <form method="GET">
+                        <button class="btn btn-outline-danger mx-2" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                           role="tab" aria-controls="home-tab-pane" aria-selected="true" type="submit"
+                           formaction="/api/users/logout">Logout</button>
+                     </form>
+
+                  </form>
+               </div>
+            </div>
+
+
+            </ul>
+            <div class="tab-content" id="myTabContent">
+               <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                  tabindex="0">
+               </div>
+               <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+                  tabindex="0">...
+               </div>
+            </div>
+         </nav>
+      </section>
+
+      <div class="container-lg">
+
+         <!-- <div class="container"> -->
+         <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tab-list">
+               <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info-tab-pane"
+                  type="button" role="tab" aria-controls="info-tab-pane" aria-selected="true">User Info</button>
+
+               <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane"
+                  type="button" role="tab" aria-controls="password-tab-pane" aria-selected="true">Change
+                  Password</button>
+
+               <button class="nav-link" id="delete-account-tab" data-bs-toggle="tab"
+                  data-bs-target="#delete-account-tab-pane" type="button" role="tab"
+                  aria-controls="delete-account-tab-pane" aria-selected="true">Delete Account</button>
+            </div>
+         </nav>
+         <div class="tab-content" id="navTabContent">
+            <!-- Info Part -->
+            <div class="tab-pane fade show active p-3" id="info-tab-pane" role="tab-panel"
+               aria-labelledby="nav-info-tab">
+               <div class="row">
+                  <div class="col-xl-4">
+
+                     <!-- Profile picture card-->
+                     <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Profile Picture</div>
+                        <div class="card-body text-center">
+
+                           <!-- Profile picture image-->
+                           <img class="img-account-profile rounded-circle mb-2 w-50" src="<%= user.avatar %>" alt="">
+
+                           <!-- Profile picture help block-->
+                           <div class="small font-italic text-muted mb-4">JPG, JPEG, PNG no larger than 5 MB
+                           </div>
+
+                           <!-- Profile picture upload button-->
+                           <div class="d-flex justify-content-center">
+                              <form class="w-75 justify-content-center" id="avatar-form" enctype="multipart/form-data">
+                                 <div>
+                                    <label for="avatar">Select an avatar image:</label>
+                                    <input class="btn btn-success form-control" type="file" id="avatar" name="avatar"
+                                       accept=".jpg, .jpeg, .png">
+                                 </div>
+                                 <button class="btn btn-success my-4 fs-6" type="submit" id="updateAvatarBtn">Upload
+                                    Avatar</button>
+                                 <input class="btn btn-danger my-4 fs-6" type="button" value="Remove Avatar"
+                                    id="removeAvatarBtn">
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-8">
+                     <!-- Account details card-->
+                     <div class="card mb-4">
+                        <div class="card-header">Account Details</div>
+                        <div class="card-body">
+                           <form>
+                              <!-- Form Group (username)-->
+                              <div class="mb-3 mt-1">
+                                 <label class="small mb-1" for="inputUsername">
+                                    <h5>Username</h5>
+                                 </label>
+                                 <input class="form-control text-bg-light fs-2 fw-bold text-primary" id="inputUsername"
+                                    type="text" placeholder="Enter your username" value="<%=user.username%>" disabled>
+                              </div>
+                              <!-- Form Row-->
+                              <div class="row gx-3 mb-3">
+                                 <!-- Form Group (first name)-->
+                                 <div class="col-md-6">
+                                    <label class="small mb-1" for="inputFirstName">First name</label>
+                                    <input class="form-control text-bg-light text-black" id="inputFirstName" type="text"
+                                       placeholder="Enter your first name" value="<%=user.firstName%>" disabled>
+                                 </div>
+                                 <!-- Form Group (last name)-->
+                                 <div class="col-md-6">
+                                    <label class="small mb-1" for="inputLastName">Last name</label>
+                                    <input class="form-control text-bg-light text-black" id="inputLastName" type="text"
+                                       placeholder="Enter your last name" value="<%=user.lastName%>" disabled>
+                                 </div>
+                              </div>
+                              <!-- Form Row        -->
+                              <div class="row gx-3 mb-3">
+                                 <!-- Form Group (Gender)-->
+                                 <div class="form-group mt-4 col-md-6" id="genderDiv">
+                                    <select class="form-select mt-5 form-select-lg text-black fs-6  text-bg-light"
+                                       aria-label=".form-select-lg example" id="genderSelection" disabled>
+                                       <option value="not-set" selected>not-set</option>
+                                       <option value="male">male</option>
+                                       <option value="female">female</option>
+                                    </select>
+                                 </div>
+                                 <!-- Form Group (location)-->
+                                 <div class="col-md-6">
+                                    <label class="small mb-1" for="inputLocation">Role</label>
+                                    <input class="form-control text-bg-light text-black" id="inputLocation" type="text"
+                                       placeholder="Enter your location" value="<%= user.role %>" disabled>
+                                 </div>
+                              </div>
+
+
+
+                              <div class="row gx-3 mb-3">
+                                 <!-- Form Group (phone number)-->
+                                 <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhoneNumber">Phone Number</label>
+                                    <input class="form-control text-bg-light text-black" id="inputPhoneNumber"
+                                       type="text" placeholder="Enter your phone number" value="<%=user.phoneNumber%>"
+                                       disabled>
+                                 </div>
+                              </div>
+
+                              <hr>
+
+
+                              <!-- Form Row-->
+                              <div class="row gx-3 mb-3">
+                              </div>
+                              <!-- Save changes button-->
+                              <button class="btn btn-primary mb-1" type="button" id="editInfoBtn">Edit
+                                 Info</button>
+                              <button class="btn btn-success mb-1 d-none" type="button" id="saveInfoBtn">Save
+                                 changes</button>
+                              <button class="btn btn-primary mb-1 d-none" type="button"
+                                 id="cancelSaveEdittedInfoBtn">Cancel</button>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Password Part -->
+            <div class="tab-pane fade show p-3" id="password-tab-pane" role="tab-panel" aria-labelledby="nav-info-tab">
+               <!-- Form Group (Change Password)-->
+
+
+               <div class="row gx-3 mb-3 d-flex flex-column justify-content-center align-items-center"
+                  id="newPasswordDiv">
+                  <div class="col-md-6">
+                     <label class="small mb-1 text-danger" for="inputOldPassword">Your
+                        Password</label>
+                     <input class="form-control text-bg-white text-black text-danger" id="inputOldPassword"
+                        type="password" placeholder="Old Password" type="text" placeholder="Enter your email address">
+                  </div>
+                  <br>
+                  <div class="col-md-6">
+                     <label class="small mb-1 text-danger" for="inputNewPassword">New
+                        Password</label>
+                     <input class="form-control text-bg-white text-black" id="inputNewPassword" type="password"
+                        placeholder="Enter your passsword">
+                  </div>
+                  <div class="col-md-6 mt-0">
+                     <label class="small mb-1" for="inputNewPasswordConfirm"></label>
+                     <input class="form-control text-bg-white text-black" id="inputNewPasswordConfirm" type="password"
+                        placeholder="Enter your pasasword">
+                  </div>
+                  <button class="btn btn-primary my-4 w-25" type="button" id="saveChangedPasswordBtn">Save</button>
+               </div>
+            </div>
+
+            <!-- Delete Account Part -->
+            <div class="tab-pane fade show p-3" id="delete-account-tab-pane" role="tab-panel"
+               aria-labelledby="nav-info-tab">
+               <!-- Form Group (Change Password)-->
+
+               <div class="d-flex justify-content-center flex-column">
+                  <h2 class="text-danger text-center mt-5">Your account will be deleted perminantly !!</h2>
+                  <br>
+                  <br>
+                  <button class="btn btn-danger mb-1 mt-5 col-md-3 align-self-center" type="button"
+                     id="deleteAccountBtn">Delete
+                     Account</button>
+               </div>
+
+            </div>
+         </div>
+         <!-- </div> -->
+
+      </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="/javascripts/renderProfile.js"></script>
+
+</html>

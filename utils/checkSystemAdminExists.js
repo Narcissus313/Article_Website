@@ -9,7 +9,7 @@ const checkSystemAdminExists = async () => {
 		phoneNumber: "09123654589",
 		password: "systemAdmin",
 		role: "ADMIN",
-		avatar: "/images/userAvatars/default-avatar.png",
+		avatar: "/images/userAvatars/admin.png",
 	});
 
 	const systemAdminExists =
