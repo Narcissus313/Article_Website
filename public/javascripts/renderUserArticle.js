@@ -18,7 +18,7 @@ const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	day: "numeric",
 });
 
-console.log(article);
+console.log("article: ", article);
 
 const showAlert = (successStatus, text) => {
 	let alert = document.getElementById("alertBox");
@@ -158,6 +158,7 @@ const saveUpdatedArticle = async () => {
 
 if (!!btnEdit)
 	btnEdit.addEventListener("click", async () => {
+		console.log("X: ", article);
 		document.getElementById("card").innerHTML = `
 	<div class="content">
 		<div class="card mb-4">
@@ -166,7 +167,7 @@ if (!!btnEdit)
 					<div class="d-flex" id="articleHeader2">
 						<div class="d-flex justify-content-start col-md-7 mt-2 fs-2">
 							<input class="form-control col-md-6 mt-1 mb-3 fs-2 bg-white" placeholder="Title"
-								id="titleInput" value=${article.title}></input></p>
+								id="titleInput" value="${article.title}"></input></p>
 							>
 						</div>
 						<div class="d-flex justify-content-end col-md-5">
@@ -180,13 +181,13 @@ if (!!btnEdit)
 			</div>
 			<div class="card-body">
 				<hr>
-				<p class="mb-1" id="summary"><input class="form-control mb-1 fs-6" id="summaryInput" value=${article.summary}
+				<p class="mb-1" id="summary"><input class="form-control mb-1 fs-6" id="summaryInput" value="${article.summary}"
 						placeholder="Summary"></input></p>
 				<hr>
 				<div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6';"
 					style="">
 					<div id="editor" style="height: 300px;">
-						<textarea class="form-control" id="contentTextarea" value=""
+						<textarea class="form-control" id="contentTextarea" value="${article.content}"
 							style="height: 300px;"></textarea>
 					</div>
 				</div>

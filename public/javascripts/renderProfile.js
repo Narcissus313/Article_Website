@@ -1,5 +1,5 @@
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{4,}$/;
-
+console.log("xx", userData);
 const profileData = document.getElementById("profile-data");
 const newPasswordDiv = document.getElementById("newPasswordDiv");
 const editInfoBtn = document.getElementById("editInfoBtn");
@@ -112,14 +112,17 @@ editInfoBtn.addEventListener("click", (e) => {
 	inputPhoneNumber.classList.remove("text-bg-light");
 	inputPhoneNumber.classList.add("text-bg-white");
 
-	genderDiv.innerHTML = `
-    <select class="form-select form-select-lg text-black fs-6"
-        aria-label=".form-select-lg example" id="genderSelection">
-        <option value="not-set" selected>not-set</option>
-        <option value="male">male</option>
-        <option value="female">female</option>
-    </select>
-`;
+	const genders = ["male", "female", "not-set"];
+	let temp = `<select class="form-select form-select-lg text-black fs-6"
+        aria-label=".form-select-lg example" id="genderSelection">`;
+	for (const gender of genders) {
+		if (userData.gender === gender)
+			temp += `
+        <option value="${userData.gender}" selected>${userData.gender}</option>`;
+		else temp += `<option value="${gender}">${gender}</option>`;
+	}
+	temp += `</select>`;
+	genderDiv.innerHTML = temp;
 });
 
 saveInfoBtn.addEventListener("click", async (e) => {
@@ -169,26 +172,28 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 		showAlert(result.success, result.message);
 
-		if (result.success) {
-			inputFirstName.disabled = true;
-			inputFirstName.classList.remove("text-bg-white");
-			inputFirstName.classList.add("text-bg-light");
+		// if (result.success) {
+		// 	inputFirstName.disabled = true;
+		// 	inputFirstName.classList.remove("text-bg-white");
+		// 	inputFirstName.classList.add("text-bg-light");
 
-			inputLastName.disabled = true;
-			inputLastName.classList.remove("text-bg-white");
-			inputLastName.classList.add("text-bg-light");
+		// 	inputLastName.disabled = true;
+		// 	inputLastName.classList.remove("text-bg-white");
+		// 	inputLastName.classList.add("text-bg-light");
 
-			inputPhoneNumber.disabled = true;
-			inputPhoneNumber.classList.remove("text-bg-white");
-			inputPhoneNumber.classList.add("text-bg-light");
+		// 	inputPhoneNumber.disabled = true;
+		// 	inputPhoneNumber.classList.remove("text-bg-white");
+		// 	inputPhoneNumber.classList.add("text-bg-light");
 
-			document
-				.getElementById("genderSelection")
-				.setAttribute("disabled", "disabled");
+		// 	document
+		// 		.getElementById("genderSelection")
+		// 		.setAttribute("disabled", "disabled");
 
-			saveInfoBtn.classList.add("d-none");
-			editInfoBtn.classList.remove("d-none");
-		}
+		// 	saveInfoBtn.classList.add("d-none");
+		// 	cancelSaveEdittedInfoBtn.classList.add("d-none");
+		// 	editInfoBtn.classList.remove("d-none");
+		// }
+		window.location.reload();
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

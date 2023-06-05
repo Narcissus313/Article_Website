@@ -28,7 +28,8 @@ const getSingleArticle = async (req, res, _next) => {
 			.populate({
 				path: "author",
 				select: "firstName lastName username avatar",
-			});
+			})
+			.sort({ createdAt: -1 });
 
 		if (!req.session.user) {
 			return res.render("pages/userArticle", {
@@ -77,7 +78,8 @@ const getSingleArticle = async (req, res, _next) => {
 	}
 };
 
-const addArticle = async (req, res, _next) => {userIsOwner
+const addArticle = async (req, res, _next) => {
+	userIsOwner;
 	const { title, summary, content } = req.body;
 	const author = req.session.user._id;
 
