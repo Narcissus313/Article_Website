@@ -11,8 +11,11 @@ const {
 	deleteArticle,
 	updateArticle,
 	getSingleArticle,
+	getSearchedArticles,
 } = require("../controllers/articleController");
 const { userIsOwner } = require("../middlewares/auth/userIsOwner");
+
+router.get("/search", getSearchedArticles);
 
 router.get("/:articleId", getSingleArticle);
 
