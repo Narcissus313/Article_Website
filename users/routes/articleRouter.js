@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const validateArticleEntries = require("../utils/validateArticleEntries");
+const validateArticleEntries = require("../../utils/validateArticleEntries");
 const {
 	upload,
 	fileSizeLimitMiddleware,
-} = require("../utils/multer-article-pics-settings");
-const { isLoggedIn } = require("../middlewares/auth/auth");
+} = require("../../utils/multer-article-pics-settings");
+const { isLoggedIn } = require("../../middlewares/auth/auth");
 const {
 	getUserArticles,
 	addArticle,
@@ -13,7 +13,7 @@ const {
 	getSingleArticle,
 	getSearchedArticles,
 } = require("../controllers/articleController");
-const { userIsOwner } = require("../middlewares/auth/userIsOwner");
+const { userIsOwner } = require("../../middlewares/auth/userIsOwner");
 
 router.get("/search", getSearchedArticles);
 

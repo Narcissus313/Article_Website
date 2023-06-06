@@ -20,6 +20,35 @@ const articleShortDate = new Date(article.createdAt).toLocaleString("en-US", {
 	minute: "numeric",
 });
 
+textAreaComment.addEventListener("keyup", (e) => {
+	if (e.keyCode === 13 && !e.shiftKey) {
+		e.preventDefault();
+		sendComment();
+		textAreaComment.value = "";
+	}
+});
+
+const sendComment = async () => {
+	const content = textAreaComment.value;
+	const articleId = article._id;
+	const data = { content, article: articleId };
+	try {
+		const response = await fetch("http://localhost:3000/api/comments", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+
+		const result = await response.json();
+		showAlert(result.success, result.message);
+		if (result.success) window.location.reload();
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
+};
+
 console.log("article: ", article);
 
 const showAlert = (successStatus, text) => {
@@ -55,7 +84,7 @@ const renderArticleBody = () => {
 		<hr>
 		<div class="small text-muted" id="articleContent" style="border:'1px solid #dee2e6'"></div>
 		<hr>
-		<div class="small text-muted bg-warning" id="articleDate" style="border:'1px solid #dee2e6'">${articleShortDate}</div>
+		<div class="small text-muted" id="articleDate" style="border:'1px solid #dee2e6'">${articleShortDate}</div>
 	</div>
 	`;
 
@@ -222,24 +251,7 @@ if (!!btnSave) btnSave.addEventListener("click", saveUpdatedArticle);
 
 btnPostComment.addEventListener("click", async (e) => {
 	e.preventDefault();
-	const content = textAreaComment.value;
-	const articleId = article._id;
-	const data = { content, article: articleId };
-	try {
-		const response = await fetch("http://localhost:3000/api/comments", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		});
-
-		const result = await response.json();
-		showAlert(result.success, result.message);
-		if (result.success) window.location.reload();
-	} catch (error) {
-		console.log("Error:", error.message);
-	}
+	sendComment();
 });
 
 renderArticleBody();

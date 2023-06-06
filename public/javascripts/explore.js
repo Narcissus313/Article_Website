@@ -114,33 +114,25 @@ function renderPagination(currentPage) {
 }
 
 const fetchArticlesData = async (url) => {
-	const response = await fetch(url, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-	const result = await response.json();
-	console.log("result: ", result);
-
-	page = +result.page;
-	totalPages = +result.totalPages;
-	pageSize = +result.pageSize;
-
-	// const pageUrl = new URL(window.location.href);
-	// pageUrl.searchParams.set("page", 1);
-
-	// window.history.pushState(null, "", pageUrl);
-	renderPage(1, result.articles);
+	try {
+		// const response = await axios.get(url);
+		//  const result = await response.text();
+		// document.getElementsByTagName("body")[0].innerHTML(bodyContent);
+		document.location.href = "/api/articles/search/?searchText=s&page=1";
+		// Assuming the renderPage function is correctly implemented
+		console.log('XXXXXXXX');
+		renderPage(1, result);
+	} catch (error) {
+		console.log("Error:", error.message);
+	}
 };
 
 btnSearch.addEventListener("click", async (e) => {
 	e.preventDefault();
 	const searchText = inputSearch.value.trim();
-	console.log("seachText: ", searchText);
-	fetchArticlesData(
-		`http://localhost:3000/api/articles/search/?searchText=${searchText.toLowerCase()}&page=1`
-	);
+	// fetchArticlesData(
+	// 	`http://localhost:3000/api/articles/search/?searchText=${searchText.toLowerCase()}&page=1`
+	// );
+	console.log('articles: ', articles);
+	renderPage(1, articles);
 });
-
-// renderPage(1, articles);

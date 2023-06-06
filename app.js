@@ -4,13 +4,13 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const adminRouter = require("./routes/adminRouter");
-const apiRouter = require("./routes/apiRouter");
+const adminRouter = require("./users/routes");
+const apiRouter = require("./users/routes/apiRouter");
 const checkSystemAdminExists = require("./utils/checkSystemAdminExists");
 const {
 	showAllArticles,
 	showArticlesSorted,
-} = require("./controllers/articleController");
+} = require("./users/controllers/articleController");
 
 const app = express();
 
@@ -72,7 +72,6 @@ app.use(function (err, req, res, _next) {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 
-	// console.log('res.locals.message: ', res.locals.message);
 	res.locals.error = req.app.get("env") === "development" ? err : {};
 
 	// render the error page

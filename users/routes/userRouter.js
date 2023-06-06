@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const validateRegisterEntries = require("../utils/validateRegisterEntries");
-const validateUserUpdateEntries = require("../utils/validateUserUpdateEntries");
-const validateUserUpdatePassword = require("../utils/validateUserUpdatePassword");
-const userIsAdmin = require("../utils/userIsAdmin");
-const userIsAuthorized = require("../utils/userIsAuthorized");
-const { avatarSizeLimitMiddleware } = require("../utils/multer-settings");
+const validateRegisterEntries = require("../../utils/validateRegisterEntries");
+const validateUserUpdateEntries = require("../../utils/validateUserUpdateEntries");
+const validateUserUpdatePassword = require("../../utils/validateUserUpdatePassword");
+const userIsAdmin = require("../../utils/userIsAdmin");
+const userIsAuthorized = require("../../utils/userIsAuthorized");
+const { avatarSizeLimitMiddleware } = require("../../utils/multer-settings");
 11;
 const {
 	getRegisterPage,
@@ -22,7 +22,7 @@ const {
 	getUserPageForAdmin,
 } = require("../controllers/userControllers");
 
-const { isLoggedIn } = require("../middlewares/auth/auth");
+const { isLoggedIn } = require("../../middlewares/auth/auth");
 
 router.get("/register", getRegisterPage);
 router.post("/register", validateRegisterEntries, registerUser);
@@ -30,7 +30,12 @@ router.post("/register", validateRegisterEntries, registerUser);
 router.get("/login", getLoginPage);
 router.post("/login", loginUser);
 
-router.patch("/update", validateUserUpdateEntries, userIsAuthorized, updateUser);
+router.patch(
+	"/update",
+	validateUserUpdateEntries,
+	userIsAuthorized,
+	updateUser
+);
 router.patch(
 	"/updatePassword",
 	validateUserUpdatePassword,

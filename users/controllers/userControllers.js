@@ -1,15 +1,14 @@
 const url = require("url");
 const { join } = require("path");
 const fs = require("fs/promises");
-const User = require("../models/User");
-const Article = require("../models/Article");
-const Comment = require("../models/Comment");
-const { userAvatarUpload } = require("../utils/multer-settings");
-const deleteAvatarPic = require("../utils/deleteAvatarPic");
+const User = require("../../models/User");
+const Article = require("../../models/Article");
+const Comment = require("../../models/Comment");
+const { userAvatarUpload } = require("../../utils/multer-settings");
+const deleteAvatarPic = require("../../utils/deleteAvatarPic");
 
 const getAdminPanel = async (req, res, _next) => {
 	try {
-		// const users = await User.find().sort({ createdAt: -1 });
 		const users = await User.aggregate([
 			{
 				$lookup: {
@@ -58,9 +57,6 @@ const getAdminPanel = async (req, res, _next) => {
 
 		const targetUsers = users.slice(startIndex, endIndex);
 
-		// for (const user of targetUsers) {
-		// 	console.log("X: ", user.title);
-		// }
 		const userIsAdmin = req.session?.user.role === "ADMIN";
 
 		res.render("pages/adminPanel", {
@@ -127,8 +123,6 @@ const updateUser = async (req, res, _next) => {
 	try {
 		const userIsAdmin = req.session?.user.role === "ADMIN";
 
-		// const targetUser = await User.findOne({ username: req.body.username });
-
 		const newInfoForUserToUpdate = {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
@@ -137,11 +131,9 @@ const updateUser = async (req, res, _next) => {
 			role: userIsAdmin ? req.body.role : "BLOGGER",
 		};
 
-		// console.log("newInfoForUserToUpdate: ", newInfoForUserToUpdate);
 		if (req.body.role !== "ADMIN" && req.body.role !== "BLOGGER")
 			delete newInfoForUserToUpdate.role;
 
-		// console.log("newInfoForUserToUpdate: ", newInfoForUserToUpdate);
 		console.log("zzz");
 		await User.findOneAndUpdate(
 			{ username: req.body.username },
@@ -376,7 +368,9 @@ const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
 		if (
-			req.session.user.avatar !== "/images/userAvatars/default-avatar.png"
+			req.session.user.avatar !==
+				"/images/userAvatars/default-avatar.png" &&
+			req.session.user.avatar !== "/images/userAvatars/admin.png"
 		)
 			await fs.unlink(
 				join(__dirname, "../public", req.session.user.avatar)

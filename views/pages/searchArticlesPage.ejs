@@ -5,36 +5,36 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="/stylesheets/explore.css">
    <link rel="icon" type="image/png" href="/fav-icon.png">
+   <link rel="stylesheet" href="/stylesheets/explore.css">
 
-   <title>My Articles</title>
+   <title>Explore</title>
 </head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+   integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/stylesheets/explore.css">
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 <body>
 
+<script>
+   console.log('reza');
+</script>
+
    <script>
+      // console.log('ss');
       const userLoggedIn = '(<%- userLoggedIn %>)';
-      const page = +'<%- page %>';
-      const pageSize = +'<%- pageSize %>';
-      const totalPages = +'<%- totalPages %>';
+      // console.log('userLoggedIn: ', userLoggedIn);
       const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
-      const articles = JSON.parse('<%- JSON.stringify(articles) %>')
+      // console.log('userIsAdmin: ', userIsAdmin);
+      let page = +'<%- page %>';
+      // console.log('page: ', page);
+      let totalPages = +'<%- totalPages %>';
+      // console.log('totalPages: ', totalPages);
+      let pageSize = +'<%- pageSize %>';
+      let articles = JSON.parse('<%- JSON.stringify(articles) %>')
+      console.log('articles2: ', articles);
    </script>
-
-   <!-- alert box -->
-   <div
-      class="alert d-none w-50 fixed-top opacity-75 fade mx-auto p-1 mt-2 d-flex justify-content-end align-content-center mt-4"
-      role="alert" id="alertBox">
-      <p class="text-center mt-3 mx-auto" id="alertText">alert text</p>
-   </div>
-
 
    <!-- Nav section -->
    <section>
@@ -73,12 +73,13 @@
                            formaction="/api/users/dashboard">Dashboard</button>
                      </form>
                      <form method="GET">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane"
-                           role="tab" aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#my-articles-tab-pane" role="tab"
+                           aria-controls="my-articles-tab-pane" aria-selected="true" type="submit"
                            formaction="/api/articles/pages/1">My
                            Articles</button>
                      </form>
                      <%}%>
+
                         <% if(!!userIsAdmin) { %>
                            <form method="GET">
                               <button class="nav-link tex.black" data-bs-toggle="tab"
@@ -93,6 +94,9 @@
 
             <div class="righ">
                <form class="d-flex justify-content-end" role="search" id="homeNav">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                     id="inputSearch">
+                  <button class="btn btn-outline-primary mx-2" type="submit" id="btnSearch">Search</button>
                   <% if(userLoggedIn){%>
                      <a class="btn btn-outline-danger mx-2" role="tab" id="loginBtn" href="/api/users/logout">Logout</a>
                      <%}else{%>
@@ -115,90 +119,59 @@
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
             </div>
             <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
-               tabindex="0">...
+               tabindex="0">
+               ...
             </div>
          </div>
       </nav>
    </section>
 
+   <div class="form-group row mt-5 px-5">
+      <label for="selectSortBy" class="col-md-1 col-form-label me-0 fw-bold italic text-success">Sort By:</label>
+      <div class="col-md-11 ps-0">
+         <select class="form-select ml-autp ms-0 mb-0"
+            style="max-width: 150px; left: 50px; position: relative; min-width: 180px;"
+            aria-label="Default select example" id="selectSortBy" aria-placeholder="ssa">
+            <option class="" value="0" selected></option>
+            <option class="" value="1">Newest</option>
+            <option class="" value="2">Oldest</option>
+            <!-- <option class="" value="3">More Comments</option> -->
+         </select>
+      </div>
+   </div>
+
    <!-- content -->
    <div class="container mt-0 pt-4">
       <div class="row align-items-end mb-4 pb-2">
-
-         <div class="col-md-4 mt-4 mt-sm-0 d-none d-md-block">
-         </div>
-      </div>
-
-
-      <!-- Modal -->
-      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"
-         data-bs-whatever="@mdo">New Article</button>
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">New Article</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <form>
-                     <div class="mb-3">
-                        <label for="titleInput" class="col-form-label">title:</label>
-                        <input type="text" class="form-control" id="titleInput" value="">
-                     </div>
-                     <div class="mb-3">
-                        <label for="summaryInput" class="col-form-label">Summary:</label>
-                        <input type="text" class="form-control" id="summaryInput" value="">
-                     </div>
-                     <div>
-                        <label for="articlePic">Select an image as thumbnail:</label>
-                        <input class="btn btn-success form-control" type="file" id="articlePic" name="pic"
-                           accept=".jpg, .jpeg, .png">
-                     </div>
-                     <div class="my-3">
-                        <label for="contentTextarea" class="col-form-label">content:</label>
-                        <div id="editor" style="height: 300px;">
-                           <textarea class="form-control" id="contentTextarea" value=""
-                              style="height: 300px;"></textarea>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <button class="btn btn-primary-save text-danger m-2 w-100" data-bs-dismiss="modal"
-                     id="saveArticleBtn">Save</button>
-               </div>
+         <div class="col-md-4 mt-2 mt-sm-0 d-none d-md-block">
+            <div class="text-center text-md-end">
             </div>
          </div>
       </div>
 
 
+      <!-- articles part -->
       <div class="row" id="articlesDiv"></div>
+      <br>
+      <br>
+
+      <!-- pagination part -->
+      <div class="container d-flex justify-content-center mt-5" id="paginationNav"></div>
 
    </div>
 
 
 
 
-   <script>
-      var quill = new Quill('#editor', {
-         modules: {
-            toolbar: [
-               [{ 'header': [1, 2, false] }],
-               ['bold', 'italic', 'underline'],
-               ['image', 'code-block']
-            ]
-         },
-         theme: 'snow'
-      });
-
-   </script>
-   <div class="container d-flex justify-content-center mt-5" id="paginationNav"></div>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-   integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<script src="/javascripts/main.js"></script>
-<script src="/javascripts/renderUserArticles.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<!-- <script src="/javascripts/main.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+   integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/javascripts/explore.js"></script>
 
 </html>

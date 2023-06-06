@@ -1,8 +1,16 @@
 ** textarea content in edit mode
-** set select menu on cancel edit profile
 ** search for articles
-** modal (done) - for new article not done
+** select default value when changeing the pages
+** search in my articles
+** one route for explore and my Articles
 
+
+virtual populate
+middleware userisloggedin
+appagination function
+arrange routers and controllers
+
+** set select menu on cancel edit profile (done)
 ** app.update method for updating user (done)
 ** admin line red in userlistforadmin (done)
 ** number of articles in userslistforadmin page (done)
@@ -13,13 +21,15 @@
 ** status codes (done)
 ** make admin role using postman (done)
 ** routes (done)
-** pagination (done)
-** summary in card (done)
-** protection (done)
 ** article route (done)
-** update article (done)
 ** delete pic after article delete (done)
 ** remove user avatar resets it (done)
 ** upload avatar file size (done)
 ** file size check in client side using formData entries (done)
 ** update article validation (done)
+
+** modal (done) - for new article not done
+** pagination (done)
+** summary in card (done)
+** protection (done)
+** update article (done)

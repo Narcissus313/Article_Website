@@ -77,11 +77,9 @@ registerBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 		console.log("result: ", result);
 		showAlert(result.success, result.message);
-		if (result.success) {
-			setTimeout(() => {
-				window.location.href = "http://localhost:3000/api/users/login";
-			}, 500);
-		}
+
+		if (result.success)
+			window.location.href = "http://localhost:3000/api/users/login";
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

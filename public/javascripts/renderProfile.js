@@ -82,12 +82,8 @@ uploadButton.addEventListener("click", async (event) => {
 		const result = await response.json();
 		showAlert(result.success, result.message);
 
-		if (result.success) {
-			setTimeout(() => {
-				window.location.href =
-					"http://localhost:3000/api/users/dashboard";
-			}, 500);
-		}
+		if (result.success)
+			window.location.href = "http://localhost:3000/api/users/dashboard";
 	} catch (error) {
 		console.error(error);
 	}
@@ -183,27 +179,6 @@ saveInfoBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 		showAlert(result.success, result.message);
 
-		// if (result.success) {
-		// 	inputFirstName.disabled = true;
-		// 	inputFirstName.classList.remove("text-bg-white");
-		// 	inputFirstName.classList.add("text-bg-light");
-
-		// 	inputLastName.disabled = true;
-		// 	inputLastName.classList.remove("text-bg-white");
-		// 	inputLastName.classList.add("text-bg-light");
-
-		// 	inputPhoneNumber.disabled = true;
-		// 	inputPhoneNumber.classList.remove("text-bg-white");
-		// 	inputPhoneNumber.classList.add("text-bg-light");
-
-		// 	document
-		// 		.getElementById("genderSelection")
-		// 		.setAttribute("disabled", "disabled");
-
-		// 	saveInfoBtn.classList.add("d-none");
-		// 	cancelSaveEdittedInfoBtn.classList.add("d-none");
-		// 	editInfoBtn.classList.remove("d-none");
-		// }
 		window.location.reload();
 	} catch (error) {
 		console.log("Error:", error.message);
@@ -342,12 +317,8 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 		const result = await response.json();
 		console.log("result: ", result);
 		showAlert(result.success, result.message);
-		if (result.success) {
-			setTimeout(() => {
-				window.location.href =
-					"http://localhost:3000/api/users/dashboard";
-			}, 500);
-		}
+		if (result.success)
+			window.location.href = "http://localhost:3000/api/users/dashboard";
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

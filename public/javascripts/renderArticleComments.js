@@ -71,7 +71,6 @@ const deleteComment = async (commentId) => {
 	} catch (error) {
 		console.log("Error:", error.message);
 	}
-	// });
 };
 
 const renderComments = () => {

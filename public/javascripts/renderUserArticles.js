@@ -41,12 +41,13 @@ saveArticleBtn.addEventListener("click", async () => {
 		});
 		const result = await response.json();
 		console.log("Result:", result);
+
 		if (result.success) {
-			showAlert(true, "New article added");
-			setTimeout(() => {
+			{
+				showAlert(true, "New article added");
 				window.location.href =
 					"http://localhost:3000/api/articles/pages/1";
-			}, 10);
+			}
 		}
 	} catch (error) {
 		console.log("errorrrr: ", error);

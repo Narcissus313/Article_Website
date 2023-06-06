@@ -1,18 +1,13 @@
-const Article = require("../models/Article");
-const Comment = require("../models/Comment");
+const Article = require("../../models/Article");
+const Comment = require("../../models/Comment");
 const { unlink, rename } = require("node:fs/promises");
 const { join } = require("path");
 
 const getSearchedArticles = async (req, res, _next) => {
-	// const articleId = req.params.articleId;
-	// const userLoggedIn = !!req.session.user;
-	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
-	// const searchedTitle = req.params.searchedTitle;
 	const searchedTitle = req.query.searchText;
 	console.log("searchedTitle: ", searchedTitle);
 	const page = req.query.page;
 	console.log("page: ", page);
-	// console.log("searchedTitle: ", searchedTitle);
 
 	if (page <= 0)
 		res.status(400).render("pages/notFound", {
@@ -34,12 +29,13 @@ const getSearchedArticles = async (req, res, _next) => {
 					article.title.toLowerCase().includes(searchedTitle)
 				);
 		else
-			articles = await Article.find().populate({
-				path: "author",
-				select: "firstName lastName username",
-			}).sort({createdAt:-1});
+			articles = await Article.find()
+				.populate({
+					path: "author",
+					select: "firstName lastName username",
+				})
+				.sort({ createdAt: -1 });
 		// .sort({createdAt: -1})
-		// console.log("articles: ", articles);
 
 		if (!articles)
 			res.status(404).json({
@@ -53,19 +49,32 @@ const getSearchedArticles = async (req, res, _next) => {
 		if (page > totalPages)
 			return res.render("pages/notFound", {
 				userLoggedIn: !!req.session.user,
+				userIsAdmin: req.session.user?.role === "ADMIN",
 			});
 
+		// console.log('articles: ', articles);
 		const startIndex = (page - 1) * pageSize;
 		const endIndex = startIndex + pageSize;
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
-		res.status(200).json({
-			success: true,
+		const userIsAdmin = req.session.user?.role === "ADMIN";
+
+		// res.status(200).json({
+		// 	success: true,
+		// 	articles: targetArticles,
+		// 	page,
+		// 	totalPages,
+		// 	pageSize,
+		// });
+		console.log("xxx");
+		res.render("pages/searchArticlesPage", {
 			articles: targetArticles,
 			page,
-			totalPages,
 			pageSize,
+			totalPages,
+			userLoggedIn: !!req.session.user,
+			userIsAdmin,
 		});
 	} catch (error) {
 		return res.render("pages/notFound");
@@ -218,6 +227,7 @@ const getUserArticles = async (req, res, _next) => {
 		if (page > totalPages)
 			return res.render("pages/notFound", {
 				userLoggedIn: !!req.session.user,
+				userIsAdmin: req.session.user?.role === "ADMIN",
 			});
 
 		const startIndex = (page - 1) * pageSize;
@@ -348,6 +358,7 @@ const showAllArticles = async (req, res, _next) => {
 		if (page > totalPages)
 			return res.render("pages/notFound", {
 				userLoggedIn: !!req.session.user,
+				userIsAdmin: req.session.user?.role === "ADMIN",
 			});
 
 		const startIndex = (page - 1) * pageSize;
@@ -355,9 +366,6 @@ const showAllArticles = async (req, res, _next) => {
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
-		// for (const article of targetArticles) {
-		// 	console.log("X: ", article.title);
-		// }
 		const userIsAdmin = req.session.user?.role === "ADMIN";
 
 		res.render("pages/explore", {
