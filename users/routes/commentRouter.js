@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { isLoggedIn } = require("../../middlewares/auth/auth");
+const {isLoggedIn} = require("../../middlewares/auth/auth");
 const {
 	addComment,
 	updateComment,
@@ -8,7 +8,7 @@ const {
 const {
 	userIsOwnerOfComment,
 } = require("../../middlewares/auth/userIsOwnerOfComment");
-const validateCommentContent = require("../../utils/validateCommentContent");
+const validateCommentContent = require("../../middlewares/validateCommentContent");
 
 // router.use(isLoggedIn);
 

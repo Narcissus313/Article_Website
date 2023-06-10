@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const { getUsersList } = require("../controllers/adminControllers");
 
-const { isLoggedIn } = require("../../middlewares/auth/auth");
+const {isLoggedIn} = require("../../middlewares/auth/auth");
 
 const { roleAc } = require("../../middlewares/ac/ac");
 

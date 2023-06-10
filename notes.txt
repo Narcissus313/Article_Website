@@ -3,13 +3,17 @@
 ** select default value when changeing the pages
 ** search in my articles
 ** one route for explore and my Articles
+** virtual populate
+** appagination function
+** lower admin access
+** middleware userisloggedin
 
+logout page
+article not found
+login when user is logged in
+isLoggedin is unneccessary for getting admin panel
 
-virtual populate
-middleware userisloggedin
-appagination function
-arrange routers and controllers
-
+** arrange routers and controllers (done)
 ** set select menu on cancel edit profile (done)
 ** app.update method for updating user (done)
 ** admin line red in userlistforadmin (done)

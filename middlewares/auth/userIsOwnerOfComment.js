@@ -1,5 +1,5 @@
 const Comment = require("../../models/Comment");
-const User = require("../../models/User");
+// const User = require("../../models/User");
 
 const userIsOwnerOfComment = async (req, res, next) => {
 	if (!req.session.user) {
@@ -20,6 +20,13 @@ const userIsOwnerOfComment = async (req, res, next) => {
 	next();
 };
 
+// const userIsTheOwner = async (req, res, next) => {
+// 	const username = req.session.user?.username;
+
+// 	next();
+// };
+
 module.exports = {
 	userIsOwnerOfComment,
+	// userIsTheOwner,
 };

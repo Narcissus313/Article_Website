@@ -36,7 +36,7 @@ const upload = multer({
 			file.mimetype == "image/jpeg"
 		)
 			cb(null, true);
-		else return cb(new Error("Only .jpg format allowed!"), false);
+		else return cb(new Error("Only .jpg .jpeg .png format allowed!"), false);
 	},
 	limits: {
 		files: 10,

@@ -4,7 +4,7 @@ const {
 	upload,
 	fileSizeLimitMiddleware,
 } = require("../../utils/multer-article-pics-settings");
-const { isLoggedIn } = require("../../middlewares/auth/auth");
+const {isLoggedIn} = require("../../middlewares/auth/auth");
 const {
 	getUserArticles,
 	addArticle,

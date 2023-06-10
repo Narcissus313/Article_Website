@@ -27,8 +27,11 @@
    <div id="content">
       <script>
          const article = JSON.parse('<%- JSON.stringify(article) %>');
+         console.log('article: ', article);
          const comments = JSON.parse('<%- JSON.stringify(allComments) %>');
+         console.log('comments: ', comments);
          const userLoggedIn = JSON.parse('<%- JSON.stringify(userLoggedIn) %>');
+         console.log('userLoggedIn: ', userLoggedIn);
          const userIsAdmin = JSON.parse('<%- userIsAdmin %>');
          const userIsOwner = JSON.parse('<%- JSON.stringify(userIsOwner) %>');
       </script>

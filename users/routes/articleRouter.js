@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const validateArticleEntries = require("../../utils/validateArticleEntries");
+const validateArticleEntries = require("../../middlewares/validateArticleEntries");
 const {
 	upload,
 	fileSizeLimitMiddleware,
 } = require("../../utils/multer-article-pics-settings");
-const { isLoggedIn } = require("../../middlewares/auth/auth");
+const {isLoggedIn} = require("../../middlewares/auth/auth");
 const {
 	getUserArticles,
 	addArticle,

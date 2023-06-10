@@ -62,8 +62,8 @@ app.get("/explore/pages/:page", showAllArticles);
 
 app.all("*", function (req, res, _next) {
 	res.render("pages/notFound", {
-		userLoggedIn: !!req.session.user,
-		userIsAdmin: req.session.user?.role === "ADMIN",
+		userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+		userIsAdmin: res.locals.userStatus.userIsAdmin,
 	});
 });
 

@@ -48,8 +48,8 @@ const getAdminPanel = async (req, res, _next) => {
 
 		if (page > totalPages || page < 1)
 			return res.render("pages/notFound", {
-				userLoggedIn: !!req.session.user,
-				userIsAdmin: req.session.user?.role === "ADMIN",
+				userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+				userIsAdmin: res.locals.userStatus.userIsAdmin,
 			});
 
 		const startIndex = (page - 1) * pageSize;
@@ -57,15 +57,15 @@ const getAdminPanel = async (req, res, _next) => {
 
 		const targetUsers = users.slice(startIndex, endIndex);
 
-		const userIsAdmin = req.session?.user.role === "ADMIN";
+		// const userIsAdmin = req.session?.user.role === "ADMIN";
 
 		res.render("pages/adminPanel", {
 			users: targetUsers,
 			page,
 			pageSize,
 			totalPages,
-			userLoggedIn: !!req.session.user,
-			userIsAdmin,
+			userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
 		});
 	} catch (error) {
 		res.status(500).json({ success: false, message: "server error!" });
@@ -73,7 +73,7 @@ const getAdminPanel = async (req, res, _next) => {
 };
 
 const getRegisterPage = (req, res, _next) => {
-	if (req.session.user) return res.redirect("/api/users/login");
+	// if (req.session.user) return res.redirect("/api/users/login");
 	res.render("pages/register", {
 		errorMessage: req.query.errorMessage ? req.query.errorMessage : null,
 	});
@@ -120,21 +120,20 @@ const registerUser = async (req, res, _next) => {
 };
 
 const updateUser = async (req, res, _next) => {
-	try {
-		const userIsAdmin = req.session?.user.role === "ADMIN";
+	const acceptedRoles = ["ADMIN", "BLOGGER"];
 
+	try {
 		const newInfoForUserToUpdate = {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			phoneNumber: req.body.phoneNumber,
 			gender: req.body.gender,
-			role: userIsAdmin ? req.body.role : "BLOGGER",
+			role: res.locals.userIsAdmin ? req.body.role : "BLOGGER",
 		};
 
-		if (req.body.role !== "ADMIN" && req.body.role !== "BLOGGER")
+		if (!acceptedRoles.includes(req.body.role))
 			delete newInfoForUserToUpdate.role;
 
-		console.log("zzz");
 		await User.findOneAndUpdate(
 			{ username: req.body.username },
 			newInfoForUserToUpdate,
@@ -142,7 +141,6 @@ const updateUser = async (req, res, _next) => {
 				new: true,
 			}
 		);
-		console.log("xxx");
 		const x = await User.findById(req.session?.user._id);
 		req.session.user.firstName = x.firstName;
 		req.session.user.lastName = x.lastName;
@@ -273,7 +271,7 @@ const getUserPageForAdmin = async (req, res, _next) => {
 
 	try {
 		const targetUser = await User.findById(userId);
-		const userIsAdmin = req.session.user.role === "ADMIN";
+		// const userIsAdmin = req.session.user.role === "ADMIN";
 
 		res.render("pages/userPageForAdmin", {
 			user: targetUser,
@@ -285,9 +283,12 @@ const getUserPageForAdmin = async (req, res, _next) => {
 };
 
 const getdashboardPage = (req, res, _next) => {
-	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
 
-	res.render("pages/dashboard", { user: req.session.user, userIsAdmin });
+	res.render("pages/dashboard", {
+		user: req.session.user,
+		userIsAdmin: res.locals.userStatus.userIsAdmin,
+	});
 };
 
 const logout = (req, res, _next) => {
@@ -367,13 +368,16 @@ const removeAvatar = async (req, res, _next) => {
 const deleteUser = async (req, res, _next) => {
 	try {
 		const userId = req.session.user._id;
+		const defaultAvatarFile = "default-avatar.png";
+		const adminAvatarFile = "admin.png";
+		const avatarDir = "/images/userAvatars/";
+
 		if (
-			req.session.user.avatar !==
-				"/images/userAvatars/default-avatar.png" &&
-			req.session.user.avatar !== "/images/userAvatars/admin.png"
+			req.session.user.avatar !== avatarDir + defaultAvatarFile &&
+			req.session.user.avatar !== avatarDir + adminAvatarFile
 		)
 			await fs.unlink(
-				join(__dirname, "../public", req.session.user.avatar)
+				join(__dirname, "../../public", req.session.user.avatar)
 			);
 
 		const articleIds = (await Article.find({ author: userId }, "_id")).map(
@@ -382,7 +386,10 @@ const deleteUser = async (req, res, _next) => {
 
 		for (const articleId of articleIds) {
 			await fs.unlink(
-				join(__dirname, `../public/images/articlePics/${articleId}.jpg`)
+				join(
+					__dirname,
+					`../../public/images/articlePics/${articleId}.jpg`
+				)
 			);
 
 			await Comment.deleteMany({ article: articleId });

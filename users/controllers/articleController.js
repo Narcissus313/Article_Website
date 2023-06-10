@@ -11,7 +11,7 @@ const getSearchedArticles = async (req, res, _next) => {
 
 	if (page <= 0)
 		res.status(400).render("pages/notFound", {
-			userLoggedIn: !!req.session.user,
+			userLoggedIn: res.locals.userStatus.userIsLoggedIn,
 		});
 
 	let articles;
@@ -48,8 +48,8 @@ const getSearchedArticles = async (req, res, _next) => {
 
 		if (page > totalPages)
 			return res.render("pages/notFound", {
-				userLoggedIn: !!req.session.user,
-				userIsAdmin: req.session.user?.role === "ADMIN",
+				userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+				userIsAdmin: res.locals.userStatus.userIsAdmin,
 			});
 
 		// console.log('articles: ', articles);
@@ -58,7 +58,7 @@ const getSearchedArticles = async (req, res, _next) => {
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
-		const userIsAdmin = req.session.user?.role === "ADMIN";
+		// const userIsAdmin = req.session.user?.role === "ADMIN";
 
 		// res.status(200).json({
 		// 	success: true,
@@ -67,14 +67,13 @@ const getSearchedArticles = async (req, res, _next) => {
 		// 	totalPages,
 		// 	pageSize,
 		// });
-		console.log("xxx");
 		res.render("pages/searchArticlesPage", {
 			articles: targetArticles,
 			page,
 			pageSize,
 			totalPages,
-			userLoggedIn: !!req.session.user,
-			userIsAdmin,
+			userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
 		});
 	} catch (error) {
 		return res.render("pages/notFound");
@@ -83,8 +82,8 @@ const getSearchedArticles = async (req, res, _next) => {
 
 const getSingleArticle = async (req, res, _next) => {
 	const articleId = req.params.articleId;
-	const userLoggedIn = !!req.session.user;
-	const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
+	// const userLoggedIn = !!req.session.user;
+	// const userIsAdmin = !!(req.session?.user?.role === "ADMIN");
 
 	try {
 		const article = await Article.findById(articleId)
@@ -108,14 +107,19 @@ const getSingleArticle = async (req, res, _next) => {
 			})
 			.sort({ createdAt: -1 });
 
+		console.log("ddD:", res.locals.userStatus);
+
+		const data = {
+			article,
+			userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
+			userIsOwner: false,
+			allComments: comments,
+		};
+		// console.log('data: ', data);
+
 		if (!req.session.user) {
-			return res.render("pages/userArticle", {
-				article,
-				userLoggedIn,
-				userIsAdmin,
-				userIsOwner: false,
-				allComments: comments,
-			});
+			return res.render("pages/userArticle", data);
 		}
 
 		const allComments = comments.map((comment) => {
@@ -137,17 +141,17 @@ const getSingleArticle = async (req, res, _next) => {
 			}
 			return res.render("pages/userArticle", {
 				article,
-				userLoggedIn,
+				userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+				userIsAdmin: res.locals.userStatus.userIsAdmin,
 				userIsOwner,
-				userIsAdmin,
 				allComments,
 			});
 		}
 		return res.render("pages/userArticle", {
 			article,
 			userLoggedIn: false,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
 			userIsOwner: false,
-			userIsAdmin,
 			allComments,
 		});
 	} catch (error) {
@@ -172,18 +176,20 @@ const addArticle = async (req, res, _next) => {
 
 		const tempPath = join(
 			__dirname,
-			"../public",
+			"../../public",
 			"images",
 			"articlePics",
 			"temp.jpg"
 		);
+		console.log("tempPath: ", tempPath);
 		const finalPath = join(
 			__dirname,
-			"../public",
+			"../../public",
 			"images",
 			"articlePics",
 			newArticle._id.toString() + ".jpg"
 		);
+		console.log("finalPath: ", finalPath);
 
 		await rename(tempPath, finalPath);
 
@@ -203,14 +209,14 @@ const addArticle = async (req, res, _next) => {
 };
 
 const getUserArticles = async (req, res, _next) => {
-	const userIsAdmin = req.session.user?.role === "ADMIN";
+	// const userIsAdmin = req.session.user?.role === "ADMIN";
 
 	try {
 		const page = req.params.page;
 
 		if (page <= 0)
 			res.status(400).render("pages/notFound", {
-				userLoggedIn: !!req.session.user,
+				userLoggedIn: res.locals.userStatus.userIsLoggedIn,
 			});
 
 		const id = req.session.user._id;
@@ -226,8 +232,8 @@ const getUserArticles = async (req, res, _next) => {
 
 		if (page > totalPages)
 			return res.render("pages/notFound", {
-				userLoggedIn: !!req.session.user,
-				userIsAdmin: req.session.user?.role === "ADMIN",
+				userLoggedIn: res.locals.userStatus.userIsLoggedIn,
+				userIsAdmin: res.locals.userStatus.userIsAdmin,
 			});
 
 		const startIndex = (page - 1) * pageSize;
@@ -240,8 +246,8 @@ const getUserArticles = async (req, res, _next) => {
 			page,
 			totalPages,
 			pageSize,
-			userIsAdmin,
-			userLoggedIn: !!req.session.user,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
+			userLoggedIn: res.locals.userStatus.userIsLoggedIn,
 		});
 	} catch (error) {
 		res.status(500).json({
@@ -355,10 +361,13 @@ const showAllArticles = async (req, res, _next) => {
 		const pageSize = 4;
 		const totalPages = Math.ceil(articles.length / pageSize);
 
+		const userLoggedIn = !!req.session.user;
+		const userIsAdmin = req.session.user?.role === "ADMIN";
+
 		if (page > totalPages)
 			return res.render("pages/notFound", {
-				userLoggedIn: !!req.session.user,
-				userIsAdmin: req.session.user?.role === "ADMIN",
+				userLoggedIn,
+				userIsAdmin,
 			});
 
 		const startIndex = (page - 1) * pageSize;
@@ -366,14 +375,12 @@ const showAllArticles = async (req, res, _next) => {
 
 		const targetArticles = articles.slice(startIndex, endIndex);
 
-		const userIsAdmin = req.session.user?.role === "ADMIN";
-
 		res.render("pages/explore", {
 			articles: targetArticles,
 			page,
 			pageSize,
 			totalPages,
-			userLoggedIn: !!req.session.user,
+			userLoggedIn,
 			userIsAdmin,
 		});
 	} catch (error) {

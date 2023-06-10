@@ -1,4 +1,5 @@
 const validateArticleEntries = async (req, res, next) => {
+	
 	const { title, content } = req.body;
 
 	if (title?.trim().length < 1)
@@ -12,7 +13,7 @@ const validateArticleEntries = async (req, res, next) => {
 			success: false,
 			message: "Content is required",
 		});
-
+	
 	next();
 };
 

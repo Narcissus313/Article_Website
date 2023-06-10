@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const validateRegisterEntries = require("../../utils/validateRegisterEntries");
-const validateUserUpdateEntries = require("../../utils/validateUserUpdateEntries");
-const validateUserUpdatePassword = require("../../utils/validateUserUpdatePassword");
-const userIsAdmin = require("../../utils/userIsAdmin");
-const userIsAuthorized = require("../../utils/userIsAuthorized");
+const validateRegisterEntries = require("../../middlewares/validateRegisterEntries");
+const validateUserUpdateEntries = require("../../middlewares/validateUserUpdateEntries");
+const validateUserUpdatePassword = require("../../middlewares/validateUserUpdatePassword");
+// const userIsAdmin = require("../../middlewares/userIsAdmin");
+const userIsAuthorized = require("../../middlewares/userIsAuthorized");
 const { avatarSizeLimitMiddleware } = require("../../utils/multer-settings");
-11;
+const { isLoggedIn, isNotLoggedIn } = require("../../middlewares/auth/auth");
 const {
 	getRegisterPage,
 	registerUser,
@@ -22,36 +22,39 @@ const {
 	getUserPageForAdmin,
 } = require("../controllers/userControllers");
 
-const { isLoggedIn } = require("../../middlewares/auth/auth");
+router.get("/register", isNotLoggedIn, getRegisterPage);
+router.post("/register", isNotLoggedIn, validateRegisterEntries, registerUser);
 
-router.get("/register", getRegisterPage);
-router.post("/register", validateRegisterEntries, registerUser);
-
-router.get("/login", getLoginPage);
-router.post("/login", loginUser);
+router.get("/login", isNotLoggedIn, getLoginPage);
+router.post("/login", isNotLoggedIn, loginUser);
 
 router.patch(
 	"/update",
-	validateUserUpdateEntries,
 	userIsAuthorized,
+	validateUserUpdateEntries,
 	updateUser
 );
 router.patch(
 	"/updatePassword",
-	validateUserUpdatePassword,
 	userIsAuthorized,
+	validateUserUpdatePassword,
 	updatePassword
 );
 
-router.delete("/deleteUser", userIsAuthorized, deleteUser);
+router.delete("/deleteUser", deleteUser);
 
 router.get("/dashboard", isLoggedIn, getdashboardPage);
-router.get("/user-info/:userId", isLoggedIn, userIsAdmin, getUserPageForAdmin);
+router.get(
+	"/user-info/:userId",
+	isLoggedIn,
+	// userIsAdmin,
+	getUserPageForAdmin
+);
 
 router.get(
 	"/adminPanel/page/:pageNumber",
 	isLoggedIn,
-	userIsAdmin,
+	// userIsAdmin,
 	getAdminPanel
 );
 

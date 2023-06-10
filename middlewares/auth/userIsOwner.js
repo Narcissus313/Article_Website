@@ -1,8 +1,7 @@
-const Article = require("../../models/Article");
 const User = require("../../models/User");
 
 const userIsOwner = async (req, res, next) => {
-	if (req.session.user?.role === "ADMIN") return next();
+	// if (req.session.user?.role === "ADMIN") return next();
 
 	// if (!req.session.user) {
 	// 	return res.redirect("/user/login");

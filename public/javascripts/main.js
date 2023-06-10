@@ -79,7 +79,14 @@ function renderPage(pageNumber, articles) {
 // Function to render the pagination links
 function renderPagination(currentPage) {
 	const paginationContainer = document.querySelector("#paginationNav");
+
+	if (totalPages == 1) {
+		paginationContainer.innerHTML = "";
+		return;
+	}
+
 	paginationContainer.innerHTML = "";
+
 	for (
 		let i = currentPage > 10 ? currentPage - 10 : 1;
 		i <= totalPages;

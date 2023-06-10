@@ -133,7 +133,8 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	const username = inputUsername.value.trim();
 	const role = roleInput.value.trim();
 	let gender = "";
-	var options = ["male", "female", "not-set"];
+	const options = ["male", "female", "not-set"];
+	
 	for (const option of options) {
 		if (option === document.getElementById("genderSelection").value)
 			gender = option;
