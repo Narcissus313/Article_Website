@@ -279,7 +279,11 @@ const deleteArticle = async (req, res, _next) => {
 		}
 
 		await unlink(
-			join(__dirname, "../public/images/articlePics/", articleId + ".jpg")
+			join(
+				__dirname,
+				"../../public/images/articlePics/",
+				articleId + ".jpg"
+			)
 		);
 
 		return res.status(202).json({
