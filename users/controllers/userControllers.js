@@ -271,7 +271,8 @@ const getUserPageForAdmin = async (req, res, _next) => {
 
 	try {
 		const targetUser = await User.findById(userId);
-		// const userIsAdmin = req.session.user.role === "ADMIN";
+		console.log('targetUser: ', targetUser);
+		const userIsAdmin = req.session.user.role === "ADMIN";
 
 		res.render("pages/userPageForAdmin", {
 			user: targetUser,
