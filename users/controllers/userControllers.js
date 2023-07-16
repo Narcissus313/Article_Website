@@ -271,12 +271,11 @@ const getUserPageForAdmin = async (req, res, _next) => {
 
 	try {
 		const targetUser = await User.findById(userId);
-		console.log('targetUser: ', targetUser);
-		const userIsAdmin = req.session.user.role === "ADMIN";
+		// const userIsAdmin = req.session.user.role === "ADMIN";
 
 		res.render("pages/userPageForAdmin", {
 			user: targetUser,
-			userIsAdmin,
+			userIsAdmin: res.locals.userStatus.userIsAdmin,
 		});
 	} catch (error) {
 		return res.redirect("pages/notFound");

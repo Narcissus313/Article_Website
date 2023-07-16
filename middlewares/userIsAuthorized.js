@@ -3,6 +3,7 @@ const User = require("../models/User");
 const userIsAuthorized = async (req, res, next) => {
 	const username = req.body?.username;
 	const userIsAdmin = res.locals.userStatus.userIsAdmin;
+	console.log('userIsAdmin: ', userIsAdmin);
 
 	try {
 		if (!!userIsAdmin) return next();
