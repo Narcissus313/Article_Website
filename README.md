@@ -7,9 +7,6 @@ Welcome to the Article Website project! This Node.js web application allows user
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - User Authentication: Sign up and log in securely.
