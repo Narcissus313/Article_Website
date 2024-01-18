@@ -1,3 +1,45 @@
-# seyyed_reza_shojaie_final_project_maktab88
+# Article Website Project
 
-a website project in which the users can make some artilces and send comments for the aritcles of others.
+Welcome to the Article Website project! This Node.js web application allows users to sign up, log in, add avatars, publish articles, and comment on other articles.
+
+## Table of Contents
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+- User Authentication: Sign up and log in securely.
+- Avatar Management: Users can add avatars to personalize their profiles.
+- Article Management: Publish and manage articles.
+- Comment System: Engage with other users through article comments.
+
+## Technologies Used
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- Ejs
+- Bcrypt
+- Session authentication
+- Multer
+
+## Getting Started
+To get started with this project, follow these steps:
+
+### Prerequisites
+- Node.js and npm installed
+- MongoDB installed and running
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Narcissus313/seyyed_reza_shojaie_final_project_maktab88.git
+2. cd seyyed_reza_shojaie_final_project_maktab88
+3. npm i
+4. npm start
+5. open http://localhost:3000/ in your browser
+
