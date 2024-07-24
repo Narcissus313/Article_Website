@@ -64,7 +64,7 @@ registerBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/api/users/register",
+			"http://127.0.0.1:3000/api/users/register",
 			{
 				method: "POST",
 				headers: {

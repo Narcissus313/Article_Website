@@ -14,7 +14,7 @@ const {
 
 const app = express();
 
-mongoose.connect("mongodb://127.0.0.1:27017/Blog88").then(() => {
+mongoose.connect("mongodb://database:27017/Blog88").then(() => {
 	console.log("[+] DB Connected...");
 });
 
