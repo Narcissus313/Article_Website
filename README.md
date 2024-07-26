@@ -1,6 +1,6 @@
 # Article Website Project
 
-Welcome to the Article Website project! This Node.js web application allows users to sign up, log in, add avatars, publish articles, and comment on other articles.
+Welcome to the Article Website project! This is a tiny trial Node.js web application that allows users to sign up, log in, add avatars, publish articles, and comment on other articles.
 
 ## Table of Contents
 
@@ -21,12 +21,12 @@ Welcome to the Article Website project! This Node.js web application allows user
 -   Node.js
 -   Express.js
 -   MongoDB
--   Mongoose
 -   Ejs
 -   Bcrypt
 -   Session authentication
 -   Multer
 -   Docker
+-   Git
 
 ## Getting Started
 
@@ -43,6 +43,6 @@ To get started with this project, follow these steps:
     git clone https://github.com/Narcissus313/seyyed_reza_shojaie_final_project_maktab88.git
     ```
 2. In project directory open terminal
-3. Run this command: "docker compose up"
+3. Run this command: "npm i && docker compose up"
 4. Open http://localhost:4000/ in your browser
 5. Done!
