@@ -64,7 +64,7 @@ registerBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://127.0.0.1:3000/api/users/register",
+			`http://localhost:4000/api/users/register`,
 			{
 				method: "POST",
 				headers: {
@@ -79,7 +79,7 @@ registerBtn.addEventListener("click", async (e) => {
 		showAlert(result.success, result.message);
 
 		if (result.success)
-			window.location.href = "http://localhost:3000/api/users/login";
+			window.location.href = `http://localhost:4000/api/users/login`;
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

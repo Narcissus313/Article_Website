@@ -11,7 +11,7 @@ loginBtn.addEventListener("click", async (e) => {
 	};
 
 	try {
-		const response = await fetch("http://localhost:3000/api/users/login", {
+		const response = await fetch("http://localhost:4000/api/users/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -23,7 +23,7 @@ loginBtn.addEventListener("click", async (e) => {
 		showAlert(result.success, result.message);
 
 		if (result.success)
-			window.location.href = "http://localhost:3000/api/users/dashboard";
+			window.location.href = "http://localhost:4000/api/users/dashboard";
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

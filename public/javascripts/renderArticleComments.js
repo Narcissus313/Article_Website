@@ -24,7 +24,7 @@ const renderModalComment = (commentId, commentContent) => {
 
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/comments/${commentId}`,
+				`http://localhost:4000/api/comments/${commentId}`,
 				{
 					method: "PUT",
 					headers: {
@@ -55,7 +55,7 @@ const deleteComment = async (commentId) => {
 	try {
 		console.log("commentId: ", commentId);
 		const response = await fetch(
-			`http://localhost:3000/api/comments/${commentId}`,
+			`http://localhost:4000/api/comments/${commentId}`,
 			{
 				method: "DELETE",
 				headers: {

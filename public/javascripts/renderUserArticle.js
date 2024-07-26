@@ -33,7 +33,7 @@ const sendComment = async () => {
 	const articleId = article._id;
 	const data = { content, article: articleId };
 	try {
-		const response = await fetch("http://localhost:3000/api/comments", {
+		const response = await fetch("http://localhost:4000/api/comments", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -116,7 +116,7 @@ if (!!btnDelete)
 
 		try {
 			const response = await fetch(
-				`http://localhost:3000/api/articles/${article._id}`,
+				`http://localhost:4000/api/articles/${article._id}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -130,7 +130,7 @@ if (!!btnDelete)
 			showAlert(result.success, result.message);
 			if (result.success) {
 				window.location.href =
-					"http://localhost:3000/api/articles/pages/1";
+					"http://localhost:4000/api/articles/pages/1";
 			}
 		} catch (error) {
 			console.log("Error:", error.message);
@@ -167,7 +167,7 @@ const saveUpdatedArticle = async () => {
 	formData.append("content", content);
 	try {
 		const response = await fetch(
-			`http://localhost:3000/api/articles/${articleId}`,
+			`http://localhost:4000/api/articles/${articleId}`,
 			{
 				method: "PATCH",
 				body: formData,

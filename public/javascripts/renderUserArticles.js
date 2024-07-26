@@ -35,7 +35,7 @@ saveArticleBtn.addEventListener("click", async () => {
 	}
 
 	try {
-		const response = await fetch("http://localhost:3000/api/articles", {
+		const response = await fetch("http://localhost:4000/api/articles", {
 			method: "POST",
 			body: formData,
 		});
@@ -46,7 +46,7 @@ saveArticleBtn.addEventListener("click", async () => {
 			{
 				showAlert(true, "New article added");
 				window.location.href =
-					"http://localhost:3000/api/articles/pages/1";
+					"http://localhost:4000/api/articles/pages/1";
 			}
 		}
 	} catch (error) {

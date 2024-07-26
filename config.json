@@ -1,0 +1,8 @@
+{
+	"development": {
+		"backendPort": 3000
+	},
+	"production": {
+		"backendPort": 4000
+	}
+}

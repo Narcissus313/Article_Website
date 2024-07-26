@@ -9,7 +9,7 @@ selectSortBy.addEventListener("change", async () => {
 	else sortBy = { createdAt: 1 };
 
 	try {
-		const response = await axios.post("http://localhost:3000/explore", {
+		const response = await axios.post("http://localhost:4000/explore", {
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -54,7 +54,7 @@ function generateCard(article) {
 								" " +
 								article.author.lastName
 							}</a></span>
-								<a href="http://localhost:3000/api/articles/${
+								<a href="http://localhost:4000/api/articles/${
 									article._id
 								}" class="btn btn-primary mt-3">View Details</a>
 							</div>
@@ -105,7 +105,7 @@ function renderPagination(currentPage) {
       `;
 		} else {
 			li.innerHTML = `
-        <a class="page-link mx-2 text-end" href="http://localhost:3000/api/articles/search/?searchText=${inputSearch.value.trim()}&page=${i}">${i}</a>
+        <a class="page-link mx-2 text-end" href="http://localhost:4000/api/articles/search/?searchText=${inputSearch.value.trim()}&page=${i}">${i}</a>
       `;
 		}
 
@@ -120,7 +120,7 @@ const fetchArticlesData = async (url) => {
 		// document.getElementsByTagName("body")[0].innerHTML(bodyContent);
 		document.location.href = "/api/articles/search/?searchText=s&page=1";
 		// Assuming the renderPage function is correctly implemented
-		console.log('XXXXXXXX');
+		console.log("XXXXXXXX");
 		renderPage(1, result);
 	} catch (error) {
 		console.log("Error:", error.message);
@@ -131,8 +131,8 @@ btnSearch.addEventListener("click", async (e) => {
 	e.preventDefault();
 	const searchText = inputSearch.value.trim();
 	// fetchArticlesData(
-	// 	`http://localhost:3000/api/articles/search/?searchText=${searchText.toLowerCase()}&page=1`
+	// 	`http://localhost:4000/api/articles/search/?searchText=${searchText.toLowerCase()}&page=1`
 	// );
-	console.log('articles: ', articles);
+	console.log("articles: ", articles);
 	renderPage(1, articles);
 });

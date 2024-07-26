@@ -73,7 +73,7 @@ uploadButton.addEventListener("click", async (event) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/api/users/uploadAvatar",
+			"http://localhost:4000/api/users/uploadAvatar",
 			{
 				method: "POST",
 				body: formData,
@@ -83,7 +83,7 @@ uploadButton.addEventListener("click", async (event) => {
 		showAlert(result.success, result.message);
 
 		if (result.success)
-			window.location.href = "http://localhost:3000/api/users/dashboard";
+			window.location.href = "http://localhost:4000/api/users/dashboard";
 	} catch (error) {
 		console.error(error);
 	}
@@ -134,7 +134,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	const role = roleInput.value.trim();
 	let gender = "";
 	const options = ["male", "female", "not-set"];
-	
+
 	for (const option of options) {
 		if (option === document.getElementById("genderSelection").value)
 			gender = option;
@@ -169,7 +169,7 @@ saveInfoBtn.addEventListener("click", async (e) => {
 	};
 
 	try {
-		const response = await fetch("http://localhost:3000/api/users/update", {
+		const response = await fetch("http://localhost:4000/api/users/update", {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
@@ -241,7 +241,7 @@ saveChangedPasswordBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/api/users/updatePassword",
+			"http://localhost:4000/api/users/updatePassword",
 			{
 				method: "PATCH",
 				headers: {
@@ -269,7 +269,7 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 	if (deleteStatus === true) {
 		try {
 			const response = await fetch(
-				"http://localhost:3000/api/users/deleteUser",
+				"http://localhost:4000/api/users/deleteUser",
 				{
 					method: "DELETE",
 					headers: {
@@ -284,7 +284,7 @@ deleteAccountBtn.addEventListener("click", async (e) => {
 			if (result.success) {
 				setTimeout(() => {
 					window.location.href =
-						"http://localhost:3000/api/users/login";
+						"http://localhost:4000/api/users/login";
 				}, 500);
 			}
 		} catch (error) {
@@ -306,7 +306,7 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 
 	try {
 		const response = await fetch(
-			"http://localhost:3000/api/users/removeAvatar",
+			"http://localhost:4000/api/users/removeAvatar",
 			{
 				method: "GET",
 				headers: {
@@ -319,7 +319,7 @@ removeAvatarBtn.addEventListener("click", async (e) => {
 		console.log("result: ", result);
 		showAlert(result.success, result.message);
 		if (result.success)
-			window.location.href = "http://localhost:3000/api/users/dashboard";
+			window.location.href = "http://localhost:4000/api/users/dashboard";
 	} catch (error) {
 		console.log("Error:", error.message);
 	}

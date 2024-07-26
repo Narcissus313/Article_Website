@@ -48,7 +48,7 @@ function generateCard(article) {
 								" " +
 								article.author.lastName
 							}</a></span>
-								<a href="http://localhost:3000/api/articles/${
+								<a href="http://localhost:4000/api/articles/${
 									article._id
 								}" class="btn btn-primary mt-3">View Details</a>
 							</div>

@@ -24,7 +24,7 @@ const allUsers = users
 			<td class="text-center">
 				<a
 					class="text-decoration-none"
-					href="http://localhost:3000/api/users/user-info/${user._id}"
+					href="http://localhost:4000/api/users/user-info/${user._id}"
 				>
 					${user.username}
 				</a>
