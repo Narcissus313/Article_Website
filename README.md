@@ -44,5 +44,5 @@ To get started with this project, follow these steps:
     ```
 2. In project directory open terminal
 3. Run this command: "npm i && docker compose up"
-4. Open http://localhost:4000/ in your browser
+4. Open http://localhost/ in your browser
 5. Done!
